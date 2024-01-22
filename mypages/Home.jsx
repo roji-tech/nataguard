@@ -1,6 +1,7 @@
 import Footer from "@components/footer/Footer";
 import HomeNavbar from "@components/navbar/HomeNavbar";
 import Head from "next/head";
+import Link from "next/link";
 import styled from "styled-components";
 
 const HomePage = () => {
@@ -27,7 +28,7 @@ const HomePage = () => {
         />
       </Head>
 
-      <div  className="root">
+      <div className="root">
         <header>
           <div className="container">
             <div id="nav-bar">
@@ -58,10 +59,10 @@ const HomePage = () => {
               <div id="safe-access">
                 <ul>
                   <li id="Login">
-                    <a href="signin.html">Login</a>
+                    <a href="/login">Login</a>
                   </li>
                   <li id="free-signup">
-                    <a href="signup.html">Sign up for FREE</a>
+                    <a href="/signup">Sign up for FREE</a>
                   </li>
                 </ul>
               </div>
@@ -182,17 +183,21 @@ const HomePage = () => {
                   <a href="#Contact">Contact</a>
                 </li>
                 <li>
-                  <a href="signin.html">Login</a>
+                  <Link className="_full_wh" href="/login">
+                    Login
+                  </Link>
                 </li>
                 <li>
-                  <a href="signup.html">Sign Up</a>
+                  <Link className="_full_wh" href="/signup">
+                    Sign Up
+                  </Link>
                 </li>
               </ul>
             </div>
 
             <div className="col-3">
               <p>
-                <a href="signup.html">Sign up for FREE</a>
+                <a href="/signup">Sign up for FREE</a>
               </p>
               <div className="icons" id="Contact">
                 <a href="#">

@@ -13,6 +13,14 @@ const GeneralLayout = ({ children, asideComponent }) => {
 
   useClickOutside(sideBarRef, hamRef, toggleSidebar, isopen);
 
+  const DefaultMenuList = [
+    {
+      title: "",
+      text: "",
+      
+    }
+  ]
+
   return (
     <GeneralLayoutStyles isopen={isopen}>
       <div className="parent">
@@ -96,7 +104,9 @@ const GeneralLayout = ({ children, asideComponent }) => {
                     <h3 className="title">Risk Level Explanations</h3>
 
                     <div className="_flex_col menuList">
-                      <div className="_flex_col menuItem"></div>
+                      <div className="_flex_col menuItem">
+                        <h4></h4>
+                      </div>
                     </div>
                   </div>
                 </AsideComponent>
@@ -252,6 +262,22 @@ const AsideComponent = styled.aside`
 
     .otherContent {
       /* width: 386px; */
+
+      .menuList {
+        gap: 16px;
+
+        .menuItem {
+          border-radius: 12px;
+          background: var(--Input-Fields, #f5f5f5);
+
+          display: flex;
+          padding: 20px 16px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+          align-self: stretch;
+        }
+      }
     }
   }
 `;
