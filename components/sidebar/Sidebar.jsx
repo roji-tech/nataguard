@@ -38,6 +38,126 @@ const Sidebar = () => {
           ),
           handleClick: () => navFunc("/dashboard"),
         },
+        {
+          name: "Risk Classifier",
+          link: "",
+          icon: (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+            >
+              <path
+                d="M10.4645 25.6668H17.4645C23.2979 25.6668 25.6312 23.3335 25.6312 17.5002V10.5002C25.6312 4.66683 23.2979 2.3335 17.4645 2.3335H10.4645C4.63118 2.3335 2.29785 4.66683 2.29785 10.5002V17.5002C2.29785 23.3335 4.63118 25.6668 10.4645 25.6668Z"
+                stroke="#829095"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M2.29785 14.8166L9.29785 14.7933C10.1729 14.7933 11.1529 15.4583 11.4795 16.275L12.8095 19.635C13.1129 20.3933 13.5912 20.3933 13.8945 19.635L16.5662 12.8566C16.8229 12.2033 17.3012 12.18 17.6279 12.7983L18.8412 15.0966C19.2029 15.785 20.1362 16.345 20.9062 16.345H25.6429"
+                stroke="#829095"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          ),
+          handleClick: () => navFunc(""),
+        },
+        {
+          name: "Parameter Analysis",
+          link: "",
+          icon: (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+            >
+              <path
+                d="M2.33301 25.6665H25.6663"
+                stroke="#829095"
+                stroke-width="1.6"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M11.375 4.66683V25.6668H16.625V4.66683C16.625 3.3835 16.1 2.3335 14.525 2.3335H13.475C11.9 2.3335 11.375 3.3835 11.375 4.66683Z"
+                stroke="#829095"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M3.5 11.6668V25.6668H8.16667V11.6668C8.16667 10.3835 7.7 9.3335 6.3 9.3335H5.36667C3.96667 9.3335 3.5 10.3835 3.5 11.6668Z"
+                stroke="#829095"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M19.833 17.4998V25.6665H24.4997V17.4998C24.4997 16.2165 24.033 15.1665 22.633 15.1665H21.6997C20.2997 15.1665 19.833 16.2165 19.833 17.4998Z"
+                stroke="#829095"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          ),
+          handleClick: () => navFunc(""),
+        },
+        {
+          name: "Records",
+          link: "",
+          icon: (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+            >
+              <path
+                d="M9.33301 14.2334H17.4997"
+                stroke="#829095"
+                stroke-width="1.6"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M9.33301 18.8999H14.443"
+                stroke="#829095"
+                stroke-width="1.6"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M11.6663 7.00016H16.333C18.6663 7.00016 18.6663 5.8335 18.6663 4.66683C18.6663 2.3335 17.4997 2.3335 16.333 2.3335H11.6663C10.4997 2.3335 9.33301 2.3335 9.33301 4.66683C9.33301 7.00016 10.4997 7.00016 11.6663 7.00016Z"
+                stroke="#829095"
+                stroke-width="1.6"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M18.6667 4.68994C22.5517 4.89994 24.5 6.33494 24.5 11.6666V18.6666C24.5 23.3333 23.3333 25.6666 17.5 25.6666H10.5C4.66667 25.6666 3.5 23.3333 3.5 18.6666V11.6666C3.5 6.34661 5.44833 4.89994 9.33333 4.68994"
+                stroke="#829095"
+                stroke-width="1.6"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          ),
+          handleClick: () => navFunc(""),
+        },
       ],
     },
     {

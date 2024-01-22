@@ -5,9 +5,8 @@ import styled from "styled-components";
 
 const HomePage = () => {
   return (
-    <Wrapper className="_auto_scroll_y">
-      <HomeNavbar />
-      {/* <Footer /> */}
+    <Wrapper className="_my_auto_scroll_v">
+      {/* <HomeNavbar /> */}
       <Head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,7 +27,7 @@ const HomePage = () => {
         />
       </Head>
 
-      <div  className="root _auto_scroll_y">
+      <div  className="root">
         <header>
           <div className="container">
             <div id="nav-bar">
