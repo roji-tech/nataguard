@@ -6,7 +6,7 @@ export function AuthLayout({
   children,
   headerText = "Login",
   headerDesc = "Welcome back!",
-  pageNumber = 1,
+  pageNumber = null,
   showFormTitle = true,
   formTitle = "Personal Information",
   handleSubmit = () => {},
@@ -119,9 +119,14 @@ export function AuthLayout({
                 <div className="pageTitle _flex_center _align_center _gap40">
                   <span className="line" />
                   <h3 className="title _flex_center _align_center _no_wrap">
-                    <span className="pageNumber _grid_center">
-                      {pageNumber}
-                    </span>
+                    {pageNumber ? (
+                      <span className="pageNumber _grid_center">
+                        {pageNumber}
+                      </span>
+                    ) : (
+                      ""
+                    )}
+
                     {formTitle}
                   </h3>
                   <span className="line" />
