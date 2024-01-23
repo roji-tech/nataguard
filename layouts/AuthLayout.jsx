@@ -5,9 +5,11 @@ import HomeNavbar from "@components/navbar/HomeNavbar";
 export function AuthLayout({
   children,
   headerText = "Login",
+  pageNumber = ? ""
   headerDesc = "Welcome back!",
-  pageNumber = 1,
-  showFormTitle = true,
+    pageNumber = 1,
+    showFormTitle:"" = true,
+    ,
   formTitle = "Personal Information",
   handleSubmit = () => {},
   btnText = "Login",
@@ -38,11 +40,11 @@ export function AuthLayout({
         <div className="_flex_center">
           <div className="authContainer">
             {showSocials && (
-              <div className="socialBtns _flex_jcsb _align_center">
+              <div className="socialBtns _flex _align_center">
                 {login ? (
                   <>
                     <Link
-                      className="socilalBtn _flex _gap15 _align_center"
+                      className="socilalBtn _full_w _flex_center _gap30 _align_center"
                       href={""}
                     >
                       <svg
@@ -71,14 +73,11 @@ export function AuthLayout({
                       </svg>
                       <span>Login with Google</span>
                     </Link>
-                    <Link className="socilalBtn" href={""}>
-                      Login with socials
-                    </Link>
                   </>
                 ) : (
                   <>
                     <Link
-                      className="socilalBtn _flex _gap15 _align_center"
+                      className="socilalBtn _full_w _flex_center _gap30 _align_center"
                       href={""}
                     >
                       <svg
@@ -107,9 +106,6 @@ export function AuthLayout({
                       </svg>
                       <span>Sign up with Google</span>
                     </Link>
-                    <Link className="socilalBtn" href={""}>
-                      Sign up with socials
-                    </Link>
                   </>
                 )}
               </div>
@@ -119,9 +115,11 @@ export function AuthLayout({
                 <div className="pageTitle _flex_center _align_center _gap40">
                   <span className="line" />
                   <h3 className="title _flex_center _align_center _no_wrap">
+                  {pageNumber ? 
                     <span className="pageNumber _grid_center">
-                      {pageNumber}
-                    </span>
+                                            {pageNumber}
+                                            </span>:""
+                                          }
                     {formTitle}
                   </h3>
                   <span className="line" />
@@ -336,7 +334,7 @@ export const RadioBox = ({
   item = {
     options: [],
     name: "Field Name",
-    radio_name: "radio",
+    radio_name: "myradio",
     handleChange: () => {},
   },
 }) => {
@@ -358,7 +356,7 @@ export const RadioBox = ({
               type="radio"
               value={option?.id}
               id={option?.id}
-              name={item?.radio_name}
+              name={item.radio_name}
               onChange={item?.handleChange}
               ref={item?.ref}
             />
