@@ -38,11 +38,11 @@ export function AuthLayout({
         <div className="_flex_center">
           <div className="authContainer">
             {showSocials && (
-              <div className="socialBtns _flex_jcsb _align_center">
+              <div className="socialBtns _flex _align_center">
                 {login ? (
                   <>
                     <Link
-                      className="socilalBtn _flex _gap15 _align_center"
+                      className="socilalBtn _full_w _flex_center _gap30 _align_center"
                       href={""}
                     >
                       <svg
@@ -71,14 +71,11 @@ export function AuthLayout({
                       </svg>
                       <span>Login with Google</span>
                     </Link>
-                    <Link className="socilalBtn" href={""}>
-                      Login with socials
-                    </Link>
                   </>
                 ) : (
                   <>
                     <Link
-                      className="socilalBtn _flex _gap15 _align_center"
+                      className="socilalBtn _full_w _flex_center _gap30 _align_center"
                       href={""}
                     >
                       <svg
@@ -106,9 +103,6 @@ export function AuthLayout({
                         />
                       </svg>
                       <span>Sign up with Google</span>
-                    </Link>
-                    <Link className="socilalBtn" href={""}>
-                      Sign up with socials
                     </Link>
                   </>
                 )}
@@ -341,7 +335,7 @@ export const RadioBox = ({
   item = {
     options: [],
     name: "Field Name",
-    radio_name: "radio",
+    radio_name: "myradio",
     handleChange: () => {},
   },
 }) => {
@@ -363,7 +357,7 @@ export const RadioBox = ({
               type="radio"
               value={option?.id}
               id={option?.id}
-              name={item?.radio_name}
+              name={item.radio_name}
               onChange={item?.handleChange}
               ref={item?.ref}
             />
