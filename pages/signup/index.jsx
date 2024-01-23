@@ -14,23 +14,28 @@ const index = () => {
 
   return (
     <AuthLayout
-      showFormTitle={false}
+      showFormTitle={true}
       headerText="Sign Up"
       headerDesc="Create a FREE account in seconds."
       login={false}
-      btnText="Continue"
-      handleSubmit={() => router.push("/signup/page2")}
+      btnText="Sign Up"
+      handleSubmit={() => router.push("/dashboard")}
     >
       <Form>
         {FIELDS.map((item) => (
           <InputBox item={item} />
         ))}
 
+        <RadioBox
+          item={{
+            name: "Subscribe to our Newsletter",
+            radio_name: "sub_radio",
+          }}
+        />
+
         <div className="otherAuthLink _flex_jce">
           <Link href={"/login"}>Login</Link>
         </div>
-
-        {/* <RadioBox item={{ name: "Remember Me (Save my login info)" }} /> */}
       </Form>
     </AuthLayout>
   );
