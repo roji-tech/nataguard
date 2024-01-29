@@ -1,7 +1,7 @@
-import GeneralLayout from "@layouts/GeneralLayout";
+import DashboardLayout from "@layouts/DashboardLayout";
 
 const Settings = () => {
-  return <GeneralLayout></GeneralLayout>;
+  return <DashboardLayout></DashboardLayout>;
 };
 
 export default Settings;

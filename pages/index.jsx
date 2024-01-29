@@ -1,4 +1,4 @@
-import GeneralLayout from "@layouts/GeneralLayout";
+import DashboardLayout from "@layouts/DashboardLayout";
 import HomePage from "@mypages/Home";
 // import Image from "next/image";
 

@@ -28,14 +28,14 @@ const index = () => {
             <path
               d="M60 110C87.5 110 110 87.5 110 60C110 32.5 87.5 10 60 10C32.5 10 10 32.5 10 60C10 87.5 32.5 110 60 110Z"
               stroke="#FFAD33"
-              stroke-width="4"
+              strokeWidth="4"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
             <path
               d="M38.75 60.0001L52.9 74.1501L81.25 45.8501"
               stroke="#FFAD33"
-              stroke-width="4"
+              strokeWidth="4"
               stroke-linecap="round"
               stroke-linejoin="round"
             />

@@ -5,50 +5,61 @@ import { ShowSuccess } from "@utils/ShowSuccess";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const index = () => {
-  const [values, setValues] = useState({ email: "", password: "" });
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+
+  const { email: userEmail } = router.query;
 
   const handleChange = (e) => {
-    setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    let value = e.target.value;
+    setValues((prev) => ({ ...prev, [e.target.name]: value }));
   };
+
+  const [values, setValues] = useState({
+    email: "",
+    token: "",
+  });
 
   const FIELDS = [
     {
-      name: "email",
-      label: "Username / Email Address",
-      ph: "Johndoe / johndoe@example.com",
       handleChange,
+      name: "email",
+      label: "Email Address",
+      ph: "johndoe@example.com",
+      type: "email",
+      value: values.email,
     },
     {
-      name: "password",
-      label: "Password",
-      ph: "*****************",
-      type: "password",
       handleChange,
+      name: "token",
+      label: "Pin",
+      ph: "00000",
     },
   ];
 
-  const handleLogin = (event) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleVerifyEmail = (event) => {
     event.preventDefault();
-    console.log(values, event);
+    console.log(values);
     setLoading(true);
+
     if (!values.email) {
       ShowErrors("Please provide an email address");
       return;
-    } else if (!values.password) {
-      ShowErrors(["Please provide a password"]);
+    } else if (!values.token) {
+      ShowErrors(["Input the pin from your email"]);
       return;
     }
 
     let data = { ...values };
+
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: api.login,
+      url: api.verify_email,
       headers: {
         "Content-Type": "application/json",
       },
@@ -57,14 +68,16 @@ const index = () => {
 
     axios(config)
       .then((response) => {
+        console.log("Email Verify response");
         console.log(JSON.stringify(response.data));
+        console.log(JSON.stringify(response));
         // alert(JSON.stringify(response.data));
         // dispatchFunc(typ.setAll, response.data);
-        ShowSuccess("Logging you in");
-        router.replace(state?.page || "/dashboard");
+        ShowSuccess("Sign Up Successful");
+        router.replace("/login");
       })
       .catch((e) => {
-        console.log("login error", e?.response);
+        console.log("login error", e);
 
         try {
           // dispatchFunc(typ.clearAll);
@@ -83,30 +96,28 @@ const index = () => {
       .finally((error) => setLoading(false));
   };
 
+  useEffect(() => {
+    console.log(router.query);
+    setValues((prev) => ({ ...prev, email: userEmail }));
+  }, []);
+
   return (
     <AuthLayout
-      showFormTitle={false}
-      handleSubmit={handleLogin}
-      loading={loading}
+      showFormTitle={true}
+      headerText="Verify Email"
+      headerDesc="Verify your email account to continue."
+      login={false}
+      btnText="Verify"
+      handleSubmit={handleVerifyEmail}
     >
       <Form>
         {FIELDS.map((item) => (
           <InputBox item={item} />
         ))}
-        <div
-          className="otherAuthLink _flex_jcsb"
-          style={{ marginTop: "-20px" }}
-        >
-          <Link href={"/forgot"}>Forgot Password</Link>
-          <Link href={"/signup"}>Sign Up</Link>
-        </div>
 
-        <RadioBox
-          item={{
-            label: "Remember Me",
-            name: "remember_radio",
-          }}
-        />
+        <div className="otherAuthLink _flex_jce">
+          <Link href={"/login"}>Login</Link>
+        </div>
       </Form>
     </AuthLayout>
   );

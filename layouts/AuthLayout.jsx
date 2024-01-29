@@ -13,6 +13,7 @@ export function AuthLayout({
   btnText = "Login",
   login = true,
   showSocials = true,
+  loading = false,
 }) {
   const _handleSubmit = (e) => {
     e.preventDefault();
@@ -129,7 +130,9 @@ export function AuthLayout({
 
               {children}
 
-              <AuthButton type="submit">{btnText}</AuthButton>
+              <AuthButton disabled={loading} type="submit">
+                {btnText}
+              </AuthButton>
             </form>
           </div>
         </div>
@@ -266,7 +269,7 @@ export const Form = styled.div`
 export const InputBox = ({ item = {}, customInput }) => {
   return (
     <InputBoxWrapper>
-      <h5 className="name">{item?.name ?? "Field Name"}</h5>
+      <h5 className="name">{item?.label ?? "Field Name"}</h5>
 
       {customInput ? (
         customInput
@@ -275,7 +278,7 @@ export const InputBox = ({ item = {}, customInput }) => {
           type={item?.type || "text"}
           className="_flex1 input"
           placeholder={item?.ph || "Your Placeholder"}
-          name={item?.id}
+          name={item?.name}
           value={item?.value}
           onChange={item?.handleChange}
           ref={item?.ref}
@@ -334,8 +337,8 @@ export const InputBoxWrapper = styled.div`
 export const RadioBox = ({
   item = {
     options: [],
-    name: "Field Name",
-    radio_name: "myradio",
+    label: "Field Name",
+    name: "myradio",
     handleChange: () => {},
   },
 }) => {
@@ -345,19 +348,23 @@ export const RadioBox = ({
   ];
   return (
     <RadioBoxWrapper>
-      <h5 className="name">{item?.name}</h5>
+      <h5 className="name">{item?.label}</h5>
 
       <div
         className="input _flex_col _gap10"
         style={{ alignItems: "flex-start" }}
       >
-        {options?.map((option) => (
-          <label htmlFor={option?.id} className="radio _pointer _flex _gap10">
+        {options?.map((option, i) => (
+          <label
+            key={option?.id ?? i}
+            htmlFor={option?.value ?? option?.id}
+            className="radio _pointer _flex _gap10"
+          >
             <input
               type="radio"
               value={option?.id}
               id={option?.id}
-              name={item.radio_name}
+              name={item.name}
               onChange={item?.handleChange}
               ref={item?.ref}
             />
@@ -381,16 +388,16 @@ export const RadioBox = ({
                 <path
                   d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
                   stroke="#06AAE4"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M7.75 11.9999L10.58 14.8299L16.25 9.16992"
                   stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
               <svg
@@ -404,9 +411,9 @@ export const RadioBox = ({
                 <path
                   d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
                   stroke="#292D32"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </div>

@@ -1,0 +1,381 @@
+import Navbar from "@components/navbar/Navbar";
+import Sidebar from "@components/sidebars/Sidebar";
+import {
+  ArrowLongLeftSvg,
+  PregnancyWeekSvg,
+  NataGuardLogoSvg,
+} from "@components/svgs/safebump";
+import useClickOutside from "@hooks/useClickOutside";
+import Link from "next/link";
+import { useRef, useState } from "react";
+import styled from "styled-components";
+
+export const ArrowLinkElement = ({
+  text = "Read More",
+  link = "#",
+  underline = false,
+}) => {
+  const styles = {
+    color: "var(--Primary---500, #06aae4)",
+    fontFamily: "Open Sans",
+    fontSize: "18px",
+    fontStyle: "normal",
+    fontWeight: "600",
+    lineHeight: "normal",
+    textDecorationLine: underline ? "underline" : "",
+  };
+  return (
+    <div className="_flex _align_center" style={styles}>
+      <Link
+        href={link}
+        className="read_more _pointer _flex _gap10 _align_center"
+      >
+        <span>{text}</span>
+        {ArrowLongLeftSvg}
+      </Link>
+    </div>
+  );
+};
+
+const DefaultMenuList = [
+  {
+    label: "Know these 6 health hacks!",
+    text: (
+      <>
+        <p>
+          Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum dolor esit
+          Lorem ipsum dolor esit Lorem ipsum dol
+        </p>
+
+        <ArrowLinkElement />
+      </>
+    ),
+  },
+  {
+    label: "Know these 6 health hacks!",
+    text: (
+      <>
+        <p>
+          Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum dolor esit
+          Lorem ipsum dolor esit Lorem ipsum dol
+        </p>
+        <ArrowLinkElement />
+      </>
+    ),
+  },
+  {
+    label: "Know these 6 health hacks!",
+    text: (
+      <>
+        <p>
+          Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum dolor esit
+          Lorem ipsum dolor esit Lorem ipsum dol
+        </p>
+        <ArrowLinkElement />
+      </>
+    ),
+  },
+];
+
+const DashboardLayout = ({
+  children,
+  asideComponent,
+  defaultAsideComponent = {
+    showPregnancyWeek: true,
+    title: "",
+    menuList: DefaultMenuList,
+  },
+}) => {
+  const [isopen, setIsOpen] = useState(false);
+
+  const sideBarRef = useRef();
+  const hamRef = useRef();
+  const toggleSidebar = () => setIsOpen(false);
+
+  useClickOutside(sideBarRef, hamRef, toggleSidebar, isopen);
+
+  return (
+    <DashboardLayoutStyles isopen={isopen}>
+      <div className="parent">
+        <div className="sidebar" ref={sideBarRef}>
+          <div className="sidebar_top _grid_center">{NataGuardLogoSvg}</div>
+          <div className="sidebar_main _auto_scroll_y">
+            <Sidebar />
+          </div>
+        </div>
+        <div className="main">
+          <div className="navbar">
+            <Navbar isopen={isopen} setIsOpen={setIsOpen} hamRef={hamRef} />
+          </div>
+          <div className="main_content _auto_scroll_y">
+            <div className="_bg_white" style={{ padding: 24 }}>
+              {children}
+            </div>
+
+            <div className="toggleAside _d_none">More</div>
+            <div className="asideComponent _p40">
+              {asideComponent ?? (
+                <AsideComponent className="_flex_col _gap40">
+                  {defaultAsideComponent.showPregnancyWeek && (
+                    <div className="_flex_col_center pregnancy_week">
+                      <div>{PregnancyWeekSvg}</div>
+
+                      <h5 className="entire_week">Entire Period - 40 weeks</h5>
+
+                      <p className="_center weeks_to_delivery">
+                        You are 34 weeks away from your delivery. Keep up your
+                        good health.
+                      </p>
+                    </div>
+                  )}
+
+                  {defaultAsideComponent.showPregnancyWeek && (
+                    <hr
+                      style={{
+                        width: "100%",
+                        height: 1,
+                        background: "#E4E1E8",
+                      }}
+                    />
+                  )}
+
+                  <div className="_flex_col _gap40 otherContent">
+                    <h3 className="title">Risk Level Explanations</h3>
+
+                    <div className="_flex_col menuList">
+                      {defaultAsideComponent.menuList.map((menuItem, i) => (
+                        <div key={i} className="_flex_col menuItem">
+                          <h4 className="label"> {menuItem?.label} </h4>
+                          <div className="_flex_col _gap8">
+                            {menuItem?.text}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </AsideComponent>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </DashboardLayoutStyles>
+  );
+};
+
+export default DashboardLayout;
+
+const DashboardLayoutStyles = styled.div`
+  &&& {
+    --nav_height: 105px;
+    --main_content_pad: 35px 50px 30px;
+
+    position: fixed;
+    inset: 0;
+    background: #ffffff;
+    padding: 0px;
+
+    * {
+      padding: 0;
+      /* margin: 0; */
+    }
+
+    .parent {
+      /* background: #00000018; */
+      background: #ffffff;
+      /*  */
+      max-width: 100%;
+      min-width: 100%;
+      max-height: 100%;
+      min-height: 100%;
+
+      display: flex;
+      gap: 5px;
+
+      .sidebar {
+        width: min(20%, 304px);
+        min-width: 260px;
+        max-width: 304px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        border: 1px solid #e4e1e8;
+        background: #fafafa;
+
+        .sidebar_top {
+          min-height: var(--nav_height);
+          max-height: var(--nav_height);
+        }
+        .sidebar_main {
+          /* background: #fafafa; */
+        }
+      }
+
+      .main {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+
+        > * {
+          max-width: 100%;
+          min-width: 100%;
+        }
+
+        .navbar {
+          min-height: var(--nav_height);
+          max-height: var(--nav_height);
+
+          max-width: 100%;
+          min-width: 100%;
+        }
+
+        .main_content {
+          flex: 1;
+          padding: var(--main_content_pad);
+          background: var(--Background, #fafafa);
+
+          display: grid;
+          grid-template-columns: 7fr 3.5fr;
+
+          .asideComponent {
+            border-left: 1px solid #e4e1e8;
+            max-width: 500px;
+
+            /* background: #af8ddd; */
+          }
+
+          .toggleAside {
+            position: fixed;
+            top: 20vh;
+            right: 0;
+            background: pink;
+            color: #000;
+            font-size: 20px;
+
+            writing-mode: vertical-lr;
+            transform: rotate(-180deg);
+            white-space: nowrap;
+            padding: 5px;
+            cursor: pointer;
+            user-select: none;
+          }
+        }
+      }
+
+      @media screen and (max-width: 900px) {
+        --main_content_pad: 30px;
+
+        .sidebar {
+          transition: all 0.3s ease-in;
+
+          position: fixed;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          transform: ${({ isopen }) =>
+            !isopen ? "translateX(-105%)" : "translateX(0%)"};
+          max-width: 260px;
+          min-width: 250px;
+
+          z-index: 10;
+        }
+
+        .asideComponent {
+          /* position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          outline: 3px solid red; */
+        }
+
+        .toggleAside {
+          position: fixed;
+          display: block;
+        }
+      }
+    }
+  }
+`;
+
+const AsideComponent = styled.aside`
+  &&& {
+    /* background: #e6e68bbe; */
+    max-width: 500px;
+
+    .pregnancy_week {
+      /* max-width: 386px; */
+
+      padding: 24px;
+      gap: 32px;
+
+      border-radius: 20px;
+      background: var(--White, #fff);
+      box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08);
+
+      .entire_week {
+        color: var(--Text---Title, #122025);
+        text-align: center;
+        font-family: "Open Sans";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+      }
+
+      .weeks_to_delivery {
+        color: var(--Text---Body, #829095);
+        text-align: center;
+        font-family: "Open Sans";
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+    }
+
+    .otherContent {
+      /* width: 386px; */
+
+      .menuList {
+        gap: 16px;
+
+        .menuItem {
+          border-radius: 12px;
+          background: var(--Input-Fields, #f5f5f5);
+
+          display: flex;
+          padding: 20px 16px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+          align-self: stretch;
+
+          .label {
+            color: var(--Text---Title, #122025);
+            font-family: "Open Sans";
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+          }
+
+          p {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            align-self: stretch;
+
+            overflow: hidden;
+            color: var(--Text---Body, #829095);
+            text-overflow: ellipsis;
+            font-family: "Open Sans";
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+        }
+      }
+    }
+  }
+`;

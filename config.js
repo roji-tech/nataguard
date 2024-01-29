@@ -1,7 +1,8 @@
 export const api = {
-  baseURL: "https://ims-be.up.railway.app/api",
-  login: "https://ims-be.up.railway.app/api/login/",
-  refresh: "https://ims-be.up.railway.app/api/refresh/",
-  me: "https://ims-be.up.railway.app/api/me/",
-  register: "https://ims-be.up.railway.app/api/sign-up/",
+  baseURL: "https://safebump.azurewebsites.net/api",
+  register: "https://safebump.azurewebsites.net/api/accounts/register",
+  login: "https://safebump.azurewebsites.net/api/accounts/authenticate",
+  refresh: "https://safebump.azurewebsites.net/api/refresh/",
+  verify_email: "https://safebump.azurewebsites.net/api/accounts/email/confirm",
+  me: "https://safebump.azurewebsites.net/api/me/",
 };

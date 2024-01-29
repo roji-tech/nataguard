@@ -79,7 +79,9 @@ export const SelectBox = ({ item }) => {
           </MenuItem>
 
           {item?.options?.map((opt) => (
-            <MenuItem value={opt?.value}>{opt?.name}</MenuItem>
+            <MenuItem key={opt?.value} value={opt?.value}>
+              {opt?.name}
+            </MenuItem>
           ))}
         </MySelect>
       </div>
