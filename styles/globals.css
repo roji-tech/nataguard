@@ -635,6 +635,10 @@ button {
   gap: 15px !important;
 }
 
+._gap16 {
+  gap: 16px !important;
+}
+
 ._gap20 {
   gap: 20px !important;
 }
@@ -991,6 +995,10 @@ button {
   font-style: normal;
   font-weight: 600;
   line-height: 36px; /* 150% */
+}
+
+._red {
+  color: #FF3535 !important;
 }
 
 /*  */

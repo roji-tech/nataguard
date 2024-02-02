@@ -47,11 +47,11 @@ const index = () => {
       type: "password",
     },
     {
-      type: "password",
       handleChange,
       name: "password2",
       label: "Confirm Password",
       ph: "*****************",
+      type: "password",
     },
     // {
     //   handleChange,
@@ -75,7 +75,6 @@ const index = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(values);
-    setLoading(true);
 
     if (!values.email) {
       ShowErrors("Please provide an email address");
@@ -93,6 +92,7 @@ const index = () => {
 
     delete values.password2;
     let data = { ...values };
+    setLoading(true);
 
     let config = {
       method: "post",
@@ -123,9 +123,11 @@ const index = () => {
             return ShowErrors(["Service Temporarily Unavailable"]);
           }
           if (e.response?.data?.errors?.length < 15) {
-            return ShowErrors([...e.response?.data?.errors]);
+            return ShowErrors([...e?.response?.data?.errorMsg]);
           }
-          return ShowErrors(e?.response?.data?.detail ?? "An Error Occurred");
+          return ShowErrors(
+            e?.response?.data?.errorMsg ?? "An Error Occurred"
+          );
         } catch (error) {
           console.log(error);
           return ShowErrors("An Error Occurred");

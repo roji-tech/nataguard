@@ -624,3 +624,35 @@ export const ChatIconSvg = (
     />
   </svg>
 );
+
+export const noticeSvg = (
+  <svg
+    width="31"
+    height="30"
+    viewBox="0 0 31 30"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M15.8496 2.49976C22.7246 2.49976 28.3496 8.12476 28.3496 14.9998C28.3496 21.8748 22.7246 27.4998 15.8496 27.4998C8.97461 27.4998 3.34961 21.8748 3.34961 14.9998C3.34961 8.12476 8.97461 2.49976 15.8496 2.49976Z"
+      stroke="#FF3535"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M15.8496 19.9998V13.7498"
+      stroke="#FF3535"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M15.8418 9.99976H15.853"
+      stroke="#FF3535"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);

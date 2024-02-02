@@ -35,7 +35,6 @@ const index = () => {
   const handleLogin = (event) => {
     event.preventDefault();
     console.log(values, event);
-    setLoading(true);
     if (!values.email) {
       ShowErrors("Please provide an email address");
       return;
@@ -54,14 +53,13 @@ const index = () => {
       },
       data,
     };
+    setLoading(true);
 
     axios(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        // alert(JSON.stringify(response.data));
-        // dispatchFunc(typ.setAll, response.data);
         ShowSuccess("Logging you in");
-        router.replace(state?.page || "/dashboard");
+        router.replace("/dashboard");
       })
       .catch((e) => {
         console.log("login error", e?.response);
@@ -72,9 +70,11 @@ const index = () => {
             return ShowErrors(["Service Temporarily Unavailable"]);
           }
           if (e.response?.data?.errors?.length < 15) {
-            return ShowErrors([...e.response?.data?.errors]);
+            return ShowErrors([...e?.response?.data?.errorMsg]);
           }
-          return ShowErrors(e?.response?.data?.detail ?? "An Error Occurred");
+          return ShowErrors(
+            e?.response?.data?.errorMsg ?? "An Error Occurred"
+          );
         } catch (error) {
           console.log(error);
           return ShowErrors("An Error Occurred");

@@ -6,15 +6,7 @@ import { createContext, useContext, useState } from "react";
 const StoreContext = createContext({});
 
 export const StoreProvider = ({ children }) => {
-  const [esim, setEsim] = useSessionStore("CURRENT_PACKAGE");
-  const [showSearch, setShowSearch] = useState(false);
-
-  const contextData = {
-    esim,
-    setEsim,
-    showSearch,
-    setShowSearch,
-  };
+  const contextData = {};
 
   return (
     <StoreContext.Provider value={contextData}>

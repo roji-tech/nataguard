@@ -5,11 +5,58 @@ import {
   arrowDownwardSvg,
   barChartSVG,
   lineChartSvg,
+  noticeSvg,
 } from "@components/svgs/safebump";
 
 const index = () => {
   return (
-    <DashboardLayout>
+    <DashboardLayout
+      defaultAsideComponent={{
+        showPregnancyWeek: true,
+        title: "Health Tips",
+        menuList: [
+          {
+            label: "Know these 6 health hacks!",
+            text: (
+              <>
+                <span>
+                  Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum
+                  dolor esit Lorem ipsum dolor esit Lorem ipsum dol
+                </span>
+
+                <ArrowLinkElement />
+              </>
+            ),
+          },
+          {
+            label: "Know these 6 health hacks!",
+            text: (
+              <>
+                <span>
+                  Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum
+                  dolor esit Lorem ipsum dolor esit Lorem ipsum dol
+                </span>
+
+                <ArrowLinkElement />
+              </>
+            ),
+          },
+          {
+            label: "Know these 6 health hacks!",
+            text: (
+              <>
+                <span>
+                  Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum
+                  dolor esit Lorem ipsum dolor esit Lorem ipsum dol
+                </span>
+
+                <ArrowLinkElement />
+              </>
+            ),
+          },
+        ],
+      }}
+    >
       <Wrapper className="_full_wh _flex_col _flex1">
         <div className="_flex_col _flex1 _full_w" style={{ gap: 90 }}>
           <DashboardBox
@@ -248,9 +295,44 @@ export const ChartBox = ({
       },
     ],
   },
+  bluryContent = null,
+  makeBlur = true,
 }) => {
   return (
-    <div>
+    <ChartBoxStyle>
+      {makeBlur && (
+        <div className="blur _backdrop_filter_blur _grid_center">
+          {bluryContent ?? (
+            <>
+              <div className="_grid_center">
+                <div
+                  className="_flex_col_center _gap16"
+                  style={{ maxWidth: 535 }}
+                >
+                  <h3 className="_flex_center _red _align_center">
+                    {noticeSvg}
+                    Notice
+                  </h3>
+                  <p className="_center">
+                    Some certain functionalities of the dashboard might not
+                    work. This is because your health information is not up to
+                    date. Kindly proceed to update your profile.
+                  </p>
+
+                  <div className="_flex_center _p10">
+                    <Link
+                      className="blur_btn _grid_center"
+                      href="/dashboard/complete_profile"
+                    >
+                      Update Profile
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      )}
       <div className="chartBox">
         <div className="vertical_text">{item?.vertical_text}</div>
 
@@ -271,6 +353,37 @@ export const ChartBox = ({
           </p>
         ))}
       </div>
-    </div>
+    </ChartBoxStyle>
   );
 };
+
+const ChartBoxStyle = styled.div`
+  &&& {
+    position: relative;
+
+    .blur {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      background: #ffffff10;
+
+      .blur_btn {
+        width: 217px;
+        height: 57px;
+        padding: 12px 32px 12px 32px;
+        border-radius: 8px;
+        gap: 8px;
+
+        background: #06aae4;
+        color: #fff;
+
+        font-family: Open Sans;
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 33px;
+        letter-spacing: 0em;
+        text-align: left;
+      }
+    }
+  }
+`;

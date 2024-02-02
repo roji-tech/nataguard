@@ -27,14 +27,6 @@ const index = () => {
   const FIELDS = [
     {
       handleChange,
-      name: "email",
-      label: "Email Address",
-      ph: "johndoe@example.com",
-      type: "email",
-      value: values.email,
-    },
-    {
-      handleChange,
       name: "token",
       label: "Pin",
       ph: "000000",
@@ -48,10 +40,7 @@ const index = () => {
     event.preventDefault();
     console.log(values);
 
-    if (!values.email) {
-      ShowErrors("Please provide an email address");
-      return;
-    } else if (!values.token) {
+    if (!values.token) {
       ShowErrors(["Input the pin from your email"]);
       return;
     }
@@ -59,9 +48,9 @@ const index = () => {
     setLoading(true);
 
     let config = {
-      method: "post",
+      method: "get",
       maxBodyLength: Infinity,
-      url: api.verify_email,
+      url: api.validate_password_token,
       headers: {
         "Content-Type": "application/json",
       },
@@ -76,7 +65,7 @@ const index = () => {
         // alert(JSON.stringify(response.data));
         // dispatchFunc(typ.setAll, response.data);
         ShowSuccess("Verification Successful");
-        router.push("/login");
+        router.push(`/forgot/pin/${values?.email}/${values?.token}`);
       })
       .catch((e) => {
         console.log("login error", e);
@@ -92,7 +81,7 @@ const index = () => {
           return ShowErrors(e?.response?.data?.errorMsg ?? "An Error Occurred");
         } catch (error) {
           console.log(error);
-          return ShowErrors("An Error Occurred");
+          return ShowErrors("There was an Error");
         }
       })
       .finally((error) => setLoading(false));
@@ -101,19 +90,14 @@ const index = () => {
   const resendToken = async () => {
     setLoading2(true);
 
-    if (!values.email) {
-      ShowErrors("Please provide an email address");
-      return;
-    }
-
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: api.resend_verify_email_token,
+      url: api.forgot_password,
       headers: {
         "Content-Type": "application/json",
       },
-      params: { email: values?.email },
+      params: { ...values },
     };
 
     await axios(config)
@@ -131,14 +115,12 @@ const index = () => {
             return ShowErrors(["Service Temporarily Unavailable"]);
           }
           if (e.response?.data?.errors?.length < 15) {
-            return ShowErrors([...e?.response?.data?.errorMsg]);
+            return ShowErrors([...e.response?.data?.errorMsg]);
           }
-          return ShowErrors(
-            e?.response?.data?.errorMsg ?? "An Error Occurred"
-          );
+          return ShowErrors(e?.response?.data?.errorMsg ?? "An Error Occurred");
         } catch (error) {
           console.log(error);
-          return ShowErrors("An Error Occurred");
+          return ShowErrors("There was an Error");
         }
       })
       .finally((error) => setLoading2(false));

@@ -98,7 +98,9 @@ const DashboardLayout = ({
     <DashboardLayoutStyles isopen={isopen}>
       <div className="parent">
         <div className="sidebar" ref={sideBarRef}>
-          <div className="sidebar_top _grid_center">{NataGuardLogoSvg}</div>
+          <div className="sidebar_top _grid_center">
+            <Link href={"/"}>{NataGuardLogoSvg}</Link>
+          </div>
           <div className="sidebar_main _auto_scroll_y">
             <Sidebar />
           </div>
@@ -140,13 +142,13 @@ const DashboardLayout = ({
                   )}
 
                   <div className="_flex_col _gap40 otherContent">
-                    <h3 className="title">Risk Level Explanations</h3>
+                    <h3 className="title">{defaultAsideComponent.title}</h3>
 
                     <div className="_flex_col menuList">
                       {defaultAsideComponent.menuList.map((menuItem, i) => (
                         <div key={i} className="_flex_col menuItem">
                           <h4 className="label"> {menuItem?.label} </h4>
-                          <div className="_flex_col _gap8">
+                          <div className="text _flex_col _gap8">
                             {menuItem?.text}
                           </div>
                         </div>
@@ -169,6 +171,8 @@ const DashboardLayoutStyles = styled.div`
   &&& {
     --nav_height: 105px;
     --main_content_pad: 35px 50px 30px;
+    --Background: #fafafa;
+    /* --Background: #dd6262; */
 
     position: fixed;
     inset: 0;
@@ -181,8 +185,8 @@ const DashboardLayoutStyles = styled.div`
     }
 
     .parent {
-      /* background: #00000018; */
-      background: #ffffff;
+      background: #fafafa;
+      background: #00000018;
       /*  */
       max-width: 100%;
       min-width: 100%;
@@ -190,24 +194,27 @@ const DashboardLayoutStyles = styled.div`
       min-height: 100%;
 
       display: flex;
-      gap: 5px;
+      gap: 0px;
 
       .sidebar {
         width: min(20%, 304px);
         min-width: 260px;
         max-width: 304px;
+
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        border: 1px solid #e4e1e8;
-        background: #fafafa;
+        background: var(--Background);
 
         .sidebar_top {
           min-height: var(--nav_height);
           max-height: var(--nav_height);
+          background: #ffffff;
         }
+
         .sidebar_main {
-          /* background: #fafafa; */
+          padding-top: 20px;
+          background: #ffffff;
+          min-height: 75%;
         }
       }
 
@@ -227,6 +234,7 @@ const DashboardLayoutStyles = styled.div`
 
           max-width: 100%;
           min-width: 100%;
+          background: #ffffff;
         }
 
         .main_content {
@@ -349,6 +357,8 @@ const AsideComponent = styled.aside`
           align-items: flex-start;
           gap: 16px;
           align-self: stretch;
+          height: max-content;
+          min-height: max-content;
 
           .label {
             color: var(--Text---Title, #122025);
@@ -359,13 +369,18 @@ const AsideComponent = styled.aside`
             line-height: normal;
           }
 
-          p {
+          .text {
             display: -webkit-box;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            align-self: stretch;
 
-            overflow: hidden;
+            /* -webkit-line-clamp: 2; */
+            align-self: stretch;
+            /* height: 300    display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;px; */
+            min-height: max-content;
+
+            /* overflow: hidden; */
             color: var(--Text---Body, #829095);
             text-overflow: ellipsis;
             font-family: "Open Sans";

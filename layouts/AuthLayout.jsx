@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
 import HomeNavbar from "@components/navbar/HomeNavbar";
+import { PulseLoader } from "react-spinners";
 
 export function AuthLayout({
   children,
@@ -14,6 +15,7 @@ export function AuthLayout({
   login = true,
   showSocials = true,
   loading = false,
+  showDaraCollectionReasonLink = false,
 }) {
   const _handleSubmit = (e) => {
     e.preventDefault();
@@ -22,7 +24,12 @@ export function AuthLayout({
   return (
     <Container className="_my_auto_scroll_v _flex_col _full_w">
       <HomeNavbar showAuthBtns={false} />
-      <section className="content _flex_col _full_w _bg_white">
+      <section
+        style={{
+          gap: showDaraCollectionReasonLink && "30px",
+        }}
+        className="content _flex_col _full_w _bg_white"
+      >
         <header className="_flex_jcsb _full_w">
           <Link className="link" href={""}>
             Privacy Policy
@@ -35,6 +42,49 @@ export function AuthLayout({
             Terms of Service
           </Link>
         </header>
+
+        {showDaraCollectionReasonLink && (
+          <Link
+            className="_flex_center _align_center"
+            style={{
+              color: "#06AAE4",
+              fontSize: "20px",
+              margin: "25px 0",
+            }}
+            href={"#"}
+          >
+            <svg
+              width="25"
+              height="25"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.5 2.5C18 2.5 22.5 7 22.5 12.5C22.5 18 18 22.5 12.5 22.5C7 22.5 2.5 18 2.5 12.5C2.5 7 7 2.5 12.5 2.5Z"
+                stroke="#06AAE4"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12.5 16.5V11.5"
+                stroke="#06AAE4"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12.4941 8.5H12.5031"
+                stroke="#06AAE4"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Why are we collecting your data?
+          </Link>
+        )}
 
         <div className="_flex_center">
           <div className="authContainer">
@@ -130,8 +180,16 @@ export function AuthLayout({
 
               {children}
 
-              <AuthButton disabled={loading} type="submit">
+              <AuthButton
+                disabled={loading}
+                style={{
+                  background: loading && "#ccc",
+                }}
+                type="submit"
+                className="_flex_center _gap10"
+              >
                 {btnText}
+                <PulseLoader loading={loading} size={15} color="#068fe4" />
               </AuthButton>
             </form>
           </div>
@@ -152,7 +210,7 @@ const Container = styled.header`
     .content {
       box-shadow: 0 0 1px 0 #00000040;
       padding: 0 6.7% 50px;
-      gap: 80px;
+      gap: 60px;
 
       > header {
         h3 {

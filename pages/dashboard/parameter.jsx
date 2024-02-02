@@ -9,9 +9,55 @@ import {
   lineChartSvg,
 } from "@components/svgs/safebump";
 
-const index = () => {
+const Parameter = () => {
   return (
-    <DashboardLayout>
+    <DashboardLayout
+      defaultAsideComponent={{
+        showPregnancyWeek: true,
+        title: "Health Tips",
+        menuList: [
+          {
+            label: "Know these 6 health hacks!",
+            text: (
+              <>
+                <span>
+                  Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum
+                  dolor esit Lorem ipsum dolor esit Lorem ipsum dol
+                </span>
+
+                <ArrowLinkElement />
+              </>
+            ),
+          },
+          {
+            label: "Know these 6 health hacks!",
+            text: (
+              <>
+                <span>
+                  Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum
+                  dolor esit Lorem ipsum dolor esit Lorem ipsum dol
+                </span>
+
+                <ArrowLinkElement />
+              </>
+            ),
+          },
+          {
+            label: "Know these 6 health hacks!",
+            text: (
+              <>
+                <span>
+                  Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum
+                  dolor esit Lorem ipsum dolor esit Lorem ipsum dol
+                </span>
+
+                <ArrowLinkElement />
+              </>
+            ),
+          },
+        ],
+      }}
+    >
       <Wrapper className="_full_wh _flex_col _flex1">
         <div className="_flex_col _flex1 _full_w" style={{ gap: 90 }}>
           <DashboardBox
@@ -105,7 +151,7 @@ const index = () => {
   );
 };
 
-export default index;
+export default Parameter;
 
 const Wrapper = styled.div`
   &&& {
