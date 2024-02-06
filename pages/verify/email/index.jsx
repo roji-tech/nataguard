@@ -44,7 +44,6 @@ const index = () => {
   const handleVerifyEmail = (event) => {
     event.preventDefault();
     console.log(values);
-    setLoading(true);
 
     if (!values.email) {
       ShowErrors("Please provide an email address");
@@ -55,6 +54,7 @@ const index = () => {
     }
 
     let data = { ...values };
+    setLoading(true);
 
     let config = {
       method: "post",
@@ -74,7 +74,7 @@ const index = () => {
         // alert(JSON.stringify(response.data));
         // dispatchFunc(typ.setAll, response.data);
         ShowSuccess("Sign Up Successful");
-        router.replace("/login");
+        router.push("/login");
       })
       .catch((e) => {
         console.log("login error", e);
@@ -85,9 +85,9 @@ const index = () => {
             return ShowErrors(["Service Temporarily Unavailable"]);
           }
           if (e.response?.data?.errors?.length < 15) {
-            return ShowErrors([...e.response?.data?.errors]);
+            return ShowErrors([...e?.response?.data?.errorMsg]);
           }
-          return ShowErrors(e?.response?.data?.detail ?? "An Error Occurred");
+          return ShowErrors(e?.response?.data?.errorMsg ?? "An Error Occurred");
         } catch (error) {
           console.log(error);
           return ShowErrors("An Error Occurred");
@@ -109,6 +109,7 @@ const index = () => {
       login={false}
       btnText="Verify"
       handleSubmit={handleVerifyEmail}
+      loading={loading}
     >
       <Form>
         {FIELDS.map((item) => (

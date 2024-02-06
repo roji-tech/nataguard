@@ -10,7 +10,7 @@ export async function fetchGetJSON(url) {
   }
 }
 
-export async function fetchPostJSON(url, data, access_token) {
+export async function fetchPostJSON(url, data, token) {
   try {
     // Default options are marked with *
     const response = await fetch(url, {
@@ -20,7 +20,7 @@ export async function fetchPostJSON(url, data, access_token) {
       credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
-        Authorization: access_token,
+        Authorization: token,
       },
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *client

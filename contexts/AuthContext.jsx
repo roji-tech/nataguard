@@ -10,8 +10,7 @@ const AuthContext = createContext({
     user: globalThis?.localStorage?.getItem("user")
       ? JSON.parse(globalThis?.localStorage?.getItem("user"))
       : {},
-    access_token: "",
-    refresh_token: "",
+    token: "",
   },
   dispatchFunc: () => null,
   logout: () => null,
@@ -25,11 +24,11 @@ export const AuthProvider = ({ children }) => {
   const dispatchFunc = (type, payload = null) => dispatch({ type, payload });
 
   const fetchUser = async () => {
-    if (state?.access_token) {
+    if (state?.token) {
       await axios
         .get(api.me, {
           headers: {
-            Authorization: state?.access_token,
+            Authorization: state?.token,
             "Content-Type": "application/json",
           },
         })
@@ -41,6 +40,8 @@ export const AuthProvider = ({ children }) => {
             `ERROR FROM AUTHPROVIDER FETCH USER-- ${err?.response?.status}===`
           )
         );
+    } else {
+      console.warn("UNABLE TO FETCH USER IN CONTEXT");
     }
   };
 

@@ -2,40 +2,31 @@ const tokenize = (token) => `Bearer ${token}`;
 
 export const typ = {
   setAll: "setAll",
-  setAccessToken: "setAccessToken",
-  clearAccessToken: "clearAccessToken",
+  setToken: "setToken",
+  clearToken: "clearToken",
   clearAll: "clearAll",
-  setRefreshToken: "setRefreshToken",
   setUser: "setUser",
   updateUser: "updateUser",
 };
 export const emptyState = {
-  access_token: null,
-  refresh_token: null,
+  token: null,
   user: null,
 };
 export const initialState = {
-  access_token: globalThis?.localStorage?.getItem("access_token") || null,
-  refresh_token: globalThis?.localStorage?.getItem("refresh_token") || null,
+  token: globalThis?.localStorage?.getItem("token") || null,
 
   user: globalThis?.localStorage?.getItem("user")
     ? JSON.parse(globalThis?.localStorage?.getItem("user"))
     : null,
 };
 
-function setLocalAccessToken(set = true, accessToken = null) {
+function setLocalToken(set = true, accessToken = null) {
   if (set) {
-    return localStorage.setItem("access_token", tokenize(accessToken));
+    return localStorage.setItem("token", tokenize(accessToken));
   }
-  return localStorage.removeItem("access_token");
+  return localStorage.removeItem("token");
 }
 
-function setLocalRefreshToken(set = true, refreshToken = null) {
-  if (set) {
-    return localStorage.setItem("refresh_token", refreshToken);
-  }
-  return localStorage.removeItem("refresh_token");
-}
 
 function setLocalUser(set, userDict = null) {
   if (set) {
@@ -49,30 +40,26 @@ export const authReducer = (state, action) => {
 
   switch (action.type) {
     case typ.clearTokens:
-      console.log("removing token from clearAccessToken");
-      setLocalAccessToken(false);
-      setLocalRefreshToken(false);
-      return { ...state, access_token: null, refresh_token: null };
+      console.log("removing token from clearToken");
+      setLocalToken(false);
+      return { ...state, token: null, };
 
     case typ.clearAll:
       console.log("removing tokens from clearAll");
-      setLocalAccessToken(false);
+      setLocalToken(false);
       setLocalUser(false);
-      setLocalRefreshToken(false);
       return { ...emptyState };
 
-    case typ.setAccessToken:
-      setLocalAccessToken(true, newData?.access);
-      return { ...state, access_token: tokenize(newData?.access) };
+    case typ.setToken:
+      setLocalToken(true, newData?.token);
+      return { ...state, token: tokenize(newData?.token) };
 
     case typ.setAll:
-      setLocalAccessToken(true, newData?.access);
-      setLocalRefreshToken(true, newData?.refresh);
+      setLocalToken(true, newData?.token);
       setLocalUser(true, newData?.user);
       return {
         ...state,
-        access_token: tokenize(newData?.access),
-        refresh_token: newData?.refresh,
+        token: tokenize(newData?.token),
       };
 
     case typ.setUser:
@@ -82,8 +69,7 @@ export const authReducer = (state, action) => {
     case typ.updateUser:
       return { ...state, user: { ...state.user, ...newData?.user } };
 
-    case typ.setRefreshToken:
-      return { ...state, refresh_token: newData?.refresh };
+
     default:
       return state;
   }

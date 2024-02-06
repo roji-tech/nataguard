@@ -1,9 +1,12 @@
 import { AuthLayout, Form, InputBox, RadioBox } from "@layouts/AuthLayout";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 const index = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   const FIELDS = [
     { name: "Last Menstrual Period (LMP)", ph: "Dec 23, 2024", type: "date" },
     { name: "Genotype", ph: "AA" },
@@ -35,6 +38,7 @@ const index = () => {
       btnText="Finish Signing up"
       formTitle="Health Information"
       pageNumber={2}
+      loading={loading}
       // handleSubmit={() => router.push("/signup/page2")}
     >
       <Form>

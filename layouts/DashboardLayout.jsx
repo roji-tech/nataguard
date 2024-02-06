@@ -98,7 +98,9 @@ const DashboardLayout = ({
     <DashboardLayoutStyles isopen={isopen}>
       <div className="parent">
         <div className="sidebar" ref={sideBarRef}>
-          <div className="sidebar_top _grid_center">{NataGuardLogoSvg}</div>
+          <div className="sidebar_top _grid_center">
+            <Link href={"/"}>{NataGuardLogoSvg}</Link>
+          </div>
           <div className="sidebar_main _auto_scroll_y">
             <Sidebar />
           </div>
@@ -107,13 +109,16 @@ const DashboardLayout = ({
           <div className="navbar">
             <Navbar isopen={isopen} setIsOpen={setIsOpen} hamRef={hamRef} />
           </div>
-          <div className="main_content _auto_scroll_y">
-            <div className="_bg_white" style={{ padding: 24 }}>
+          <div className="main_content">
+            <div
+              className="children _bg_white _auto_scroll_y"
+              style={{ padding: 24 }}
+            >
               {children}
             </div>
 
-            <div className="toggleAside _d_none">More</div>
-            <div className="asideComponent _p40">
+            {/* <div className="toggleAside _d_none">More</div> */}
+            <div className="asideComponent _p40 _auto_scroll_y">
               {asideComponent ?? (
                 <AsideComponent className="_flex_col _gap40">
                   {defaultAsideComponent.showPregnancyWeek && (
@@ -140,13 +145,13 @@ const DashboardLayout = ({
                   )}
 
                   <div className="_flex_col _gap40 otherContent">
-                    <h3 className="title">Risk Level Explanations</h3>
+                    <h3 className="title">{defaultAsideComponent.title}</h3>
 
                     <div className="_flex_col menuList">
                       {defaultAsideComponent.menuList.map((menuItem, i) => (
                         <div key={i} className="_flex_col menuItem">
                           <h4 className="label"> {menuItem?.label} </h4>
-                          <div className="_flex_col _gap8">
+                          <div className="text _flex_col _gap8">
                             {menuItem?.text}
                           </div>
                         </div>
@@ -169,11 +174,16 @@ const DashboardLayoutStyles = styled.div`
   &&& {
     --nav_height: 105px;
     --main_content_pad: 35px 50px 30px;
+    --Background: #fafafa;
+    --main_pad: 30px;
 
     position: fixed;
     inset: 0;
     background: #ffffff;
     padding: 0px;
+
+    max-width: 100vw;
+    min-width: 100vw;
 
     * {
       padding: 0;
@@ -181,33 +191,37 @@ const DashboardLayoutStyles = styled.div`
     }
 
     .parent {
-      /* background: #00000018; */
-      background: #ffffff;
-      /*  */
+      background: #fafafa;
+      background: #00000018;
+
       max-width: 100%;
       min-width: 100%;
+
       max-height: 100%;
       min-height: 100%;
 
       display: flex;
-      gap: 5px;
+      gap: 0px;
 
       .sidebar {
-        width: min(20%, 304px);
-        min-width: 260px;
-        max-width: 304px;
+        min-width: 305px;
+        max-width: 305px;
+        flex-basis: 305px;
+
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        border: 1px solid #e4e1e8;
-        background: #fafafa;
+        background: var(--Background);
 
         .sidebar_top {
           min-height: var(--nav_height);
           max-height: var(--nav_height);
+          background: #ffffff;
         }
+
         .sidebar_main {
-          /* background: #fafafa; */
+          padding-top: 20px;
+          background: #ffffff;
+          min-height: 75%;
         }
       }
 
@@ -215,6 +229,7 @@ const DashboardLayoutStyles = styled.div`
         display: flex;
         flex-direction: column;
         flex: 1;
+        max-width: calc(100vw - 305px);
 
         > * {
           max-width: 100%;
@@ -225,23 +240,31 @@ const DashboardLayoutStyles = styled.div`
           min-height: var(--nav_height);
           max-height: var(--nav_height);
 
-          max-width: 100%;
-          min-width: 100%;
+          background: #ffffff;
         }
 
         .main_content {
           flex: 1;
           padding: var(--main_content_pad);
-          background: var(--Background, #fafafa);
+          background: var(--Background, #927777);
 
-          display: grid;
-          grid-template-columns: 7fr 3.5fr;
+          display: flex;
+          justify-content: space-between;
+          overflow: hidden;
+
+          .children {
+            flex: 1;
+            flex-basis: 80%;
+          }
 
           .asideComponent {
             border-left: 1px solid #e4e1e8;
-            max-width: 500px;
 
-            /* background: #af8ddd; */
+            max-width: 800px;
+
+            flex-basis: 500px;
+            display: flex;
+            justify-content: flex-end;
           }
 
           .toggleAside {
@@ -299,12 +322,13 @@ const DashboardLayoutStyles = styled.div`
 
 const AsideComponent = styled.aside`
   &&& {
-    /* background: #e6e68bbe; */
-    max-width: 500px;
+    max-width: 800px;
+
+    * {
+      max-width: 100%;
+    }
 
     .pregnancy_week {
-      /* max-width: 386px; */
-
       padding: 24px;
       gap: 32px;
 
@@ -349,6 +373,8 @@ const AsideComponent = styled.aside`
           align-items: flex-start;
           gap: 16px;
           align-self: stretch;
+          height: max-content;
+          min-height: max-content;
 
           .label {
             color: var(--Text---Title, #122025);
@@ -359,13 +385,18 @@ const AsideComponent = styled.aside`
             line-height: normal;
           }
 
-          p {
+          .text {
             display: -webkit-box;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            align-self: stretch;
 
-            overflow: hidden;
+            /* -webkit-line-clamp: 2; */
+            align-self: stretch;
+            /* height: 300    display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;px; */
+            min-height: max-content;
+
+            /* overflow: hidden; */
             color: var(--Text---Body, #829095);
             text-overflow: ellipsis;
             font-family: "Open Sans";
