@@ -78,6 +78,7 @@ const index = () => {
           if (e.response?.data?.errors?.length < 15) {
             return ShowErrors([...e?.response?.data?.errorMsg]);
           }
+
           return ShowErrors(e?.response?.data?.errorMsg ?? "An Error Occurred");
         } catch (error) {
           console.log(error);
