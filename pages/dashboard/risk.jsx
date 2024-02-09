@@ -148,7 +148,7 @@ const Risk = () => {
                           Hi Emily, your pregnancy morbidity risk is at a mid
                           level. Don't panic. Let's visit your doctor as soon as
                           we can. You also need to improve your healthy habits.
-                          SafeBump is your pal.
+                          NataGuard is your pal.
                         </p>
 
                         <ArrowLinkElement text="Know why" />
@@ -176,7 +176,7 @@ const Risk = () => {
                           Hi Emily, your pregnancy morbidity risk is at a mid
                           level. Don't panic. Let's visit your doctor as soon as
                           we can. You also need to improve your healthy habits.
-                          SafeBump is your pal.
+                          NataGuard is your pal.
                         </p>
 
                         <ArrowLinkElement text="Know why" />
@@ -204,7 +204,7 @@ const Risk = () => {
                           Hi Emily, your pregnancy morbidity risk is at a mid
                           level. Don't panic. Let's visit your doctor as soon as
                           we can. You also need to improve your healthy habits.
-                          SafeBump is your pal.
+                          NataGuard is your pal.
                         </p>
 
                         <ArrowLinkElement text="Know why" />

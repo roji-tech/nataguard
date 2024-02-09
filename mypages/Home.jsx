@@ -11,7 +11,7 @@ const HomePage = () => {
       <Head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>SAFEBUMP - LANDING PAGE</title>
+        <title>NATAGUARD - LANDING PAGE</title>
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="responsive.css" />
         <link
@@ -76,7 +76,7 @@ const HomePage = () => {
                 </h1>
 
                 <p>
-                  SafeBump, your personalized pregnancy companion, uses machine
+                  NataGuard, your personalized pregnancy companion, uses machine
                   learning to predict potential complications and guide you
                   toward a healthy pregnancy.
                 </p>
@@ -117,24 +117,24 @@ const HomePage = () => {
             <div className="first-row" id="aboutus">
               <h1>Who We Are</h1>
               <p>
-                SafeBump, your personalized pregnancy companion, uses machine
+                NataGuard, your personalized pregnancy companion, uses machine
                 learning to predict potential complications and guide you toward
                 a healthy pregnancy.
                 <br /> <br />
-                SafeBump, your personalized pregnancy companion, uses machine
+                NataGuard, your personalized pregnancy companion, uses machine
                 learning to predict potential complications and guide you toward
-                a healthy pregnancy. SafeBump, your personalized pregnancy
+                a healthy pregnancy. NataGuard, your personalized pregnancy
                 companion, uses machine learning to predict potential
                 complications and guide you toward a healthy pregnancy.
               </p>
             </div>
 
             <div className="second-row">
-              SafeBump, your personalized pregnancy companion, uses machine
+              NataGuard, your personalized pregnancy companion, uses machine
               learning to predict potential complications and guide you toward a
-              healthy pregnancy. SafeBump, your personalized pregnancy
+              healthy pregnancy. NataGuard, your personalized pregnancy
               companion, uses machine learning to predict potential
-              complications and guide you toward a healthy pregnancy. SafeBump,
+              complications and guide you toward a healthy pregnancy. NataGuard,
               your personalized pregnancy companion, uses machine learning to
               predict potential complications and guide you toward a healthy
               pregnancy.
@@ -142,7 +142,7 @@ const HomePage = () => {
 
             <div className="download">
               <h2>
-                <span>Download</span> the SafeBump app
+                <span>Download</span> the NataGuard app
               </h2>
               <p>(Coming soon...)</p>
             </div>
@@ -214,7 +214,7 @@ const HomePage = () => {
           </div>
           <hr />
           <p id="Copyright">
-            &copy; Copyright 2024 | <span>SafeBump</span> by MASL FUTA
+            &copy; Copyright 2024 | <span>NataGuard</span> by MASL FUTA
           </p>
         </footer>
       </div>

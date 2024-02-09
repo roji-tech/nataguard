@@ -69,12 +69,42 @@ const index = () => {
               </>
             ),
           },
+          {
+            label: "Safe Exercise Routine",
+            text: (
+              <>
+                <span>
+                  Engage in safe and approved exercises during pregnancy.
+                  Activities like walking, swimming, and prenatal yoga can help
+                  maintain a healthy weight, reduce discomfort, and improve
+                  overall well-being. Always consult with your healthcare
+                  provider before starting any new exercise routine.
+                </span>
+
+                <ArrowLinkElement />
+              </>
+            ),
+          },
+          {
+            label: "Adequate Rest and Sleep",
+            text: (
+              <>
+                <span>
+                  Ensure you get enough rest and sleep during pregnancy. Your
+                  body is working hard to support the growing baby, and ample
+                  rest helps in reducing stress, promoting emotional well-being,
+                  and supporting the body's recovery. Aim for 7-9 hours of
+                  quality sleep each night.
+                </span>
+
+                <ArrowLinkElement />
+              </>
+            ),
+          },
         ],
       }}
     >
       <Wrapper className="_full_wh _flex_col _flex1">
-        {healthInfoSubmitted ? "hellooooooooooooo" : "falseeeeeee"} {"   "}
-        {String(healthInfoSubmitted)}
         <div className="_flex_col _flex1 _full_w" style={{ gap: 90 }}>
           <DashboardBox
             item={{
