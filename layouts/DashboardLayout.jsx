@@ -4,7 +4,7 @@ import {
   ArrowLongLeftSvg,
   PregnancyWeekSvg,
   NataGuardLogoSvg,
-} from "@components/svgs/safebump";
+} from "@components/svgs/nataguard";
 import useClickOutside from "@hooks/useClickOutside";
 import Link from "next/link";
 import { useRef, useState } from "react";

@@ -17,7 +17,7 @@ import {
   NavbarBellIconSvg,
   NavbarCalendarIconSvg,
   SearchIconSvg,
-} from "@components/svgs/safebump";
+} from "@components/svgs/nataguard";
 
 const Navbar = ({ isopen, setIsOpen, hamRef }) => {
   const [count, setCount] = useState(15);

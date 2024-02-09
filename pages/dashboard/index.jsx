@@ -6,7 +6,7 @@ import {
   barChartSVG,
   lineChartSvg,
   noticeSvg,
-} from "@components/svgs/safebump";
+} from "@components/svgs/nataguard";
 import { useFetchData } from "@hooks/useFetchData";
 import useAuth from "@contexts/AuthContext";
 

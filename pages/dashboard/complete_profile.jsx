@@ -1,7 +1,14 @@
-import { AuthLayout, Form, InputBox, RadioBox } from "@layouts/AuthLayout";
+import {
+  AuthLayout,
+  Form,
+  InputBox,
+  RadioBox,
+  DateBox,
+} from "@layouts/AuthLayout";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import dayjs from "dayjs";
 
 const index = () => {
   const [loading, setLoading] = useState(false);
@@ -21,6 +28,24 @@ const index = () => {
     bloodgroup: "string",
   });
 
+  const handleDateChange = (date) => {
+    const dateValue = dayjs(date).toISOString().split("T")[0];
+    console.log(dateValue);
+
+    setValues((prev) => ({
+      ...prev,
+      expiring_date: dateValue,
+    }));
+  };
+
+  const dateSelect = {
+    name: "Expiring Date",
+    ph: "2023-07-02",
+    id: "expiring_date",
+    // value: values?.expiring_date,
+    handleChange: handleDateChange,
+  };
+
   const FIELDS = [
     {
       name: "",
@@ -30,22 +55,22 @@ const index = () => {
     },
     { name: "", label: "Genotype", ph: "AA" },
     { name: "", label: "Blood Group", ph: "O+" },
-    { name: "", label: "Medical History", ph: "Upload File" },
-    {
-      name: "complications",
-      label: "Any existing conditions or complications?",
-      ph: "Dec 23, 2024",
-    },
-    {
-      name: "factors",
-      label: "Lifestyle Factors",
-      ph: "Dec 23, 2024",
-      options: [
-        { id: "diet", ph: "Diet" },
-        { id: "routine", ph: "Exercise routine" },
-        { id: "habits", ph: "Relevant habits (optional)" },
-      ],
-    },
+    // { name: "", label: "Medical History", ph: "Upload File" },
+    // {
+    //   name: "complications",
+    //   label: "Any existing conditions or complications?",
+    //   ph: "Dec 23, 2024",
+    // },
+    // {
+    //   name: "factors",
+    //   label: "Lifestyle Factors",
+    //   ph: "Dec 23, 2024",
+    //   options: [
+    //     { id: "diet", ph: "Diet" },
+    //     { id: "routine", ph: "Exercise routine" },
+    //     { id: "habits", ph: "Relevant habits (optional)" },
+    //   ],
+    // },
   ];
 
   const handleSubmit = (event) => {
@@ -130,8 +155,9 @@ const index = () => {
         {FIELDS.slice(0, 3).map((item) => (
           <InputBox item={item} />
         ))}
+        <DateBox item={dateSelect} />
 
-        <InputBox
+        {/* <InputBox
           item={FIELDS[3]}
           customInput={
             <div
@@ -185,14 +211,10 @@ const index = () => {
               </label>
             </div>
           }
-        />
+        /> */}
 
-        <RadioBox item={FIELDS[4]} />
-        <RadioBox item={FIELDS[5]} />
-
-        <div className="otherAuthLink _flex_jce">
-          <Link href={"/login"}>Login</Link>
-        </div>
+        {/* <RadioBox item={FIELDS[4]} />
+        <RadioBox item={FIELDS[5]} /> */}
       </Form>
     </AuthLayout>
   );

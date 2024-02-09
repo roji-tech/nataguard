@@ -1,4 +1,4 @@
-import { NataGuardLogoSvg } from "@components/svgs/safebump";
+import { NataGuardLogoSvg } from "@components/svgs/nataguard";
 import Link from "next/link";
 import styled from "styled-components";
 

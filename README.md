@@ -39,4 +39,4 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 
-https://www.figma.com/file/z76HfJkIi8UGhfxoG04i0g/Inventory-Project?node-id=0%3A1&mode=dev# safebump
+https://www.figma.com/file/z76HfJkIi8UGhfxoG04i0g/Inventory-Project?node-id=0%3A1&mode=dev# nataguard

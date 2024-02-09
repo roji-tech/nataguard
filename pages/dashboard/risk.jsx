@@ -3,7 +3,7 @@ import { ChartBox, DashboardBox, MyCircle } from "@pages/dashboard";
 import Link from "next/link";
 
 import styled from "styled-components";
-import { barChartSVG } from "@components/svgs/safebump";
+import { barChartSVG } from "@components/svgs/nataguard";
 import { fetchDataWithUseAxios } from "@utils/fetchDataWithUseAxios";
 import { useFetchData } from "@hooks/useFetchData";
 import useAuth from "@contexts/AuthContext";
