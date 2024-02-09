@@ -24,7 +24,6 @@ export const initialState = {
 
 function setLocalToken(set = true, accessToken = null) {
   if (set) {
-    alert(set);
     globalThis.localStorage.setItem("token", tokenize(accessToken));
     globalThis.localStorage.setItem("healthInfoSubmitted", true);
   }
@@ -56,7 +55,7 @@ export const authReducer = (state, action) => {
       console.log("removing tokens from clearAll");
       setLocalToken(false);
       setLocalUser(false);
-      alert("loging out");
+      // alert("loging out");
       return { ...emptyState };
 
     case typ.setToken:
@@ -64,7 +63,7 @@ export const authReducer = (state, action) => {
       globalThis.localStorage.setItem("token", tokenize(newData?.token));
       globalThis.localStorage.setItem("healthInfoSubmitted", true);
 
-      alert(newData?.healthInfoSubmitted);
+      // alert(newData?.healthInfoSubmitted);
       console.log("newdata", newData);
 
       return {
@@ -98,7 +97,7 @@ export const authReducer = (state, action) => {
       return { ...state, user: { ...state.user, ...newData?.user } };
 
     default:
-      alert("NO type");
+      // alert("NO type");
       return state;
   }
 };

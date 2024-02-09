@@ -20,14 +20,14 @@ export function useFetchData(
   useEffect(() => {
     fetchDataWithUseAxios(myaxios, url, method, {}, label, logout, setLoading)
       .then((res) => {
-        alert("success");
+        // alert("success");
         if (res?.results?.length > 0)
           setDataList({ ...res, results: filterFunction(res?.results) });
         else setDataList({ results: filterFunction([...defaultData]) });
         console.log("DATAAAA", res);
       })
       .catch((error) => {
-        alert("failed");
+        // alert("failed");
         return error;
       });
   }, []);

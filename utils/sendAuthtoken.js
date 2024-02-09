@@ -32,7 +32,6 @@ export async function sendGoogleAuthtoken(
 }
 
 export async function sendGoogleAuthtoken1(auth_token, dispatchFunc) {
-  // alert("sending");
   const config = {
     method: "post",
     url: "/api/auth/google",
