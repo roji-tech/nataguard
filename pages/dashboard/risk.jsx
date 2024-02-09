@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { barChartSVG } from "@components/svgs/safebump";
 import { fetchDataWithUseAxios } from "@utils/fetchDataWithUseAxios";
 import { useFetchData } from "@hooks/useFetchData";
+import useAuth from "@contexts/AuthContext";
 
 const RiskPageMenuList = [
   {
@@ -60,6 +61,7 @@ const RiskPageMenuList = [
 
 const Risk = () => {
   // const data = useFetchData([], "/health/risklevel", "get", {}, "");
+  const { healthInfoSubmitted } = useAuth();
 
   return (
     <DashboardLayout

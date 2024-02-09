@@ -35,7 +35,7 @@ const HomePage = () => {
               <div id="safe-left">
                 <a href="index.html">
                   <h2>
-                    Safe<span>Bump</span>
+                    Nata<span>Guard</span>
                   </h2>
                 </a>
               </div>

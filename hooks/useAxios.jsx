@@ -1,12 +1,11 @@
 import axios from "axios";
 import { api } from "@config.js";
 import useAuth from "@contexts/AuthContext";
-import { typ } from "@reducers/AuthReducer";
 
 // message: 'timeout exceeded' code: ECONNABORTED
 // message: 'Network Error', name: 'AxiosError', code: 'ERR_NETWORK',
 const useAxios = () => {
-  const { logout, state, dispatchFunc } = useAuth();
+  const { state } = useAuth();
 
   let local_token = globalThis?.localStorage?.getItem("token") ?? null;
 
@@ -19,21 +18,21 @@ const useAxios = () => {
     timeout: 10000,
   });
 
-  axiosInstance.interceptors.response.use(
-    (resp) => resp, // RETURNS RESPONSES DIRECTLY
+  // axiosInstance.interceptors.response.use(
+  //   (resp) => resp, // RETURNS RESPONSES DIRECTLY
 
-    // Do something with response error
-    async (error) => {
-      console.log(`==ERROR STATUS ${error?.response?.status} IN INTERCEPTOR=`);
-      console.log(error?.response?.headers);
-      if (error?.response?.status === 401) {
-        logout();
-      } else {
-        console.warn(error);
-        return Promise.reject(error);
-      }
-    }
-  );
+  //   // Do something with response error
+  //   async (error) => {
+  //     console.log(`==ERROR STATUS ${error?.response?.status} IN INTERCEPTOR=`);
+  //     console.log(error?.response?.headers);
+  //     if (error?.response?.status === 401) {
+  //       logout();
+  //     } else {
+  //       console.warn(error);
+  //       return Promise.reject(error);
+  //     }
+  //   }
+  // );
 
   return axiosInstance;
 };

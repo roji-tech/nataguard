@@ -7,16 +7,24 @@ export const fetchDataWithUseAxios = async (
   method = "get",
   data = {},
   label = "",
+  logout = () => {},
   setLoading = (bool) => {}
 ) => {
   const config = { method, url, data };
+
   try {
     setLoading(true);
     const response = await axiosInstance(config);
     console.warn("fetchDataWithUseAxios", response?.data);
-    // ShowSuccess("Successful");
     return response?.data;
   } catch (error) {
+    console.log(`==ERROR STATUS ${error?.response?.status} IN INTERCEPTOR=`);
+    console.log(error?.response?.headers);
+
+    if (error?.response?.status === 401) {
+      return logout();
+    }
+
     console.warn("fetchDataWithUseAxios", error?.response);
     ShowErrors("Unable to fetch " + label);
     return Promise.reject(error);

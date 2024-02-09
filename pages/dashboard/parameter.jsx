@@ -10,8 +10,11 @@ import {
   editIconSvg,
 } from "@components/svgs/safebump";
 import { useFetchData } from "@hooks/useFetchData";
+import useAuth from "@contexts/AuthContext";
 
 const Parameter = () => {
+  const { healthInfoSubmitted } = useAuth();
+
   const PARAMETERS = [
     { name: "Body Temperature", value: "98.6°F (37°C)" },
     { name: "Systolic Blood Pressure", value: "116 mmHg" },
@@ -38,12 +41,15 @@ const Parameter = () => {
         title: "Health Tips",
         menuList: [
           {
-            label: "Know these 6 health hacks!",
+            label: "Stay Hydrated",
             text: (
               <>
                 <span>
-                  Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum
-                  dolor esit Lorem ipsum dolor esit Lorem ipsum dol
+                  Drinking an adequate amount of water is crucial during
+                  pregnancy. Proper hydration helps maintain amniotic fluid
+                  levels, supports the increased blood volume, and aids in
+                  nutrient transport to the baby. Aim for at least eight 8-ounce
+                  glasses of water daily and more if physically active.
                 </span>
 
                 <ArrowLinkElement />
@@ -51,12 +57,15 @@ const Parameter = () => {
             ),
           },
           {
-            label: "Know these 6 health hacks!",
+            label: "Balanced Nutrition",
             text: (
               <>
                 <span>
-                  Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum
-                  dolor esit Lorem ipsum dolor esit Lorem ipsum dol
+                  Focus on a well-balanced diet rich in essential nutrients.
+                  Include a variety of fruits, vegetables, whole grains, lean
+                  proteins, and dairy products. Ensure an adequate intake of
+                  folic acid, iron, calcium, and omega-3 fatty acids to support
+                  the baby's development.
                 </span>
 
                 <ArrowLinkElement />
@@ -64,12 +73,14 @@ const Parameter = () => {
             ),
           },
           {
-            label: "Know these 6 health hacks!",
+            label: "Regular Prenatal Check-ups",
             text: (
               <>
                 <span>
-                  Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum
-                  dolor esit Lorem ipsum dolor esit Lorem ipsum dol
+                  Schedule regular prenatal check-ups with your healthcare
+                  provider. These appointments are essential for monitoring the
+                  baby's growth, checking for any potential complications, and
+                  ensuring the overall health of both the mother and the baby.
                 </span>
 
                 <ArrowLinkElement />
@@ -88,7 +99,9 @@ const Parameter = () => {
                   <h5 className="title_text">My Parameters</h5>
 
                   <div className="_flex _gap10 _align_center">
-                    <p className="link">Edit my parameters</p>
+                    <Link href={"/dashboard/settings"} className="link">
+                      Edit my parameters
+                    </Link>
                     {editIconSvg}
                   </div>
                 </>

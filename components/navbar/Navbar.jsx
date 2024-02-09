@@ -21,7 +21,11 @@ import {
 
 const Navbar = ({ isopen, setIsOpen, hamRef }) => {
   const [count, setCount] = useState(15);
-  const { state } = useAuth();
+  const {
+    state: { healthInfoSubmitted, user },
+    logout,
+  } = useAuth();
+
   // const router = useRouter();
   const [myuser, setMyuser] = useState();
   const myaxios = useAxios();
@@ -49,9 +53,9 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
       });
   };
 
-  // useEffect(() => {
-  //   setUserFunc();
-  // }, []);
+  useEffect(() => {
+    setMyuser(user);
+  }, [user]);
 
   return (
     <Container className="_gap40">
@@ -85,9 +89,13 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
         <div className="_flex _gap20 _align_center profile">
           <div className="avatar_circle"></div>
           <div className="title _flex_col_code">
-            <p>{myuser?.full_name ?? <small>NoName</small>}</p>
-            <small className="_capitalize">
-              {myuser?.patient_id || "Patient - ID"}
+            <p>
+              {myuser?.firstName + " " + myuser?.lastName ?? (
+                <small>NoName</small>
+              )}
+            </p>
+            <small className="_capitalize _ellipsis_overflow">
+              {myuser?.id?.slice(0, 10) + "..." || "Patient - ID"}
             </small>
           </div>
         </div>

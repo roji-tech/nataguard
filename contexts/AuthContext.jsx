@@ -10,7 +10,12 @@ const AuthContext = createContext({
     user: globalThis?.localStorage?.getItem("user")
       ? JSON.parse(globalThis?.localStorage?.getItem("user"))
       : {},
-    token: "",
+    token: globalThis?.localStorage?.getItem("token") || null,
+    healthInfoSubmitted: globalThis?.localStorage?.getItem(
+      "healthInfoSubmitted"
+    )
+      ? JSON.parse(globalThis?.localStorage?.getItem("healthInfoSubmitted"))
+      : false,
   },
   dispatchFunc: () => null,
   logout: () => null,

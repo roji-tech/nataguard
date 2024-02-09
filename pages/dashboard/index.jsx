@@ -8,9 +8,13 @@ import {
   noticeSvg,
 } from "@components/svgs/safebump";
 import { useFetchData } from "@hooks/useFetchData";
+import useAuth from "@contexts/AuthContext";
 
 const index = () => {
   const data = useFetchData([], "/health/info", "get", {}, "");
+  const {
+    state: { healthInfoSubmitted },
+  } = useAuth();
 
   return (
     <DashboardLayout
@@ -19,12 +23,15 @@ const index = () => {
         title: "Health Tips",
         menuList: [
           {
-            label: "Know these 6 health hacks!",
+            label: "Stay Hydrated",
             text: (
               <>
                 <span>
-                  Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum
-                  dolor esit Lorem ipsum dolor esit Lorem ipsum dol
+                  Drinking an adequate amount of water is crucial during
+                  pregnancy. Proper hydration helps maintain amniotic fluid
+                  levels, supports the increased blood volume, and aids in
+                  nutrient transport to the baby. Aim for at least eight 8-ounce
+                  glasses of water daily and more if physically active.
                 </span>
 
                 <ArrowLinkElement />
@@ -32,12 +39,15 @@ const index = () => {
             ),
           },
           {
-            label: "Know these 6 health hacks!",
+            label: "Balanced Nutrition",
             text: (
               <>
                 <span>
-                  Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum
-                  dolor esit Lorem ipsum dolor esit Lorem ipsum dol
+                  Focus on a well-balanced diet rich in essential nutrients.
+                  Include a variety of fruits, vegetables, whole grains, lean
+                  proteins, and dairy products. Ensure an adequate intake of
+                  folic acid, iron, calcium, and omega-3 fatty acids to support
+                  the baby's development.
                 </span>
 
                 <ArrowLinkElement />
@@ -45,12 +55,14 @@ const index = () => {
             ),
           },
           {
-            label: "Know these 6 health hacks!",
+            label: "Regular Prenatal Check-ups",
             text: (
               <>
                 <span>
-                  Lorem ipsum dolor esit Lorem ipsum dolor esit Lorem ipsum
-                  dolor esit Lorem ipsum dolor esit Lorem ipsum dol
+                  Schedule regular prenatal check-ups with your healthcare
+                  provider. These appointments are essential for monitoring the
+                  baby's growth, checking for any potential complications, and
+                  ensuring the overall health of both the mother and the baby.
                 </span>
 
                 <ArrowLinkElement />
@@ -61,6 +73,8 @@ const index = () => {
       }}
     >
       <Wrapper className="_full_wh _flex_col _flex1">
+        {healthInfoSubmitted ? "hellooooooooooooo" : "falseeeeeee"} {"   "}
+        {String(healthInfoSubmitted)}
         <div className="_flex_col _flex1 _full_w" style={{ gap: 90 }}>
           <DashboardBox
             item={{
@@ -78,6 +92,7 @@ const index = () => {
               content: (
                 <>
                   <ChartBox
+                    makeBlur={!healthInfoSubmitted}
                     item={{
                       vertical_text: (
                         <>
@@ -118,6 +133,7 @@ const index = () => {
               content: (
                 <>
                   <ChartBox
+                    makeBlur={!healthInfoSubmitted}
                     item={{
                       vertical_text: (
                         <>
@@ -305,7 +321,7 @@ export const ChartBox = ({
     ],
   },
   bluryContent = null,
-  makeBlur = true,
+  makeBlur = false,
 }) => {
   return (
     <ChartBoxStyle>

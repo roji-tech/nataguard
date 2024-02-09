@@ -11,7 +11,7 @@ import { useRef, useState } from "react";
 import styled from "styled-components";
 
 export const ArrowLinkElement = ({
-  text = "Read More",
+  text = "See More",
   link = "#",
   underline = false,
 }) => {

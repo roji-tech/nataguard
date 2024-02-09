@@ -9,12 +9,90 @@ import { useState } from "react";
 import useAuth from "@contexts/AuthContext";
 import { typ } from "@reducers/AuthReducer";
 
+const LoginPopup = ({ success = false, message }) => {
+  return (
+    <div className="modalPpup _flex_col_center _p50 _gap40">
+      {success ? (
+        <>
+          <svg
+            width="120"
+            height="120"
+            viewBox="0 0 120 120"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M60 110C87.5 110 110 87.5 110 60C110 32.5 87.5 10 60 10C32.5 10 10 32.5 10 60C10 87.5 32.5 110 60 110Z"
+              stroke="#FFAD33"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M38.75 60.0001L52.9 74.1501L81.25 45.8501"
+              stroke="#FFAD33"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+
+          <div className="_flex_col_center">
+            <h3>Login Successful!</h3>
+          </div>
+        </>
+      ) : (
+        <>
+          <svg
+            width="120"
+            height="120"
+            viewBox="0 0 120 120"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M60 110C87.5 110 110 87.5 110 60C110 32.5 87.5 10 60 10C32.5 10 10 32.5 10 60C10 87.5 32.5 110 60 110Z"
+              stroke="#FF3535"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M45.8501 74.1501L74.1501 45.8501"
+              stroke="#FF3535"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M74.1501 74.1501L45.8501 45.8501"
+              stroke="#FF3535"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+
+          <div className="_flex_col_center">
+            <h3>Login Unsuccessful!</h3>
+            <p> {message ?? "Invalid credentials, please try again."} </p>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
 const index = () => {
   const { logout, state, dispatchFunc } = useAuth();
 
   const [values, setValues] = useState({ email: "", password: "" });
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [modalComponent, setModalComponent] = useState(<LoginPopup />);
+
+  const modalState = useState(false);
+  const [open, setOpen] = modalState;
 
   const handleChange = (e) => {
     setValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -51,6 +129,7 @@ const index = () => {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
+      timeout: 10000,
       url: api.login,
       headers: {
         "Content-Type": "application/json",
@@ -62,15 +141,22 @@ const index = () => {
     axios(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        ShowSuccess("Logging you in");
         dispatchFunc(typ.setAll, response.data);
+        ShowSuccess("Logging you in");
+        setOpen(true);
+        setModalComponent(<LoginPopup success={true} />);
 
-        router.replace("/dashboard");
+        setTimeout(() => {
+          router.replace("/dashboard");
+        }, 3000);
       })
       .catch((e) => {
         console.log("login error", e?.response);
+        setOpen(true);
 
         try {
+          setModalComponent(<LoginPopup />);
+
           // dispatchFunc(typ.clearAll);
           if (String(e.response.status).startsWith("5")) {
             return ShowErrors(["Service Temporarily Unavailable"]);
@@ -93,6 +179,8 @@ const index = () => {
       showFormTitle={false}
       handleSubmit={handleLogin}
       loading={loading}
+      modalState={modalState}
+      modalComponent={modalComponent}
     >
       <Form>
         {FIELDS.map((item) => (

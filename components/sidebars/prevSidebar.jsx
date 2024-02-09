@@ -169,6 +169,35 @@ const Sidebar = () => {
       <div className="main _auto_scroll_y">
         {LINK_LIST.map((item, i) => (
           <div key={i} className="linkWrapper _flex_col _gap10">
+            <input
+              type="checkbox"
+              name=""
+              id={`links${i}`}
+              className="_d_none"
+            />
+            <label
+              htmlFor={`links${i}`}
+              className="title _pointer _flex_jcsb _no_select _align_center"
+            >
+              <span className="_no_wrap">{item?.header}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="25"
+                viewBox="0 0 24 25"
+                fill="none"
+              >
+                <path
+                  d="M19.9201 9.4502L13.4001 15.9702C12.6301 16.7402 11.3701 16.7402 10.6001 15.9702L4.08008 9.4502"
+                  stroke="#122025"
+                  strokeWidth="1.5"
+                  strokeMiterlimit="10"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </label>
+
             <div className="links">
               {item?.links.map((link, ind) => (
                 <li

@@ -1,7 +1,17 @@
 import styled from "styled-components";
-import Link from "next/link";
 import HomeNavbar from "@components/navbar/HomeNavbar";
 import { PulseLoader } from "react-spinners";
+
+import Link from "next/link";
+
+import Button from "@mui/joy/Button";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+import DialogTitle from "@mui/joy/DialogTitle";
+import DialogContent from "@mui/joy/DialogContent";
+import Stack from "@mui/joy/Stack";
+import ModalClose from "@mui/joy/ModalClose";
+import { useState } from "react";
 
 export function AuthLayout({
   children,
@@ -16,186 +26,214 @@ export function AuthLayout({
   showSocials = true,
   loading = false,
   showDaraCollectionReasonLink = false,
+  modalComponent = "",
+  modalBackdropClickClose = false,
+  modalState = useState(true),
 }) {
+  const [open, setOpen] = modalState;
+
   const _handleSubmit = (e) => {
     e.preventDefault();
     handleSubmit(e);
   };
+
   return (
-    <Container className="_my_auto_scroll_v _flex_col _full_w">
-      <HomeNavbar showAuthBtns={false} />
-      <section
-        style={{
-          gap: showDaraCollectionReasonLink && "30px",
+    <>
+      <Modal
+        aria-labelledby="modal-title"
+        aria-describedby="modal-desc"
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+        open={open}
+        onClose={(_event, reason) => {
+          if ((reason == "backdropClick") & !modalBackdropClickClose) return;
+
+          setOpen(false);
         }}
-        className="content _flex_col _full_w _bg_white"
       >
-        <header className="_flex_jcsb _full_w">
-          <Link className="link" href={""}>
-            Privacy Policy
-          </Link>
-          <div className="_flex_col_center _gap8">
-            <h3>{headerText}</h3>
-            <p>{headerDesc}</p>
-          </div>
-          <Link className="link" href={""}>
-            Terms of Service
-          </Link>
-        </header>
+        <ModalDialog
+          className="_auto_scroll_y _bg_white"
+          sx={{ width: "90%", maxWidth: 800 }}
+        >
+          <ModalClose variant="plain" sx={{ m: 1 }} />
+          {modalComponent}
+        </ModalDialog>
+      </Modal>
 
-        {showDaraCollectionReasonLink && (
-          <Link
-            className="_flex_center _align_center"
-            style={{
-              color: "#06AAE4",
-              fontSize: "20px",
-              margin: "25px 0",
-            }}
-            href={"#"}
-          >
-            <svg
-              width="25"
-              height="25"
-              viewBox="0 0 25 25"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+      <Container className="_my_auto_scroll_v _flex_col _full_w">
+        <HomeNavbar showAuthBtns={false} />
+        <section
+          style={{
+            gap: showDaraCollectionReasonLink && "30px",
+          }}
+          className="content _flex_col _full_w _bg_white"
+        >
+          <header className="_flex_jcsb _full_w">
+            <Link className="link" href={""}>
+              Privacy Policy
+            </Link>
+            <div className="_flex_col_center _gap8">
+              <h3>{headerText}</h3>
+              <p>{headerDesc}</p>
+            </div>
+            <Link className="link terms" href={""}>
+              Terms of Service
+            </Link>
+          </header>
+
+          {showDaraCollectionReasonLink && (
+            <Link
+              className="_flex_center _align_center"
+              style={{
+                color: "#06AAE4",
+                fontSize: "20px",
+                margin: "25px 0",
+              }}
+              href={"#"}
             >
-              <path
-                d="M12.5 2.5C18 2.5 22.5 7 22.5 12.5C22.5 18 18 22.5 12.5 22.5C7 22.5 2.5 18 2.5 12.5C2.5 7 7 2.5 12.5 2.5Z"
-                stroke="#06AAE4"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M12.5 16.5V11.5"
-                stroke="#06AAE4"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M12.4941 8.5H12.5031"
-                stroke="#06AAE4"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            Why are we collecting your data?
-          </Link>
-        )}
+              <svg
+                width="25"
+                height="25"
+                viewBox="0 0 25 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12.5 2.5C18 2.5 22.5 7 22.5 12.5C22.5 18 18 22.5 12.5 22.5C7 22.5 2.5 18 2.5 12.5C2.5 7 7 2.5 12.5 2.5Z"
+                  stroke="#06AAE4"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M12.5 16.5V11.5"
+                  stroke="#06AAE4"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M12.4941 8.5H12.5031"
+                  stroke="#06AAE4"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Why are we collecting your data?
+            </Link>
+          )}
 
-        <div className="_flex_center">
-          <div className="authContainer">
-            {showSocials && (
-              <div className="socialBtns _flex _align_center">
-                {login ? (
-                  <>
-                    <Link
-                      className="socilalBtn _full_w _flex_center _gap30 _align_center"
-                      href={""}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="36"
-                        height="36"
-                        viewBox="0 0 36 36"
-                        fill="none"
+          <div className="_flex_center">
+            <div className="authContainer">
+              {showSocials && (
+                <div className="socialBtns _flex _align_center">
+                  {login ? (
+                    <>
+                      <Link
+                        className="socilalBtn _full_w _flex_center _gap30 _align_center"
+                        href={""}
                       >
-                        <path
-                          d="M33.84 18.375C33.84 17.205 33.735 16.08 33.54 15H18V21.3825H26.88C26.4975 23.445 25.335 25.1925 23.5875 26.3625V30.5025H28.92C32.04 27.63 33.84 23.4 33.84 18.375Z"
-                          fill="#4285F4"
-                        />
-                        <path
-                          d="M17.9999 34.5C22.4549 34.5 26.1899 33.0225 28.9199 30.5025L23.5874 26.3625C22.1099 27.3525 20.2199 27.9375 17.9999 27.9375C13.7024 27.9375 10.0649 25.035 8.76738 21.135H3.25488V25.41C5.96988 30.8025 11.5499 34.5 17.9999 34.5Z"
-                          fill="#34A853"
-                        />
-                        <path
-                          d="M8.7675 21.1351C8.4375 20.1451 8.25 19.0876 8.25 18.0001C8.25 16.9126 8.4375 15.8551 8.7675 14.8651V10.5901H3.255C2.1 12.8894 1.49898 15.427 1.5 18.0001C1.5 20.6626 2.1375 23.1826 3.255 25.4101L8.7675 21.1351Z"
-                          fill="#FBBC05"
-                        />
-                        <path
-                          d="M17.9999 8.0625C20.4224 8.0625 22.5974 8.895 24.3074 10.53L29.0399 5.7975C26.1824 3.135 22.4474 1.5 17.9999 1.5C11.5499 1.5 5.96988 5.1975 3.25488 10.59L8.76738 14.865C10.0649 10.965 13.7024 8.0625 17.9999 8.0625Z"
-                          fill="#EA4335"
-                        />
-                      </svg>
-                      <span>Login with Google</span>
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <Link
-                      className="socilalBtn _full_w _flex_center _gap30 _align_center"
-                      href={""}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="36"
-                        height="36"
-                        viewBox="0 0 36 36"
-                        fill="none"
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="36"
+                          height="36"
+                          viewBox="0 0 36 36"
+                          fill="none"
+                        >
+                          <path
+                            d="M33.84 18.375C33.84 17.205 33.735 16.08 33.54 15H18V21.3825H26.88C26.4975 23.445 25.335 25.1925 23.5875 26.3625V30.5025H28.92C32.04 27.63 33.84 23.4 33.84 18.375Z"
+                            fill="#4285F4"
+                          />
+                          <path
+                            d="M17.9999 34.5C22.4549 34.5 26.1899 33.0225 28.9199 30.5025L23.5874 26.3625C22.1099 27.3525 20.2199 27.9375 17.9999 27.9375C13.7024 27.9375 10.0649 25.035 8.76738 21.135H3.25488V25.41C5.96988 30.8025 11.5499 34.5 17.9999 34.5Z"
+                            fill="#34A853"
+                          />
+                          <path
+                            d="M8.7675 21.1351C8.4375 20.1451 8.25 19.0876 8.25 18.0001C8.25 16.9126 8.4375 15.8551 8.7675 14.8651V10.5901H3.255C2.1 12.8894 1.49898 15.427 1.5 18.0001C1.5 20.6626 2.1375 23.1826 3.255 25.4101L8.7675 21.1351Z"
+                            fill="#FBBC05"
+                          />
+                          <path
+                            d="M17.9999 8.0625C20.4224 8.0625 22.5974 8.895 24.3074 10.53L29.0399 5.7975C26.1824 3.135 22.4474 1.5 17.9999 1.5C11.5499 1.5 5.96988 5.1975 3.25488 10.59L8.76738 14.865C10.0649 10.965 13.7024 8.0625 17.9999 8.0625Z"
+                            fill="#EA4335"
+                          />
+                        </svg>
+                        <span>Login with Google</span>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        className="socilalBtn _full_w _flex_center _gap30 _align_center"
+                        href={""}
                       >
-                        <path
-                          d="M33.84 18.375C33.84 17.205 33.735 16.08 33.54 15H18V21.3825H26.88C26.4975 23.445 25.335 25.1925 23.5875 26.3625V30.5025H28.92C32.04 27.63 33.84 23.4 33.84 18.375Z"
-                          fill="#4285F4"
-                        />
-                        <path
-                          d="M17.9999 34.5C22.4549 34.5 26.1899 33.0225 28.9199 30.5025L23.5874 26.3625C22.1099 27.3525 20.2199 27.9375 17.9999 27.9375C13.7024 27.9375 10.0649 25.035 8.76738 21.135H3.25488V25.41C5.96988 30.8025 11.5499 34.5 17.9999 34.5Z"
-                          fill="#34A853"
-                        />
-                        <path
-                          d="M8.7675 21.1351C8.4375 20.1451 8.25 19.0876 8.25 18.0001C8.25 16.9126 8.4375 15.8551 8.7675 14.8651V10.5901H3.255C2.1 12.8894 1.49898 15.427 1.5 18.0001C1.5 20.6626 2.1375 23.1826 3.255 25.4101L8.7675 21.1351Z"
-                          fill="#FBBC05"
-                        />
-                        <path
-                          d="M17.9999 8.0625C20.4224 8.0625 22.5974 8.895 24.3074 10.53L29.0399 5.7975C26.1824 3.135 22.4474 1.5 17.9999 1.5C11.5499 1.5 5.96988 5.1975 3.25488 10.59L8.76738 14.865C10.0649 10.965 13.7024 8.0625 17.9999 8.0625Z"
-                          fill="#EA4335"
-                        />
-                      </svg>
-                      <span>Sign up with Google</span>
-                    </Link>
-                  </>
-                )}
-              </div>
-            )}
-            <form className="_flex_col _gap40" onSubmit={_handleSubmit}>
-              {showFormTitle && (
-                <div className="pageTitle _flex_center _align_center _gap40">
-                  <span className="line" />
-                  <h3 className="title _flex_center _align_center _no_wrap">
-                    {pageNumber ? (
-                      <span className="pageNumber _grid_center">
-                        {pageNumber}
-                      </span>
-                    ) : (
-                      ""
-                    )}
-
-                    {formTitle}
-                  </h3>
-                  <span className="line" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="36"
+                          height="36"
+                          viewBox="0 0 36 36"
+                          fill="none"
+                        >
+                          <path
+                            d="M33.84 18.375C33.84 17.205 33.735 16.08 33.54 15H18V21.3825H26.88C26.4975 23.445 25.335 25.1925 23.5875 26.3625V30.5025H28.92C32.04 27.63 33.84 23.4 33.84 18.375Z"
+                            fill="#4285F4"
+                          />
+                          <path
+                            d="M17.9999 34.5C22.4549 34.5 26.1899 33.0225 28.9199 30.5025L23.5874 26.3625C22.1099 27.3525 20.2199 27.9375 17.9999 27.9375C13.7024 27.9375 10.0649 25.035 8.76738 21.135H3.25488V25.41C5.96988 30.8025 11.5499 34.5 17.9999 34.5Z"
+                            fill="#34A853"
+                          />
+                          <path
+                            d="M8.7675 21.1351C8.4375 20.1451 8.25 19.0876 8.25 18.0001C8.25 16.9126 8.4375 15.8551 8.7675 14.8651V10.5901H3.255C2.1 12.8894 1.49898 15.427 1.5 18.0001C1.5 20.6626 2.1375 23.1826 3.255 25.4101L8.7675 21.1351Z"
+                            fill="#FBBC05"
+                          />
+                          <path
+                            d="M17.9999 8.0625C20.4224 8.0625 22.5974 8.895 24.3074 10.53L29.0399 5.7975C26.1824 3.135 22.4474 1.5 17.9999 1.5C11.5499 1.5 5.96988 5.1975 3.25488 10.59L8.76738 14.865C10.0649 10.965 13.7024 8.0625 17.9999 8.0625Z"
+                            fill="#EA4335"
+                          />
+                        </svg>
+                        <span>Sign up with Google</span>
+                      </Link>
+                    </>
+                  )}
                 </div>
               )}
+              <form className="_flex_col _gap40" onSubmit={_handleSubmit}>
+                {showFormTitle && (
+                  <div className="pageTitle _flex_center _align_center _gap40">
+                    <span className="line" />
+                    <h3 className="title _flex_center _align_center _no_wrap">
+                      {pageNumber ? (
+                        <span className="pageNumber _grid_center">
+                          {pageNumber}
+                        </span>
+                      ) : (
+                        ""
+                      )}
 
-              {children}
+                      {formTitle}
+                    </h3>
+                    <span className="line" />
+                  </div>
+                )}
 
-              <AuthButton
-                disabled={loading}
-                style={{
-                  background: loading && "#ccc",
-                }}
-                type="submit"
-                className="_flex_center _gap10"
-              >
-                {btnText}
-                <PulseLoader loading={loading} size={15} color="#068fe4" />
-              </AuthButton>
-            </form>
+                {children}
+
+                <AuthButton
+                  disabled={loading}
+                  style={{
+                    background: loading && "#ccc",
+                  }}
+                  type="submit"
+                  className="_flex_center _gap10"
+                >
+                  {!loading && btnText}
+                  <PulseLoader loading={loading} size={15} color="#068fe4" />
+                </AuthButton>
+              </form>
+            </div>
           </div>
-        </div>
-      </section>
-    </Container>
+        </section>
+      </Container>
+    </>
   );
 }
 
@@ -242,6 +280,36 @@ const Container = styled.header`
           line-height: normal;
           text-decoration-line: underline;
         }
+
+        @media screen and (max-width: 800px) {
+          display: grid;
+          max-width: 100%;
+          width: 100%;
+
+          grid-template-columns: 1fr 1fr;
+          gap: 40px;
+
+          > div {
+            grid-column: span 2;
+            grid-row: 2;
+          }
+
+          .terms {
+            display: flex;
+            justify-content: flex-end;
+          }
+
+          @media screen and (max-width: 600px) {
+            .link {
+              /* font-size: 24px !important; */
+              font-size: 16px !important;
+            }
+
+            p {
+              font-size: 20px;
+            }
+          }
+        }
       }
 
       .authContainer {
@@ -276,6 +344,10 @@ const Container = styled.header`
             font-style: normal;
             font-weight: 600;
             line-height: 150%;
+
+            @media screen and (max-width: 600px) {
+              font-size: 16px !important;
+            }
           }
         }
 
@@ -309,6 +381,28 @@ const Container = styled.header`
           font-weight: 600;
           line-height: 150%;
         }
+      }
+    }
+
+    .modalPpup {
+      h3 {
+        color: var(--Text---Title, #122025);
+        text-align: center;
+        font-family: "Open Sans";
+        font-size: 28px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%; /* 42px */
+      }
+
+      p {
+        color: var(--Text---Body, #829095);
+        text-align: center;
+        font-family: "Open Sans";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%; /* 30px */
       }
     }
   }
@@ -555,6 +649,7 @@ export const AuthButton = styled.button`
     border-radius: 10px;
     background: #06aae4;
     width: 100%;
+    max-width: 100%;
     height: 68px;
 
     display: flex;
