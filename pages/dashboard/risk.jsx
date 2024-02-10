@@ -7,6 +7,7 @@ import { barChartSVG } from "@components/svgs/nataguard";
 import { fetchDataWithUseAxios } from "@utils/fetchDataWithUseAxios";
 import { useFetchData } from "@hooks/useFetchData";
 import useAuth from "@contexts/AuthContext";
+import { useEffect, useState } from "react";
 
 const RiskPageMenuList = [
   {
@@ -60,8 +61,15 @@ const RiskPageMenuList = [
 ];
 
 const Risk = () => {
-  // const data = useFetchData([], "/health/risklevel", "get", {}, "");
-  const { healthInfoSubmitted } = useAuth();
+  const data = useFetchData([], "/health/risklevel", "get", {}, "");
+  const {
+    state: { healthInfoSubmitted },
+  } = useAuth();
+
+  const [isHealthInfoSubmitted, setIsHealthInfoSubmitted] = useState(false);
+  useEffect(() => {
+    setIsHealthInfoSubmitted(healthInfoSubmitted);
+  }, [healthInfoSubmitted]);
 
   return (
     <DashboardLayout
@@ -88,6 +96,7 @@ const Risk = () => {
               content: (
                 <>
                   <ChartBox
+                    makeBlur={isHealthInfoSubmitted}
                     item={{
                       vertical_text: (
                         <>

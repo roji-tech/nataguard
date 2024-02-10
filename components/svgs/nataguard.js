@@ -412,7 +412,7 @@ export const lineChartSvg = (
         width="78.3511"
         height="37.5039"
         filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
+        colorInterpolationFilters="sRGB"
       >
         <feFlood floodOpacity="0" result="BackgroundImageFix" />
         <feColorMatrix
@@ -448,8 +448,8 @@ export const lineChartSvg = (
         y2="-146.506"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#907CFF" stopOpacity="0.75" />
-        <stop offset="1" stop-color="#907CFF" stopOpacity="0" />
+        <stop stopColor="#907CFF" stopOpacity="0.75" />
+        <stop offset="1" stopColor="#907CFF" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint1_linear_129_2"
@@ -459,8 +459,8 @@ export const lineChartSvg = (
         y2="-161.276"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#FF5A5F" stopOpacity="0.75" />
-        <stop offset="1" stop-color="#FF5A5F" stopOpacity="0" />
+        <stop stopColor="#FF5A5F" stopOpacity="0.75" />
+        <stop offset="1" stopColor="#FF5A5F" stopOpacity="0" />
       </linearGradient>
     </defs>
   </svg>

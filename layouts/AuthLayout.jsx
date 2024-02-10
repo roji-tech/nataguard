@@ -18,7 +18,7 @@ import DialogTitle from "@mui/joy/DialogTitle";
 import DialogContent from "@mui/joy/DialogContent";
 import Stack from "@mui/joy/Stack";
 import ModalClose from "@mui/joy/ModalClose";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function AuthLayout({
   children,
@@ -434,6 +434,7 @@ export const InputBox = ({ item = {}, customInput }) => {
         customInput
       ) : (
         <input
+          inputMode={item?.inputMode || "text"}
           type={item?.type || "text"}
           className="_flex1 input"
           placeholder={item?.ph || "Your Placeholder"}
@@ -674,16 +675,44 @@ export const AuthButton = styled.button`
   }
 `;
 
+const DateBoxStyle = styled.div`
+  &&& {
+    width: 100%;
+
+    > p {
+      color: #010c15;
+
+      /* Mid text semibold */
+
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 21px;
+    }
+  }
+`;
+
 export const DateBox = ({ item, ...others }) => {
+  useEffect(() => {
+    const date_div = document.querySelector(
+      ".DateBoxStyle .MuiInputBase-root.MuiOutlinedInput-root"
+    );
+
+    date_div.classList.remove("Mui-error");
+  }, []);
+
   return (
-    <InputBoxStyle key={item?.name} className="input_item _flex_col _gap8">
-      {!item?.hideTitle && <p>{item?.name}</p>}
+    <DateBoxStyle
+      key={item?.name}
+      className="DateBoxStyle input_item _flex_col _gap8"
+    >
+      {!item?.hideTitle && <p>{item?.label}</p>}
       <div className="input _flex _align_center">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <MyDatePicker
-            label={item?.ph ?? item?.title}
+            label={item?.label ?? item?.ph}
             placeholder={item?.ph || "Select Date"}
-            name={item?.id}
+            name={item?.name}
             labelId="simple-select-label"
             className="_flex1"
             value={item?.value}
@@ -692,6 +721,7 @@ export const DateBox = ({ item, ...others }) => {
             displayEmpty
             defaultValue={""}
             {...others}
+            sx={{ outline: "none", border: "none", scale: 2 }}
           />
         </LocalizationProvider>
 
@@ -719,7 +749,7 @@ export const DateBox = ({ item, ...others }) => {
       ) : (
         ""
       )}
-    </InputBoxStyle>
+    </DateBoxStyle>
   );
 };
 
@@ -805,7 +835,29 @@ const InputBoxStyle = styled.div`
 
 const MyDatePicker = styled(DatePicker)`
   &&& {
+    height: fit-content;
     border: none !important;
     outline: none !important;
+
+    /* border: 5px solid pink !important; */
+
+    .Mui-error {
+      border: none !important;
+      outline: none !important;
+    }
+
+    .MuiInputAdornment-root {
+      border: none !important;
+      outline: none !important;
+    }
+
+    label {
+      display: none !important;
+    }
+
+    input {
+      border: none !important;
+      outline: none !important;
+    }
   }
 `;

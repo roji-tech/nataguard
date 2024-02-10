@@ -9,7 +9,7 @@ import { useState } from "react";
 import useAuth from "@contexts/AuthContext";
 import { typ } from "@reducers/AuthReducer";
 
-const LoginPopup = ({ success = false, message }) => {
+const LoginPopup = ({ success = false, message, setOpen = () => {} }) => {
   return (
     <div className="modalPpup _flex_col_center _p50 _gap40">
       {success ? (
@@ -77,6 +77,15 @@ const LoginPopup = ({ success = false, message }) => {
             <h3>Login Unsuccessful!</h3>
             <p> {message ?? "Invalid credentials, please try again."} </p>
           </div>
+
+          <button
+            type="button"
+            className="_full_w _p20 _grid_center"
+            style={{ background: "var(--nataBlue)", fontSize: 20 }}
+            onClick={setOpen(false)}
+          >
+            Retry
+          </button>
         </>
       )}
     </div>
@@ -89,8 +98,8 @@ const index = () => {
   const [values, setValues] = useState({ email: "", password: "" });
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [modalComponent, setModalComponent] = useState(<LoginPopup />);
 
+  const [modalComponent, setModalComponent] = useState(<LoginPopup />);
   const modalState = useState(false);
   const [open, setOpen] = modalState;
 
@@ -116,7 +125,7 @@ const index = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    console.log(values, event);
+    console.log(values);
     if (!values.email) {
       ShowErrors("Please provide an email address");
       return;
@@ -142,7 +151,6 @@ const index = () => {
       .then((response) => {
         console.log(JSON.stringify(response.data));
         dispatchFunc(typ.setAll, response.data);
-        ShowSuccess("Logging you in");
         setOpen(true);
         setModalComponent(<LoginPopup success={true} />);
 
@@ -155,17 +163,22 @@ const index = () => {
         setOpen(true);
 
         try {
-          setModalComponent(<LoginPopup />);
+          setModalComponent(
+            <LoginPopup
+              message={e?.response?.data?.errorMsg ?? undefined}
+              setOpen={setOpen}
+            />
+          );
 
           // dispatchFunc(typ.clearAll);
-          if (String(e.response.status).startsWith("5")) {
+          if (String(e?.response?.status).startsWith("5")) {
             return ShowErrors(["Service Temporarily Unavailable"]);
           }
           if (e.response?.data?.errors?.length < 15) {
             return ShowErrors([...e?.response?.data?.errorMsg]);
           }
 
-          return ShowErrors(e?.response?.data?.errorMsg ?? "An Error Occurred");
+          return ShowErrors(e?.response?.data?.errorMsg);
         } catch (error) {
           console.log(error);
           return ShowErrors("An Error Occurred");

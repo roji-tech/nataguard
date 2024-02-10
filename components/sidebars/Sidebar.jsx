@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import useAuth from "@contexts/AuthContext";
+import { useEffect, useState } from "react";
 
 const Sidebar = () => {
   const router = useRouter();
@@ -164,20 +165,25 @@ const Sidebar = () => {
     },
   ];
 
+  const [isHealthInfoSubmitted, setIsHealthInfoSubmitted] = useState(false);
+  useEffect(() => {
+    setIsHealthInfoSubmitted(healthInfoSubmitted);
+  }, [healthInfoSubmitted]);
+
   return (
-    <Container>
+    <Container isHealthInfoSubmitted={isHealthInfoSubmitted}>
       <div className="main _auto_scroll_y">
         {LINK_LIST.map((item, i) => (
           <div key={i} className="linkWrapper _flex_col _gap10">
             <div className="links">
-              {item?.links.map((link, ind) => (
+              {item?.links.map((link, index) => (
                 <li
-                  key={ind}
+                  key={index}
                   id="logout"
-                  onClick={healthInfoSubmitted ? link?.handleClick : () => {}}
+                  onClick={isHealthInfoSubmitted ? link?.handleClick : () => {}}
                   className={`link _flex ${
                     router.pathname == link?.link ? "active" : ""
-                  } ${healthInfoSubmitted | (ind == 0) ? "" : "bluryLink"}`}
+                  } ${isHealthInfoSubmitted | (index == 0) ? "" : "bluryLink"}`}
                 >
                   {link?.icon}
                   <p>{link?.name}</p>

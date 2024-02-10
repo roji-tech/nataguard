@@ -7,12 +7,161 @@ import {
 } from "@layouts/AuthLayout";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import { ShowErrors } from "@utils/ShowErrors";
+import { api } from "@config";
+import { fetchDataWithUseAxios } from "@utils/fetchDataWithUseAxios";
+import useAxios from "@hooks/useAxios";
+import useAuth from "@contexts/AuthContext";
+import { typ } from "@reducers/AuthReducer";
 
-const index = () => {
+const CompletePopup = ({ success = false, message, setOpen = () => {} }) => {
+  return (
+    <div className="modalPpup _flex_col_center _p50 _gap40">
+      {!success ? (
+        <>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="120"
+            height="120"
+            viewBox="0 0 120 120"
+            fill="none"
+          >
+            <path
+              d="M60 10V30"
+              stroke="#FFAD33"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M60 90V110"
+              stroke="#FFAD33"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M24.6504 24.65L38.8004 38.8"
+              stroke="#FFAD33"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M81.1992 81.2L95.3492 95.35"
+              stroke="#FFAD33"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M10 60H30"
+              stroke="#FFAD33"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M90 60H110"
+              stroke="#FFAD33"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M24.6504 95.35L38.8004 81.2"
+              stroke="#FFAD33"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M81.1992 38.8L95.3492 24.65"
+              stroke="#FFAD33"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <div className="_flex_col_center">
+            <h3>Setting up Your Profile</h3>
+            <p className="_center">
+              Recalibrating... <br />
+              Hang on. This might take some seconds.
+            </p>
+          </div>
+        </>
+      ) : (
+        <>
+          <svg
+            width="120"
+            height="120"
+            viewBox="0 0 120 120"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M60 110C87.5 110 110 87.5 110 60C110 32.5 87.5 10 60 10C32.5 10 10 32.5 10 60C10 87.5 32.5 110 60 110Z"
+              stroke="#FF3535"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M45.8501 74.1501L74.1501 45.8501"
+              stroke="#FF3535"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M74.1501 74.1501L45.8501 45.8501"
+              stroke="#FF3535"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+
+          <div className="_flex_col_center">
+            <h3>Request Unsuccessful!</h3>
+            <p>
+              {message ?? "Please make sure all fields are filled correctly."}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            className="_full_w _p20 _grid_center"
+            style={{ background: "var(--nataBlue)", fontSize: 20 }}
+            onClick={setOpen(false)}
+          >
+            Retry
+          </button>
+        </>
+      )}
+    </div>
+  );
+};
+
+const CompleteProfile = () => {
+  const { logout, state, dispatchFunc } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const myaxios = useAxios();
+
+  const modalState = useState(true);
+  const [open, setOpen] = modalState;
+  const [modalComponent, setModalComponent] = useState(
+    <CompletePopup setOpen={setOpen} />
+  );
+
+  const [onFirstPage, setOnFirstPage] = useState(true);
+
   const [values, setValues] = useState({
     age: 0,
     bodyTemperature: 0,
@@ -22,39 +171,51 @@ const index = () => {
     bloodGlucoseHbA1c: 0,
     bloodGlucoseFastingHour: 0,
     bmi: 0,
-    dueDate: "2024-02-02T11:40:54.388Z",
-    lastMenstrualPeriod: "2024-02-02T11:40:54.388Z",
-    genotype: "string",
-    bloodgroup: "string",
+    // dueDate: "",
+
+    lastMenstrualPeriod: "",
+    genotype: "",
+    bloodgroup: "",
   });
 
-  const handleDateChange = (date) => {
-    const dateValue = dayjs(date).toISOString().split("T")[0];
+  const handleChange = (e) => {
+    let value = e.target.value;
+
+    // if (e.target.name == "subscribedToNewsletter") {
+    //   value = Boolean(Number(value));
+    // }
+    setValues((prev) => ({ ...prev, [e.target.name]: value }));
+    console.log(values);
+  };
+
+  // 2024-02-02T11:40:54.388Z
+  const handleDateChange = (name, date) => {
+    const dateValue = dayjs(date).toISOString();
     console.log(dateValue);
 
     setValues((prev) => ({
       ...prev,
-      expiring_date: dateValue,
+      [name]: dateValue,
     }));
   };
 
-  const dateSelect = {
-    name: "Expiring Date",
-    ph: "2023-07-02",
-    id: "expiring_date",
-    // value: values?.expiring_date,
-    handleChange: handleDateChange,
-  };
-
-  const FIELDS = [
+  const FIELDS1 = [
     {
-      name: "",
+      name: "lastMenstrualPeriod",
       label: "Last Menstrual Period (LMP)",
       ph: "Dec 23, 2024",
       type: "date",
+      value: values.lastMenstrualPeriod,
+      handleChange: (date) => handleDateChange("lastMenstrualPeriod", date),
     },
-    { name: "", label: "Genotype", ph: "AA" },
-    { name: "", label: "Blood Group", ph: "O+" },
+    {
+      name: "genotype",
+      label: "Genotype",
+      value: values.genotype,
+      ph: "AA",
+      handleChange,
+    },
+    { name: "bloodgroup", label: "Blood Group", ph: "O+", handleChange },
     // { name: "", label: "Medical History", ph: "Upload File" },
     // {
     //   name: "complications",
@@ -73,56 +234,121 @@ const index = () => {
     // },
   ];
 
-  const handleSubmit = (event) => {
+  const FIELDS2 = [
+    {
+      handleChange,
+      label: "Body Temperature",
+      name: "bodyTemperature",
+      ph: "98.6°F (37°C)",
+      type: "number",
+    },
+    {
+      handleChange,
+      name: "systolicBloodPressure",
+      label: "Systolic Blood Pressure",
+      ph: "116 mmHg",
+      type: "number",
+    },
+    {
+      name: "diastolicBloodPressure",
+      handleChange,
+      label: "Diastolic Blood Pressure",
+      ph: "72 mmHg",
+      type: "number",
+    },
+    {
+      name: "age",
+      handleChange,
+      label: "Age",
+      ph: "32",
+      type: "number",
+    },
+    {
+      name: "heartRate",
+      handleChange,
+      label: "Heart Rate",
+      ph: "78 bpm",
+      type: "number",
+    },
+    { name: "bmi", handleChange, label: "BMI", ph: "23 kg/m²" },
+    {
+      name: "bloodGlucoseHbA1c",
+      handleChange,
+      label: "Blood Glucose (Hb1Ac)",
+      ph: "4.8%",
+      type: "number",
+    },
+    {
+      name: "bloodGlucoseFastingHour",
+      handleChange,
+      label: "Blood Glucose (fasting)",
+      ph: "83 mg/dL",
+      type: "number",
+    },
+  ];
+
+  const handleContinue = (event) => {
     event.preventDefault();
     console.log(values);
-    router.push("/dashboard/complete_profile2");
-    return;
 
-    if (!values.email) {
-      ShowErrors("Please provide an email address");
+    if (!values.lastMenstrualPeriod) {
+      ShowErrors("Pick the date of your last mentrual period");
       return;
-    } else if (!values.firstName | !values.lastName) {
-      ShowErrors("Please fill all fields");
+    } else if (!values.bloodgroup) {
+      ShowErrors("Please fill in your blood group");
       return;
-    } else if (!values.password) {
-      ShowErrors("Please provide a password");
-      return;
-    } else if (values.password !== values.password2) {
-      ShowErrors(["Passwords does not match"]);
+    } else if (!values.genotype) {
+      ShowErrors("Please fill in your Genotype");
       return;
     }
 
-    delete values.password2;
+    return setOnFirstPage(false);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(values);
+    // router.push("/dashboard/complete_profile");
+
+    for (const key in values) {
+      if (values.hasOwnProperty(key)) {
+        console.log(`${key}: ${values[key]}`);
+
+        if (!values[key]) {
+          ShowErrors("Please fill all fields");
+          return;
+        }
+      }
+    }
+
     let data = { ...values };
     setLoading(true);
 
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: api.register,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data,
-    };
-
-    axios(config)
+    fetchDataWithUseAxios(myaxios, api.healthInfo, "post", data, "", setLoading)
       .then((response) => {
-        console.log("register response");
-        console.log(JSON.stringify(response.data));
+        setModalComponent(<CompletePopup success={true} />);
+        setOpen(true);
+        dispatchFunc(typ.setHealthInfoSubmitted);
+
+        console.log("complete profile response");
         console.log(JSON.stringify(response));
-        // alert(JSON.stringify(response.data));
-        // dispatchFunc(typ.setAll, response.data);
-        ShowSuccess("Sign Up Successful");
-        router.push(`/verify/email/${values.email}`);
+
+        setTimeout(() => {
+          router.push(`/dashboard`);
+        }, 5000);
       })
       .catch((e) => {
         console.log("login error", e);
+        setModalComponent(
+          <CompletePopup
+            setOpen={setOpen}
+            message={e?.response?.data?.errorMsg ?? null}
+          />
+        );
 
         try {
           // dispatchFunc(typ.clearAll);
-          if (String(e.response.status).startsWith("5")) {
+          if (String(e?.response?.status).startsWith("5")) {
             return ShowErrors(["Service Temporarily Unavailable"]);
           }
           if (e.response?.data?.errors?.length < 15) {
@@ -137,7 +363,7 @@ const index = () => {
       .finally((error) => setLoading(false));
   };
 
-  return (
+  return onFirstPage ? (
     <AuthLayout
       showFormTitle={true}
       headerText="Complete your Profile"
@@ -149,75 +375,40 @@ const index = () => {
       loading={loading}
       showSocials={false}
       showDaraCollectionReasonLink={true}
-      handleSubmit={handleSubmit}
+      handleSubmit={() => setOpen(!open)}
+      modalState={modalState}
+      modalComponent={modalComponent}
     >
       <Form>
-        {FIELDS.slice(0, 3).map((item) => (
-          <InputBox item={item} />
+        <DateBox item={FIELDS1[0]} />
+        {FIELDS1.slice(1, 3).map((item) => (
+          <InputBox key={item?.name} item={item} />
         ))}
-        <DateBox item={dateSelect} />
-
-        {/* <InputBox
-          item={FIELDS[3]}
-          customInput={
-            <div
-              className="_grid_center _full_w"
-              style={{
-                height: "250px",
-                borderRadius: "8px",
-                background: "#F5F5F5",
-              }}
-            >
-              <label
-                className="_flex_col_center _justify_center _pointer"
-                htmlFor="my_img"
-                style={{
-                  width: 180,
-                  height: 140,
-                  borderRadius: "12px",
-                  border: "1px solid #829095",
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M6 12H18"
-                    stroke="#829095"
-                    strokeWidth="1.5"
-                    stroke-linecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M12 18V6"
-                    stroke="#829095"
-                    strokeWidth="1.5"
-                    stroke-linecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <p>Upload File</p>
-                <input
-                  type="file"
-                  id="my_img"
-                  className="_d_none"
-                  src=""
-                  alt=""
-                />
-              </label>
-            </div>
-          }
-        /> */}
-
-        {/* <RadioBox item={FIELDS[4]} />
-        <RadioBox item={FIELDS[5]} /> */}
+      </Form>
+    </AuthLayout>
+  ) : (
+    <AuthLayout
+      showFormTitle={true}
+      headerText="Complete your Profile"
+      headerDesc="Provide your lab result information to get a personalized experience."
+      login={false}
+      btnText="Submit"
+      formTitle="Lab Results"
+      pageNumber={2}
+      loading={loading}
+      showSocials={false}
+      showDaraCollectionReasonLink={true}
+      handleSubmit={handleSubmit}
+      modalState={modalState}
+      modalComponent={modalComponent}
+    >
+      <Form>
+        {FIELDS2.map((item) => (
+          <InputBox key={item?.name} item={item} />
+        ))}
       </Form>
     </AuthLayout>
   );
 };
 
-export default index;
+export default CompleteProfile;

@@ -12,6 +12,7 @@ export const api = {
     "https://safebump.azurewebsites.net/api/accounts/password/resettoken/validate",
   password_reset:
     "https://safebump.azurewebsites.net/api/accounts/password/reset",
+  healthInfo: "/health/info",
 };
 
 // $

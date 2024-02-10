@@ -18,18 +18,21 @@ export function useFetchData(
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchDataWithUseAxios(myaxios, url, method, {}, label, logout, setLoading)
-      .then((res) => {
-        // alert("success");
-        if (res?.results?.length > 0)
-          setDataList({ ...res, results: filterFunction(res?.results) });
-        else setDataList({ results: filterFunction([...defaultData]) });
-        console.log("DATAAAA", res);
-      })
-      .catch((error) => {
-        // alert("failed");
-        return error;
-      });
+    const fetchData = async () =>
+      await fetchDataWithUseAxios(myaxios, url, method, {}, label, setLoading)
+        .then((res) => {
+          // alert("success");
+          if (res?.results?.length > 0)
+            setDataList({ ...res, results: filterFunction(res?.results) });
+          else setDataList({ results: filterFunction([...defaultData]) });
+          console.log("DATAAAA", res);
+        })
+        .catch((error) => {
+          // alert("failed");
+          return error;
+        });
+
+    fetchData();
   }, []);
 
   return [dataList, setDataList, loading];

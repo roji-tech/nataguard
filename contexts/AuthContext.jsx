@@ -28,32 +28,6 @@ export const AuthProvider = ({ children }) => {
 
   const dispatchFunc = (type, payload = null) => dispatch({ type, payload });
 
-  const fetchUser = async () => {
-    if (state?.token) {
-      await axios
-        .get(api.me, {
-          headers: {
-            Authorization: state?.token,
-            "Content-Type": "application/json",
-          },
-        })
-        .then((resp) => {
-          dispatchFunc(typ.setUser, { user: resp.data });
-        })
-        .catch((err) =>
-          console.log(
-            `ERROR FROM AUTHPROVIDER FETCH USER-- ${err?.response?.status}===`
-          )
-        );
-    } else {
-      console.warn("UNABLE TO FETCH USER IN CONTEXT");
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
   const logout = (replace = true) => {
     if (router.pathname.includes("[")) {
       let route = router.pathname.split("[")[0];
@@ -70,7 +44,6 @@ export const AuthProvider = ({ children }) => {
     state,
     dispatchFunc,
     logout,
-    fetchUser,
   };
 
   return (

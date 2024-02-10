@@ -1,3 +1,4 @@
+"use client";
 import DashboardLayout, { ArrowLinkElement } from "@layouts/DashboardLayout";
 import Link from "next/link";
 import styled from "styled-components";
@@ -9,12 +10,18 @@ import {
 } from "@components/svgs/nataguard";
 import { useFetchData } from "@hooks/useFetchData";
 import useAuth from "@contexts/AuthContext";
+import { useEffect, useState } from "react";
 
 const index = () => {
-  const data = useFetchData([], "/health/info", "get", {}, "");
+  // const data = useFetchData([], "/health/info", "get", {}, "");
   const {
     state: { healthInfoSubmitted },
   } = useAuth();
+
+  const [isHealthInfoSubmitted, setIsHealthInfoSubmitted] = useState(false);
+  useEffect(() => {
+    setIsHealthInfoSubmitted(healthInfoSubmitted);
+  }, [healthInfoSubmitted]);
 
   return (
     <DashboardLayout
@@ -105,6 +112,7 @@ const index = () => {
       }}
     >
       <Wrapper className="_full_wh _flex_col _flex1">
+        {String(isHealthInfoSubmitted)}
         <div className="_flex_col _flex1 _full_w" style={{ gap: 90 }}>
           <DashboardBox
             item={{
@@ -122,7 +130,7 @@ const index = () => {
               content: (
                 <>
                   <ChartBox
-                    makeBlur={!healthInfoSubmitted}
+                    makeBlur={isHealthInfoSubmitted}
                     item={{
                       vertical_text: (
                         <>
@@ -163,7 +171,7 @@ const index = () => {
               content: (
                 <>
                   <ChartBox
-                    makeBlur={!healthInfoSubmitted}
+                    makeBlur={isHealthInfoSubmitted}
                     item={{
                       vertical_text: (
                         <>
@@ -354,40 +362,39 @@ export const ChartBox = ({
   makeBlur = false,
 }) => {
   return (
-    <ChartBoxStyle>
-      {makeBlur && (
-        <div className="blur _backdrop_filter_blur _grid_center">
-          {bluryContent ?? (
-            <>
-              <div className="_grid_center">
-                <div
-                  className="_flex_col_center _gap16"
-                  style={{ maxWidth: 535 }}
-                >
-                  <h3 className="_flex_center _red _align_center">
-                    {noticeSvg}
-                    Notice
-                  </h3>
-                  <p className="_center">
-                    Some certain functionalities of the dashboard might not
-                    work. This is because your health information is not up to
-                    date. Kindly proceed to update your profile.
-                  </p>
+    <ChartBoxStyle makeBlur={makeBlur}>
+      <div className="blur _backdrop_filter_blur _grid_center">
+        {bluryContent ?? (
+          <>
+            <div className="_grid_center">
+              <div
+                className="_flex_col_center _gap16"
+                style={{ maxWidth: 535 }}
+              >
+                <h3 className="_flex_center _red _align_center">
+                  {noticeSvg}
+                  Notice
+                </h3>
+                <p className="_center">
+                  Some certain functionalities of the dashboard might not work.
+                  This is because your health information is not up to date.
+                  Kindly proceed to update your profile.
+                </p>
 
-                  <div className="_flex_center _p10">
-                    <Link
-                      className="blur_btn _grid_center"
-                      href="/dashboard/complete_profile"
-                    >
-                      Update Profile
-                    </Link>
-                  </div>
+                <div className="_flex_center _p10">
+                  <Link
+                    className="blur_btn _grid_center"
+                    href="/dashboard/complete_profile"
+                  >
+                    Update Profile
+                  </Link>
                 </div>
               </div>
-            </>
-          )}
-        </div>
-      )}
+            </div>
+          </>
+        )}
+      </div>
+
       <div className="chartBox">
         <div className="vertical_text">{item?.vertical_text}</div>
 
@@ -412,11 +419,12 @@ export const ChartBox = ({
   );
 };
 
-const ChartBoxStyle = styled.div`
+const ChartBoxStyle = styled.section`
   &&& {
     position: relative;
 
     .blur {
+      display: ${({ makeBlur }) => (makeBlur ? "none !important" : "grid")};
       position: absolute;
       inset: 0;
       z-index: 10;

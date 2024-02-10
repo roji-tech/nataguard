@@ -7,7 +7,6 @@ export const fetchDataWithUseAxios = async (
   method = "get",
   data = {},
   label = "",
-  logout = () => {},
   setLoading = (bool) => {}
 ) => {
   const config = { method, url, data };
@@ -21,12 +20,8 @@ export const fetchDataWithUseAxios = async (
     console.log(`==ERROR STATUS ${error?.response?.status} IN INTERCEPTOR=`);
     console.log(error?.response?.headers);
 
-    if (error?.response?.status === 401) {
-      return logout();
-    }
-
-    console.warn("fetchDataWithUseAxios", error?.response);
-    ShowErrors("Unable to fetch " + label);
+    console.warn("fetchDataWithUseAxios " + url, error?.response);
+    ShowErrors("Unable to fetch " + url + label);
     return Promise.reject(error);
   } finally {
     setLoading(false);

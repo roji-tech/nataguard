@@ -7,6 +7,7 @@ export const typ = {
   clearAll: "clearAll",
   setUser: "setUser",
   updateUser: "updateUser",
+  setHealthInfoSubmitted: "setHealthInfoSubmitted",
 };
 export const emptyState = {
   token: null,
@@ -95,6 +96,10 @@ export const authReducer = (state, action) => {
 
     case typ.updateUser:
       return { ...state, user: { ...state.user, ...newData?.user } };
+
+    case typ.setHealthInfoSubmitted:
+      globalThis.localStorage.setItem("healthInfoSubmitted", true);
+      return { ...state, healthInfoSubmitted: true };
 
     default:
       // alert("NO type");

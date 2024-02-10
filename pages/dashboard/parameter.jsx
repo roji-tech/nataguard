@@ -3,18 +3,21 @@ import { ChartBox, DashboardBox, MyCircle } from "@pages/dashboard";
 import Link from "next/link";
 
 import styled from "styled-components";
-import {
-  arrowDownwardSvg,
-  barChartSVG,
-  lineChartSvg,
-  editIconSvg,
-} from "@components/svgs/nataguard";
+import { barChartSVG, editIconSvg } from "@components/svgs/nataguard";
 import { useFetchData } from "@hooks/useFetchData";
 import useAuth from "@contexts/AuthContext";
+import { useEffect, useState } from "react";
 
 const Parameter = () => {
-  const { healthInfoSubmitted } = useAuth();
+  // const data = useFetchData([], "/health/risklevel", "get", {}, "");
+  const {
+    state: { healthInfoSubmitted },
+  } = useAuth();
 
+  const [isHealthInfoSubmitted, setIsHealthInfoSubmitted] = useState(false);
+  useEffect(() => {
+    setIsHealthInfoSubmitted(healthInfoSubmitted);
+  }, [healthInfoSubmitted]);
   const PARAMETERS = [
     { name: "Body Temperature", value: "98.6°F (37°C)" },
     { name: "Systolic Blood Pressure", value: "116 mmHg" },
@@ -147,6 +150,7 @@ const Parameter = () => {
               content: (
                 <>
                   <ChartBox
+                    makeBlur={isHealthInfoSubmitted}
                     item={{
                       vertical_text: (
                         <>

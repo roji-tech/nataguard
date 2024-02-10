@@ -24,7 +24,9 @@
   /* line-height: 20px; */
 
   --white: #ffffff;
+}
 
+:root {
   --new_bg: #eefcfd;
   --new_bg2: #fafef0;
 
@@ -41,9 +43,9 @@
   --blue: #002cca;
   --blue_light: rgba(0, 44, 202, 0.1);
   --blue_color: rgba(0, 44, 202, 0.6);
-  --purple: #6956e5;
 
   --red: #d12a2a;
+  --nataBlue: #06aae4;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -998,7 +1000,7 @@ button {
 }
 
 ._red {
-  color: #FF3535 !important;
+  color: #ff3535 !important;
 }
 
 /*  */

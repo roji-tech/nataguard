@@ -25,7 +25,7 @@ export const ArrowLinkElement = ({
     textDecorationLine: underline ? "underline" : "",
   };
   return (
-    <div className="_flex _align_center" style={styles}>
+    <span suppressHydrationWarning className="_flex _align_center" style={styles}>
       <Link
         href={link}
         className="read_more _pointer _flex _gap10 _align_center"
@@ -33,7 +33,7 @@ export const ArrowLinkElement = ({
         <span>{text}</span>
         {ArrowLongLeftSvg}
       </Link>
-    </div>
+    </span>
   );
 };
 
