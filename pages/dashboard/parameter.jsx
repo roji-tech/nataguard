@@ -18,20 +18,30 @@ const Parameter = () => {
   useEffect(() => {
     setIsHealthInfoSubmitted(healthInfoSubmitted);
   }, [healthInfoSubmitted]);
-  const PARAMETERS = [
-    { name: "Body Temperature", value: "98.6°F (37°C)" },
-    { name: "Systolic Blood Pressure", value: "116 mmHg" },
-    { name: "Diastolic blood pressure", value: "72 mmHg" },
-    { name: "Age", value: "32 years" },
-    { name: "Heart Rate", value: "78 bpm" },
-    { name: "BMI", value: "23 kg/m²" },
-    { name: "Blood Glucose (Hb1Ac)", value: "4.8%" },
-    { name: "BMBlood Glucose (fasting)I", value: "83 mg/dL" },
-  ];
+  const PARAMETERS = {
+    age: {
+      category: "low",
+    },
+    bmi: {
+      category: "high",
+    },
+    bloodglucosefasting: {
+      category: "diabetes",
+    },
+    bloodglucosehba1c: {
+      category: "gestational diabetes",
+    },
+    bloodpressure: {
+      category: "Hypotension",
+    },
+    heartrate: {
+      category: "normal",
+    },
+  };
 
   const data = useFetchData(
     PARAMETERS,
-    "/health/analyze-parameter",
+    "/health/analyze-parameters",
     "get",
     {},
     ""

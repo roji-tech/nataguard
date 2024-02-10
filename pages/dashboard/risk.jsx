@@ -61,7 +61,17 @@ const RiskPageMenuList = [
 ];
 
 const Risk = () => {
-  const data = useFetchData([], "/health/risklevel", "get", {}, "");
+  const [data, setData] = useFetchData(
+    {
+      pregnancyRiskLevel: "high risk",
+      explanation:
+        "Dear User, you are at high risk of pregnancy complications. This means that you may be more likely to experience certain health challenges during your pregnancy. Do well to check the Parameter Analyses to identify the contributing factors, and consult your medical practitioner soon.",
+    },
+    "/health/risklevel",
+    "get",
+    {},
+    ""
+  );
   const {
     state: { healthInfoSubmitted },
   } = useAuth();
@@ -138,7 +148,9 @@ const Risk = () => {
               content: (
                 <div className="_flex_col trimesters">
                   <div className="trimester _flex_col _gap20">
-                    <header className="_flex">1st Trimester</header>
+                    <header className="_flex _capitalize">
+                      {data?.pregnancyRiskLevel}
+                    </header>
                     <div className="text _gap20">
                       <div className="_flex _align_center level _no_wrap">
                         <svg
@@ -150,22 +162,16 @@ const Risk = () => {
                         >
                           <circle cx="6" cy="6.16846" r="6" fill="#06AAE4" />
                         </svg>
-                        <span className="_no_wrap">MId Risk</span>
                       </div>
                       <div className="level_text">
-                        <p>
-                          Hi Emily, your pregnancy morbidity risk is at a mid
-                          level. Don't panic. Let's visit your doctor as soon as
-                          we can. You also need to improve your healthy habits.
-                          NataGuard is your pal.
-                        </p>
+                        <p>{data?.explanation}</p>
 
-                        <ArrowLinkElement text="Know why" />
+                        {/* <ArrowLinkElement text="Know why" /> */}
                       </div>
                     </div>
                   </div>
 
-                  <div className="trimester _flex_col _gap20">
+                  {/* <div className="trimester _flex_col _gap20">
                     <header className="_flex">2nd Trimester</header>
                     <div className="text _gap20">
                       <div className="_flex _align_center level _no_wrap">
@@ -219,7 +225,7 @@ const Risk = () => {
                         <ArrowLinkElement text="Know why" />
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               ),
             }}
@@ -271,6 +277,19 @@ const Wrapper = styled.div`
           background: var(--Input-Fields, #f5f5f5);
         }
 
+        .level_text {
+          color: var(--Text---Body, #829095);
+          font-family: "Open Sans";
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+        }
+
         > .text {
           display: grid;
           grid-template-columns: 1fr 4fr;
@@ -288,6 +307,7 @@ const Wrapper = styled.div`
             font-style: normal;
             font-weight: 600;
             line-height: normal;
+            text-transform: uppercase;
           }
 
           .level_text {

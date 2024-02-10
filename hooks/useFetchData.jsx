@@ -22,13 +22,11 @@ export function useFetchData(
       await fetchDataWithUseAxios(myaxios, url, method, {}, label, setLoading)
         .then((res) => {
           // alert("success");
-          if (res?.results?.length > 0)
-            setDataList({ ...res, results: filterFunction(res?.results) });
-          else setDataList({ results: filterFunction([...defaultData]) });
-          console.log("DATAAAA", res);
+          setDataList({ ...res });
+
+          console.log("useFetchData DATAA", res);
         })
         .catch((error) => {
-          // alert("failed");
           return error;
         });
 
