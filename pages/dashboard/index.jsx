@@ -112,7 +112,6 @@ const index = () => {
       }}
     >
       <Wrapper className="_full_wh _flex_col _flex1">
-        {String(isHealthInfoSubmitted)}
         <div className="_flex_col _flex1 _full_w" style={{ gap: 90 }}>
           <DashboardBox
             item={{
