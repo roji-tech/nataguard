@@ -19,7 +19,7 @@ import { typ } from "@reducers/AuthReducer";
 const CompletePopup = ({ success = false, message, setOpen = () => {} }) => {
   return (
     <div className="modalPpup _flex_col_center _p50 _gap40">
-      {!success ? (
+      {success ? (
         <>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -375,7 +375,7 @@ const CompleteProfile = () => {
       loading={loading}
       showSocials={false}
       showDaraCollectionReasonLink={true}
-      handleSubmit={() => setOpen(!open)}
+      handleSubmit={handleContinue}
       modalState={modalState}
       modalComponent={modalComponent}
     >
