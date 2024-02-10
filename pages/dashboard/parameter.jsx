@@ -39,7 +39,7 @@ const Parameter = () => {
     },
   };
 
-  const data = useFetchData(
+  const [data, setData] = useFetchData(
     PARAMETERS,
     "/health/analyze-parameters",
     "get",
@@ -124,19 +124,34 @@ const Parameter = () => {
                 <div className="parameterWrapper _flex_col _gap16">
                   <header className="">
                     <div className="_grid_center">Parameters</div>
-                    <div className="_grid_center">Values</div>
+                    {/* <div className="_grid_center">Values</div> */}
+                    <div className="_grid_center">Categories</div>
                   </header>
 
                   <hr />
 
                   <div className="parameters _full_w _flex_col _gap8">
-                    {PARAMETERS.map((item) => (
+                    {/* {PARAMETERS.map((item) => (
                       <div
                         key={item?.name}
                         className="parameter _flex_jcsb _full_w"
                       >
                         <div className="box">{item?.name}</div>
-                        <div className="box _grid_center">{item?.name}</div>
+                        <div className="box _grid_center">{item?.value}</div>
+                        <div className="box _grid_center">{item?.category}</div>
+                      </div>
+                    ))} */}
+
+                    {Object.keys(PARAMETERS).map((parameter) => (
+                      <div
+                        key={parameter}
+                        className="parameter _flex_jcsb _full_w"
+                      >
+                        <div className="box">{parameter}</div>
+                        {/* <div className="box _grid_center">{"value"}</div> */}
+                        <div className="box _grid_center">
+                          {PARAMETERS[parameter].category}
+                        </div>
                       </div>
                     ))}
                   </div>
