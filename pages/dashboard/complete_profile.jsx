@@ -16,7 +16,11 @@ import useAxios from "@hooks/useAxios";
 import useAuth from "@contexts/AuthContext";
 import { typ } from "@reducers/AuthReducer";
 
-const CompletePopup = ({ success = false, message, setOpen = () => {} }) => {
+const CompletePopup = ({
+  success = false,
+  message = "",
+  setOpen = () => {},
+}) => {
   return (
     <div className="modalPpup _flex_col_center _p50 _gap40">
       {success ? (
