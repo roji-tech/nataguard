@@ -125,9 +125,7 @@ const index = () => {
           if (e.response?.data?.errors?.length < 15) {
             return ShowErrors([...e?.response?.data?.errorMsg]);
           }
-          return ShowErrors(
-            e?.response?.data?.errorMsg ?? "An Error Occurred"
-          );
+          return ShowErrors(e?.response?.data?.errorMsg ?? "An Error Occurred");
         } catch (error) {
           console.log(error);
           return ShowErrors("An Error Occurred");
@@ -162,10 +160,6 @@ const index = () => {
             ],
           }}
         />
-
-        <div className="otherAuthLink _flex_jce">
-          <Link href={"/login"}>Login</Link>
-        </div>
       </Form>
     </AuthLayout>
   );

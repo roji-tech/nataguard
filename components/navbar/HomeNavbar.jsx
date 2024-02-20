@@ -2,13 +2,87 @@ import { NataGuardLogoSvg } from "@components/svgs/nataguard";
 import Link from "next/link";
 import styled from "styled-components";
 
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import FormLabel from "@mui/joy/FormLabel";
+
+import Button from "@mui/joy/Button";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+import DialogTitle from "@mui/joy/DialogTitle";
+import DialogContent from "@mui/joy/DialogContent";
+import Stack from "@mui/joy/Stack";
+import ModalClose from "@mui/joy/ModalClose";
+import { useEffect, useState } from "react";
+
+const SmallScreen = ({ modalState, showAuthBtns }) => {
+  const [open, setOpen] = modalState;
+
+  return (
+    <div>
+      <Modal
+        aria-labelledby="Navbar on small screen"
+        aria-describedby="Navbar on small screen"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 0,
+          margin: 0,
+          // background: "green",
+        }}
+        open={open}
+        onClose={() => setOpen(!open)}
+      >
+        <ModalDialog
+          className="_auto_scroll_y _bg_red"
+          sx={{ width: "100%", maxWidth: "100%" }}
+        >
+          <ModalClose variant="plain" sx={{ m: 1 }} />
+          <div className="sm_navlinks _flex_center _align_center">
+            <Link href={"/"} className="links">
+              Home
+            </Link>
+            <Link href={"/"} className="links">
+              About Us
+            </Link>
+            <Link href={"/"} className="links">
+              Contact
+            </Link>
+          </div>
+          <div
+            style={{
+              visibility: showAuthBtns ? "visible" : "hidden",
+              maxWidth: showAuthBtns ? "max-content" : "10%",
+            }}
+            className="sm_auth_links _flex _align_center"
+          >
+            <Link href={"/login"} className="links">
+              Login
+            </Link>
+            <Link href={"/signup"} className="links blue _no_wrap">
+              Sign up for FREE
+            </Link>
+          </div>
+        </ModalDialog>
+      </Modal>
+    </div>
+  );
+};
+
 const HomeNavbar = ({ showAuthBtns = true, isopen, setIsOpen, hamRef }) => {
+  const modalState = useState(false);
+  const [open, setOpen] = modalState;
+
   return (
     <Container className="_flex_jcsb _gap50 _align_center">
       <div>
         <Link href={"/"}>{NataGuardLogoSvg}</Link>
       </div>
-      <label htmlFor="toggleMenu">
+      <label htmlFor="toggleMenu" onClick={() => setOpen(true)}>
         <svg
           width="50px"
           className="_pointer _p5"
@@ -32,6 +106,7 @@ const HomeNavbar = ({ showAuthBtns = true, isopen, setIsOpen, hamRef }) => {
         </svg>
       </label>
       <input id="toggleMenu" type="checkbox" />
+      <SmallScreen modalState={modalState} showAuthBtns={showAuthBtns} />
       <div className="navlinks _flex_center _align_center">
         <Link href={"/"} className="links">
           Home
@@ -179,6 +254,28 @@ const Container = styled.section`
         scale: 0;
         transform: translate(0, -200px);
         background: #ffffff;
+      }
+
+      #toggleMenu {
+        box-shadow: 0 0 0 2px #00000010;
+        display: none;
+
+        &:checked ~ .navlinks {
+          scale: 1;
+          transform: translate(0, 0);
+        }
+
+        &:checked ~ .auth_links {
+          scale: 1;
+          transform: translate(0, 0);
+        }
+      }
+    }
+
+    @media screen and (max-width: 1000px) {
+      .auth_links,
+      .navlinks {
+        display: none;
       }
 
       #toggleMenu {

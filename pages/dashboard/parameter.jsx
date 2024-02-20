@@ -18,24 +18,47 @@ const Parameter = () => {
   useEffect(() => {
     setIsHealthInfoSubmitted(healthInfoSubmitted);
   }, [healthInfoSubmitted]);
+
   const PARAMETERS = {
+    bodyTemperature: {
+      category: "",
+      label: "Body Temperature",
+    },
+    systolicBloodPressure: {
+      category: "",
+      label: "Diastolic blood pressure",
+    },
+    diastolicBloodPressure: {
+      category: "",
+      label: "Systolic Blood Pressure",
+    },
     age: {
       category: "low",
+      label: "Age",
+    },
+    heartRate: {
+      category: "normal",
+      label: "Heart Rate",
     },
     bmi: {
       category: "high",
+      label: "BMI",
     },
-    bloodglucosefasting: {
+    bloodGlucoseHbA1c: {
+      label: "Blood Glucose (Hb1Ac)",
+    },
+    bloodGlucoseFastingHour: {
       category: "diabetes",
+      label: "Blood Glucose (fasting)",
     },
-    bloodglucosehba1c: {
+    // bloodgroup: {},
+    genotype: {
       category: "gestational diabetes",
+      label: "Genotype",
     },
-    bloodpressure: {
-      category: "Hypotension",
-    },
-    heartrate: {
-      category: "normal",
+    lastMenstrualPeriod: {
+      category: "gestational diabetes",
+      label: "Last Mentrual Period",
     },
   };
 
@@ -48,61 +71,7 @@ const Parameter = () => {
   );
 
   return (
-    <DashboardLayout
-      defaultAsideComponent={{
-        showPregnancyWeek: true,
-        title: "Health Tips",
-        menuList: [
-          {
-            label: "Stay Hydrated",
-            text: (
-              <>
-                <span>
-                  Drinking an adequate amount of water is crucial during
-                  pregnancy. Proper hydration helps maintain amniotic fluid
-                  levels, supports the increased blood volume, and aids in
-                  nutrient transport to the baby. Aim for at least eight 8-ounce
-                  glasses of water daily and more if physically active.
-                </span>
-
-                <ArrowLinkElement />
-              </>
-            ),
-          },
-          {
-            label: "Balanced Nutrition",
-            text: (
-              <>
-                <span>
-                  Focus on a well-balanced diet rich in essential nutrients.
-                  Include a variety of fruits, vegetables, whole grains, lean
-                  proteins, and dairy products. Ensure an adequate intake of
-                  folic acid, iron, calcium, and omega-3 fatty acids to support
-                  the baby's development.
-                </span>
-
-                <ArrowLinkElement />
-              </>
-            ),
-          },
-          {
-            label: "Regular Prenatal Check-ups",
-            text: (
-              <>
-                <span>
-                  Schedule regular prenatal check-ups with your healthcare
-                  provider. These appointments are essential for monitoring the
-                  baby's growth, checking for any potential complications, and
-                  ensuring the overall health of both the mother and the baby.
-                </span>
-
-                <ArrowLinkElement />
-              </>
-            ),
-          },
-        ],
-      }}
-    >
+    <DashboardLayout showAside={false}>
       <Wrapper className="_full_wh _flex_col _flex1">
         <div className="_flex_col _flex1 _full_w" style={{ gap: 90 }}>
           <DashboardBox
@@ -121,17 +90,19 @@ const Parameter = () => {
               ),
 
               content: (
-                <div className="parameterWrapper _flex_col _gap16">
-                  <header className="">
-                    <div className="_grid_center">Parameters</div>
-                    {/* <div className="_grid_center">Values</div> */}
-                    <div className="_grid_center">Categories</div>
-                  </header>
+                <div className="wrapper">
+                  <div className="parameterWrapper _flex_col _gap16">
+                    <header className="">
+                      <div className="_grid_center">Parameters</div>
+                      <div className="_grid_center">Standard Values</div>
+                      <div className="_grid_center">Your Values</div>
+                    </header>
 
-                  <hr />
+                    <hr className="firstLine" />
+                    <hr className="secondLine" />
 
-                  <div className="parameters _full_w _flex_col _gap8">
-                    {/* {PARAMETERS.map((item) => (
+                    <div className="parameters _full_w _flex_col _gap8">
+                      {/* {PARAMETERS.map((item) => (
                       <div
                         key={item?.name}
                         className="parameter _flex_jcsb _full_w"
@@ -142,66 +113,39 @@ const Parameter = () => {
                       </div>
                     ))} */}
 
-                    {Object.keys(PARAMETERS).map((parameter) => (
-                      <div
-                        key={parameter}
-                        className="parameter _flex_jcsb _full_w"
-                      >
-                        <div className="box">{parameter}</div>
-                        {/* <div className="box _grid_center">{"value"}</div> */}
-                        <div className="box _grid_center">
-                          {PARAMETERS[parameter].category}
+                      {Object.keys(PARAMETERS).map((parameter) => (
+                        <div
+                          key={parameter}
+                          className="parameter _flex_jcsb _full_w"
+                        >
+                          <div className="box">
+                            {PARAMETERS[parameter].label}
+                          </div>
+                          <div
+                            className="box _grid_center"
+                            style={{
+                              //  background: "#fafafa",
+                              padding: 0,
+                            }}
+                          >
+                            {"value"}
+                          </div>
+                          <div className="box _grid_center">
+                            {PARAMETERS[parameter].category}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+                  </div>
+                  <div className="btns">
+                    <button type="button" className="editBtn">
+                      Edit Parameters
+                    </button>
+                    <button type="button" className="saveBtn">
+                      Save Changes
+                    </button>
                   </div>
                 </div>
-              ),
-            }}
-          />
-
-          <DashboardBox
-            item={{
-              title: (
-                <>
-                  <h5 className="title_text">
-                    Morbidity Risk Level Classifier
-                  </h5>
-
-                  <ArrowLinkElement text="See details" />
-                </>
-              ),
-
-              content: (
-                <>
-                  <ChartBox
-                    makeBlur={isHealthInfoSubmitted}
-                    item={{
-                      vertical_text: (
-                        <>
-                          <p>Risk</p>
-                          <p>Complications</p>
-                        </>
-                      ),
-                      chart: barChartSVG,
-                      lower_text: "Months",
-                      lower_list: [
-                        {
-                          color: "rgba(6, 170, 228, 1)",
-                          text: " Low Risk",
-                        },
-                        {
-                          color: "rgba(255, 173, 51, 1)",
-                          text: "Mid Risk",
-                        },
-                        {
-                          color: "rgba(255, 90, 95, 1)",
-                          text: " High Risk",
-                        },
-                      ],
-                    }}
-                  />
-                </>
               ),
             }}
           />
@@ -220,6 +164,12 @@ const Wrapper = styled.div`
     align-items: flex-start;
     padding: 25.408px;
     gap: 80px;
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
 
     .parameterWrapper {
       position: relative;
@@ -243,10 +193,18 @@ const Wrapper = styled.div`
 
         position: absolute;
 
-        left: 50%;
         top: 0px;
         bottom: 0;
+
         background: #e4e1e8;
+
+        &.firstLine {
+          left: calc(100% / 3);
+        }
+
+        &.secondLine {
+          right: calc(100% / 3);
+        }
       }
 
       header {
@@ -286,6 +244,40 @@ const Wrapper = styled.div`
 
         > div {
           flex-basis: 50%;
+        }
+      }
+    }
+
+    .btns {
+      width: 1005;
+      display: flex;
+      justify-content: flex-end;
+      gap: 35px;
+
+      > button {
+        min-height: 47px;
+        width: 200px;
+        border-radius: 8px;
+
+        display: grid;
+        place-items: center;
+
+        font-family: "Open Sans";
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+
+        &.editBtn {
+          color: var(--Primary---500, #06aae4);
+          background: var(--White, #fff);
+          border: 1.5px solid var(--Primary---500, #06aae4);
+        }
+
+        &.saveBtn {
+          color: var(--White, #fff);
+
+          background: var(--Primary---500, #06aae4);
         }
       }
     }

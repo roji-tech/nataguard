@@ -25,7 +25,11 @@ export const ArrowLinkElement = ({
     textDecorationLine: underline ? "underline" : "",
   };
   return (
-    <span suppressHydrationWarning className="_flex _align_center" style={styles}>
+    <span
+      suppressHydrationWarning
+      className="_flex _align_center"
+      style={styles}
+    >
       <Link
         href={link}
         className="read_more _pointer _flex _gap10 _align_center"
@@ -80,6 +84,7 @@ const DefaultMenuList = [
 const DashboardLayout = ({
   children,
   asideComponent,
+  showAside = true,
   defaultAsideComponent = {
     showPregnancyWeek: true,
     title: "",
@@ -118,49 +123,53 @@ const DashboardLayout = ({
             </div>
 
             {/* <div className="toggleAside _d_none">More</div> */}
-            <div className="asideComponent _p40 _auto_scroll_y">
-              {asideComponent ?? (
-                <AsideComponent className="_flex_col _gap40">
-                  {defaultAsideComponent.showPregnancyWeek && (
-                    <div className="_flex_col_center pregnancy_week">
-                      <div>{PregnancyWeekSvg}</div>
+            {showAside && (
+              <div className="asideComponent _p40 _auto_scroll_y">
+                {asideComponent ?? (
+                  <AsideComponent className="_flex_col _gap40">
+                    {defaultAsideComponent.showPregnancyWeek && (
+                      <div className="_flex_col_center pregnancy_week">
+                        <div>{PregnancyWeekSvg}</div>
 
-                      <h5 className="entire_week">Entire Period - 40 weeks</h5>
+                        <h5 className="entire_week">
+                          Entire Period - 40 weeks
+                        </h5>
 
-                      <p className="_center weeks_to_delivery">
-                        You are 34 weeks away from your delivery. Keep up your
-                        good health.
-                      </p>
-                    </div>
-                  )}
+                        <p className="_center weeks_to_delivery">
+                          You are 34 weeks away from your delivery. Keep up your
+                          good health.
+                        </p>
+                      </div>
+                    )}
 
-                  {defaultAsideComponent.showPregnancyWeek && (
-                    <hr
-                      style={{
-                        width: "100%",
-                        height: 1,
-                        background: "#E4E1E8",
-                      }}
-                    />
-                  )}
+                    {defaultAsideComponent.showPregnancyWeek && (
+                      <hr
+                        style={{
+                          width: "100%",
+                          height: 1,
+                          background: "#E4E1E8",
+                        }}
+                      />
+                    )}
 
-                  <div className="_flex_col _gap40 otherContent">
-                    <h3 className="title">{defaultAsideComponent.title}</h3>
+                    <div className="_flex_col _gap40 otherContent">
+                      <h3 className="title">{defaultAsideComponent.title}</h3>
 
-                    <div className="_flex_col menuList">
-                      {defaultAsideComponent.menuList.map((menuItem, i) => (
-                        <div key={i} className="_flex_col menuItem">
-                          <h4 className="label"> {menuItem?.label} </h4>
-                          <div className="text _flex_col _gap8">
-                            {menuItem?.text}
+                      <div className="_flex_col menuList">
+                        {defaultAsideComponent.menuList.map((menuItem, i) => (
+                          <div key={i} className="_flex_col menuItem">
+                            <h4 className="label"> {menuItem?.label} </h4>
+                            <div className="text _flex_col _gap8">
+                              {menuItem?.text}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </AsideComponent>
-              )}
-            </div>
+                  </AsideComponent>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

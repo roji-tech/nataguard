@@ -119,10 +119,7 @@ const index = () => {
                 <>
                   <h5 className="title_text">Pregnancy Milestone</h5>
 
-                  <div className="date _flex _align_center">
-                    <p>2nd Pregnancy (2024)</p>
-                    {arrowDownwardSvg}
-                  </div>
+                
                 </>
               ),
 

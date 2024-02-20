@@ -30,7 +30,7 @@ export function AuthLayout({
   handleSubmit = () => {},
   btnText = "Login",
   login = true,
-  showSocials = true,
+  showSocials = false,
   loading = false,
   showDaraCollectionReasonLink = false,
   modalComponent = "",
