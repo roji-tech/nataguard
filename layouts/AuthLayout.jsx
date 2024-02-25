@@ -32,7 +32,7 @@ export function AuthLayout({
   login = true,
   showSocials = false,
   loading = false,
-  showDaraCollectionReasonLink = false,
+  showDataCollectionReasonLink = false,
   modalComponent = "",
   modalBackdropClickClose = false,
   modalState = useState(false),
@@ -70,24 +70,24 @@ export function AuthLayout({
         <HomeNavbar showAuthBtns={false} />
         <section
           style={{
-            gap: showDaraCollectionReasonLink && "30px",
+            gap: showDataCollectionReasonLink && "30px",
           }}
           className="content _flex_col _full_w _bg_white"
         >
-          <header className="_flex_jcsb _full_w">
-            <Link className="link" href={""}>
+          <header className="_flex_jcc _full_w">
+            {/* <Link className="link" href={""}>
               Privacy Policy
-            </Link>
+            </Link> */}
             <div className="_flex_col_center _gap8">
               <h3>{headerText}</h3>
               <p>{headerDesc}</p>
             </div>
-            <Link className="link terms" href={""}>
+            {/* <Link className="link terms" href={""}>
               Terms of Service
-            </Link>
+            </Link> */}
           </header>
 
-          {showDaraCollectionReasonLink && (
+          {showDataCollectionReasonLink && (
             <Link
               className="_flex_center _align_center"
               style={{
@@ -203,7 +203,11 @@ export function AuthLayout({
                   )}
                 </div>
               )}
-              <form className="_flex_col _gap40" onSubmit={_handleSubmit}>
+              <form
+                method="post"
+                className="_flex_col _gap40"
+                onSubmit={_handleSubmit}
+              >
                 {showFormTitle && (
                   <div className="pageTitle _flex_center _align_center _gap40">
                     <span className="line" />
@@ -381,12 +385,24 @@ const Container = styled.header`
         }
 
         .otherAuthLink {
-          color: var(--Secondary---700, #f90);
-          font-family: Open Sans;
+          color: var(--Text---Title, #122025);
+          text-align: center;
+          font-family: "Open Sans";
           font-size: 20px;
           font-style: normal;
-          font-weight: 600;
-          line-height: 150%;
+          font-weight: 400;
+          line-height: 150%; /* 30px */
+
+          a,
+          p,
+          span {
+            color: var(--Secondary---700, #f90);
+            font-family: Open Sans;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 150%;
+          }
         }
       }
     }

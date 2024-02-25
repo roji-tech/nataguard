@@ -159,7 +159,7 @@ const Sidebar = () => {
               />
             </svg>
           ),
-          handleClick: () => logout,
+          handleClick: logout,
         },
       ],
     },

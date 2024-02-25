@@ -7,8 +7,99 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
+const SignUpPopup = ({ success = false, message, open, setOpen = () => {} }) => {
+  const [comp, setComp] = useState(null);
+
+  useEffect(() => {
+    success
+      ? setComp(
+          <>
+            <svg
+              width="120"
+              height="120"
+              viewBox="0 0 120 120"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M60 110C87.5 110 110 87.5 110 60C110 32.5 87.5 10 60 10C32.5 10 10 32.5 10 60C10 87.5 32.5 110 60 110Z"
+                stroke="#FFAD33"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M38.75 60.0001L52.9 74.1501L81.25 45.8501"
+                stroke="#FFAD33"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            <div className="_flex_col_center">
+              <h3>Login Successful!</h3>
+            </div>
+          </>
+        )
+      : setComp(
+          <>
+            <svg
+              width="120"
+              height="120"
+              viewBox="0 0 120 120"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M60 110C87.5 110 110 87.5 110 60C110 32.5 87.5 10 60 10C32.5 10 10 32.5 10 60C10 87.5 32.5 110 60 110Z"
+                stroke="#FF3535"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M45.8501 74.1501L74.1501 45.8501"
+                stroke="#FF3535"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M74.1501 74.1501L45.8501 45.8501"
+                stroke="#FF3535"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            <div className="_flex_col_center">
+              <h3>Login Unsuccessful!</h3>
+              <p> {message ?? "Invalid credentials, please try again."} </p>
+            </div>
+
+            <button
+              type="button"
+              className="_full_w _p20 _grid_center"
+              style={{ background: "var(--nataBlue)", fontSize: 20 }}
+              onClick={() => setOpen(false)}
+            >
+              Retry
+            </button>
+          </>
+        );
+  }, [open]);
+
+  return <div className="modalPpup _flex_col_center _p50 _gap40">{comp}</div>;
+};
+
 const index = () => {
   const router = useRouter();
+
+  const modalState = useState(false);
+  const [open, setOpen] = modalState;
+  const [modalComponent, setModalComponent] = useState(<SignUpPopup />);
 
   const handleChange = (e) => {
     let value = e.target.value;
@@ -143,11 +234,18 @@ const index = () => {
       btnText="Sign Up"
       handleSubmit={handleSubmit}
       loading={loading}
+      modalState={modalState}
+      modalComponent={modalComponent}
     >
       <Form>
         {FIELDS.map((item) => (
           <InputBox item={item} />
         ))}
+        <div className="otherAuthLink _center" style={{}}>
+          By proceeding, you agree to our{" "}
+          <Link href={""}>Terms of Service </Link> and{" "}
+          <Link href={""}> Privacy Policy</Link>.
+        </div>
 
         <RadioBox
           item={{

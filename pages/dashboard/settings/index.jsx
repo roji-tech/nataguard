@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 export const Settings = ({ children, current = "My Profile" }) => {
   const TabLiist = [
-    { label: "My Profile", link: "" },
+    { label: "My Profile", link: "/dashboard/settings/" },
     { label: "General", link: "/dashboard/settings/general" },
     { label: "Documents", link: "" },
     { label: "Notifications", link: "" },

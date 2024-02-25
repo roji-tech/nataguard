@@ -378,7 +378,7 @@ const CompleteProfile = () => {
       pageNumber={1}
       loading={loading}
       showSocials={false}
-      showDaraCollectionReasonLink={true}
+      showDataCollectionReasonLink={true}
       handleSubmit={handleContinue}
       modalState={modalState}
       modalComponent={modalComponent}
@@ -401,7 +401,7 @@ const CompleteProfile = () => {
       pageNumber={2}
       loading={loading}
       showSocials={false}
-      showDaraCollectionReasonLink={true}
+      showDataCollectionReasonLink={true}
       handleSubmit={handleSubmit}
       modalState={modalState}
       modalComponent={modalComponent}
