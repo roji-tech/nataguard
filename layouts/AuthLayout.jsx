@@ -67,7 +67,7 @@ export function AuthLayout({
       </Modal>
 
       <Container className="_my_auto_scroll_v _flex_col _full_w">
-        <HomeNavbar showAuthBtns={false} />
+        <HomeNavbar />
         <section
           style={{
             gap: showDataCollectionReasonLink && "30px",
