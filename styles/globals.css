@@ -645,6 +645,10 @@ button {
   gap: 20px !important;
 }
 
+._gap24 {
+  gap: 24px !important;
+}
+
 ._gap25 {
   gap: 25px !important;
 }
