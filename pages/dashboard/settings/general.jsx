@@ -4,41 +4,9 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import DashboardLayout from "@layouts/DashboardLayout";
 import styled from "styled-components";
+import { Settings } from "@pages/dashboard/settings";
 
-export const Settings = ({ children, current = "My Profile" }) => {
-  const TabLiist = [
-    { label: "My Profile", link: "" },
-    { label: "General", link: "/dashboard/settings/general" },
-    { label: "Documents", link: "" },
-    { label: "Notifications", link: "" },
-  ];
-
-  return (
-    <DashboardLayout showAside={false}>
-      <Wrapper className="_flex_col _gap40">
-        <h1 className="pageTitle">Settings</h1>
-
-        <div className="_flex tabs _gap0">
-          {TabLiist.map((item) => (
-            <Link
-              href={item?.link}
-              key={item?.label}
-              className={`tab ${current == item?.label ? "active" : ""}`}
-            >
-              {item?.label}
-            </Link>
-          ))}
-        </div>
-
-        {children}
-      </Wrapper>
-    </DashboardLayout>
-  );
-};
-
-import React from "react";
-
-const ProfileSettings = () => {
+const GeneralSettings = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
@@ -140,64 +108,89 @@ const ProfileSettings = () => {
     },
   ];
 
-  const PatientInfo = [
-    {
-      label: "Patients ID",
-      ph: (
-        <input
-          disabled={isDisabled2}
-          placeholder="SB-ID-00845"
-          className="_flex1"
-          type="text"
-        />
-      ),
+  const PARAMETERS = {
+    bodyTemperature: {
+      category: "",
+      value: "30",
+      label: "Body Temperature",
     },
-    {
-      label: "",
-      label: (
-        <span className="_flex_col">
-          <span>Residential Address</span>
-          <small>Your address is visible to you only.</small>
-        </span>
-      ),
-      ph: (
-        <input
-          disabled={isDisabled2}
-          placeholder="25, Emily Close, Dolphin Estate, Lekki Phase I, Lekki, VI, Lagos, Nigeria."
-          className="_flex1"
-          type="text"
-        />
-      ),
+    systolicBloodPressure: {
+      category: "",
+      value: "30",
+      label: "Diastolic blood pressure",
     },
-    {
-      label: (
-        <span className="_flex_col">
-          <span>Registered Hospital</span>
-          <small>This information is visible to you only.</small>
-        </span>
-      ),
-      ph: (
-        <input
-          disabled={isDisabled2}
-          placeholder="Lekki Central Hospital, Lekki, VI, Lagos, Nigeria."
-          className="_flex1"
-          type="text"
-        />
-      ),
+    diastolicBloodPressure: {
+      category: "",
+      value: "30",
+      label: "Systolic Blood Pressure",
     },
-  ];
+    age: {
+      category: "low",
+      value: "30",
+      label: "Age",
+    },
+    heartRate: {
+      category: "normal",
+      value: "30",
+      label: "Heart Rate",
+    },
+    bmi: {
+      category: "high",
+      value: "30",
+      label: "BMI",
+    },
+    bloodGlucoseHbA1c: {
+      label: "Blood Glucose (Hb1Ac)",
+    },
+    bloodGlucoseFastingHour: {
+      category: "diabetes",
+      value: "30",
+      label: "Blood Glucose (fasting)",
+    },
+    // bloodgroup: {},
+    genotype: {
+      category: "gestational diabetes",
+      value: "30",
+      label: "Genotype",
+    },
+    lastMenstrualPeriod: {
+      category: "gestational diabetes",
+      value: "30",
+      label: "Last Mentrual Period",
+    },
+  };
+  
   return (
-    <Settings>
-      <div className="_flex_col _gap40 myProfile">
-        <div className="_flex_col _gap40">
-          <h2 className="subTitle">Overview</h2>
-          <div className="_flex _gap30">
-            <img src="/avatar.png" width={100} height={100} alt="" />
-            <div className="_flex_col_jcsb">
-              <h3>Emily Kimberly</h3>
-              <p className="id">SB-ID-0056</p>
-              <p>Lagos, Nigeria</p>
-            </div>
+    <Settings current="General">
+      <Wrapper className="_flex_col _gap40 myProfile">
+        <div className="parameterWrapper _flex_col _gap16">
+          <header className="">
+            <div className="_grid_center">Parameters</div>
+            <div className="_grid_center">Standard Values</div>
+            <div className="_grid_center">Your Values</div>
+          </header>
+
+          <hr className="firstLine" />
+          <hr className="secondLine" />
+
+          <div className="parameters _full_w _flex_col _gap8">
+            {Object.keys(PARAMETERS).map((parameter) => (
+              <div key={parameter} className="parameter _flex_jcsb _full_w">
+                <div className="box">{PARAMETERS[parameter].label}</div>
+                <div
+                  className="box _grid_center"
+                  style={{
+                    //  background: "#fafafa",
+                    padding: 0,
+                  }}
+                >
+                  {PARAMETERS[parameter].value}
+                </div>
+                <div className="box _grid_center">
+                  {PARAMETERS[parameter].category}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -249,102 +242,90 @@ const ProfileSettings = () => {
             )}
           </div>
         </form>
-
-        <hr
-          style={{
-            width: "100%",
-            height: 1,
-            background: "#E4E1E8",
-          }}
-        />
-
-        {/* <div className="_flex_col patient _gap40"></div> */}
-        <form
-          onReset={() => setIsDisabled2(true)}
-          ref={formRef}
-          className="_flex_col personal _gap40"
-        >
-          <h2 className="subTitle">Patient’s Information</h2>
-          <div className="_flex_col _gap24">
-            {PatientInfo.map((item) => (
-              <div className="profileItem _flex">
-                <div className="_flex _align_center">
-                  <p className=""> {item?.label} </p>
-                </div>
-                <div className="_flex1 _flex _align_center">{item?.ph}</div>
-              </div>
-            ))}
-          </div>
-          <div className="actionBtns _flex_jce">
-            {isDisabled2 ? (
-              <p
-                className="updateBtn _pointer"
-                onClick={() => setIsDisabled2(false)}
-              >
-                Update
-              </p>
-            ) : (
-              <>
-                <button
-                  className="updateBtn"
-                  type="reset"
-                  // onClick={() => setIsDisabled2(true)}
-                >
-                  Cancel
-                </button>
-                <button type="button" className="saveBtn">
-                  Save Changes
-                </button>
-              </>
-            )}
-          </div>
-        </form>
-      </div>
+      </Wrapper>
     </Settings>
   );
 };
 
-export default ProfileSettings;
+export default GeneralSettings;
 
 const Wrapper = styled.div`
   &&& {
     /* border: 2px solid red; */
 
-    .pageTitle {
-      color: var(--Text---Title, #122025);
-      font-family: "Open Sans";
-      font-size: 24px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-    }
+    .parameterWrapper {
+      position: relative;
+      overflow: hidden;
 
-    .tabs {
+      width: 100%;
+
+      border-radius: 12px;
+      border: 1px solid var(--Grey---Outline, #e4e1e8);
+      background: var(--White, #fff);
+
       display: flex;
-      padding: 6px;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      align-self: stretch;
 
-      border-radius: 80px;
-      background: var(--Input-Fields, #f5f5f5);
+      hr {
+        width: 1px;
+        height: 100%;
 
-      .tab {
-        border-radius: 80px;
+        position: absolute;
+
+        top: 0px;
+        bottom: 0;
+
+        background: #e4e1e8;
+
+        &.firstLine {
+          left: calc(100% / 3);
+        }
+
+        &.secondLine {
+          right: calc(100% / 3);
+        }
+      }
+
+      header {
+        background: var(--Input-Fields, #f5f5f5);
+        height: 57px;
+
+        .left {
+          border-radius: 12px 0px 0px 0px;
+        }
+
+        .right {
+          border-radius: 0px 12px 0px 0px;
+        }
+      }
+
+      .parameters {
+        background: var(--Background, #fafafa);
         display: flex;
-        padding: 12px 40px;
-        justify-content: center;
-        align-items: center;
         gap: 8px;
 
-        color: var(--Text---Title, #122025);
-        text-align: center;
-        font-family: "Open Sans";
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
+        .parameter {
+          .box {
+            background: var(--White, #fff);
+            padding: 12px;
+            padding-left: 40px;
+            width: 100%;
+          }
+        }
+      }
 
-        &.active {
-          background: var(--White, #fff);
-          box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
+      header,
+      .parameter {
+        display: flex;
+        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+        gap: 0;
+
+        > div {
+          flex-basis: 50%;
         }
       }
     }

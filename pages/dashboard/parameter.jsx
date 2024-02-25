@@ -22,26 +22,32 @@ const Parameter = () => {
   const PARAMETERS = {
     bodyTemperature: {
       category: "",
+      value: "30",
       label: "Body Temperature",
     },
     systolicBloodPressure: {
       category: "",
+      value: "30",
       label: "Diastolic blood pressure",
     },
     diastolicBloodPressure: {
       category: "",
+      value: "30",
       label: "Systolic Blood Pressure",
     },
     age: {
       category: "low",
+      value: "30",
       label: "Age",
     },
     heartRate: {
       category: "normal",
+      value: "30",
       label: "Heart Rate",
     },
     bmi: {
       category: "high",
+      value: "30",
       label: "BMI",
     },
     bloodGlucoseHbA1c: {
@@ -49,15 +55,18 @@ const Parameter = () => {
     },
     bloodGlucoseFastingHour: {
       category: "diabetes",
+      value: "30",
       label: "Blood Glucose (fasting)",
     },
     // bloodgroup: {},
     genotype: {
       category: "gestational diabetes",
+      value: "30",
       label: "Genotype",
     },
     lastMenstrualPeriod: {
       category: "gestational diabetes",
+      value: "30",
       label: "Last Mentrual Period",
     },
   };
@@ -128,7 +137,7 @@ const Parameter = () => {
                               padding: 0,
                             }}
                           >
-                            {"value"}
+                            {PARAMETERS[parameter].value}
                           </div>
                           <div className="box _grid_center">
                             {PARAMETERS[parameter].category}
