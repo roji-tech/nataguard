@@ -77,7 +77,7 @@ const LoginPopup = ({ success = false, message, open, setOpen = () => {} }) => {
             </svg>
 
             <div className="_flex_col_center">
-              <h3>Login Unsuccessful!</h3>
+              <h3>Login Failed!</h3>
               <p> {message ?? "Invalid credentials, please try again."} </p>
             </div>
 
