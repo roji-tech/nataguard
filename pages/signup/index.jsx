@@ -1,3 +1,4 @@
+import { errorIcon, successIcon } from "@components/svgs/nataguard";
 import { api } from "@config";
 import { AuthLayout, Form, InputBox, RadioBox } from "@layouts/AuthLayout";
 import { ShowErrors } from "@utils/ShowErrors";
@@ -5,78 +6,39 @@ import { ShowSuccess } from "@utils/ShowSuccess";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const SignUpPopup = ({ success = false, message, open, setOpen = () => {} }) => {
+const SignUpPopup = ({
+  success = false,
+  message,
+  open,
+  setOpen = () => {},
+}) => {
   const [comp, setComp] = useState(null);
 
   useEffect(() => {
     success
       ? setComp(
           <>
-            <svg
-              width="120"
-              height="120"
-              viewBox="0 0 120 120"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M60 110C87.5 110 110 87.5 110 60C110 32.5 87.5 10 60 10C32.5 10 10 32.5 10 60C10 87.5 32.5 110 60 110Z"
-                stroke="#FFAD33"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M38.75 60.0001L52.9 74.1501L81.25 45.8501"
-                stroke="#FFAD33"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            {successIcon}
 
             <div className="_flex_col_center">
-              <h3>Login Successful!</h3>
+              <h3>Sign up Successful!</h3>
+              <p className="_center">
+                Congratulations, you have successfully created an account.
+                Kindly check your email address to verify your account with the
+                One Time PIN.
+              </p>
             </div>
           </>
         )
       : setComp(
           <>
-            <svg
-              width="120"
-              height="120"
-              viewBox="0 0 120 120"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M60 110C87.5 110 110 87.5 110 60C110 32.5 87.5 10 60 10C32.5 10 10 32.5 10 60C10 87.5 32.5 110 60 110Z"
-                stroke="#FF3535"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M45.8501 74.1501L74.1501 45.8501"
-                stroke="#FF3535"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M74.1501 74.1501L45.8501 45.8501"
-                stroke="#FF3535"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            {errorIcon}
 
             <div className="_flex_col_center">
-              <h3>Login Unsuccessful!</h3>
-              <p> {message ?? "Invalid credentials, please try again."} </p>
+              <h3>Sign Up Unsuccessful!</h3>
+              <p> {message ?? "An error occured, please try again."} </p>
             </div>
 
             <button
@@ -165,6 +127,11 @@ const index = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setOpen(true);
+    setModalComponent(
+      <SignUpPopup success={true} open={open} setOpen={setOpen} />
+    );
+
     console.log(values);
 
     if (!values.email) {
@@ -202,10 +169,28 @@ const index = () => {
         console.log(JSON.stringify(response));
         // alert(JSON.stringify(response.data));
         // dispatchFunc(typ.setAll, response.data);
-        ShowSuccess("Sign Up Successful");
-        router.push(`/verify/email/${values.email}`);
+        // ShowSuccess("Sign Up Successful");
+
+        setOpen(true);
+        setModalComponent(
+          <SignUpPopup success={true} open={open} setOpen={setOpen} />
+        );
+
+        setTimeout(() => {
+          router.push(`/verify/email/${values.email}`);
+        }, 3000);
       })
       .catch((e) => {
+        setOpen(true);
+
+        setModalComponent(
+          <SignUpPopup
+            message={e?.response?.data?.errorMsg ?? undefined}
+            open={open}
+            setOpen={setOpen}
+          />
+        );
+
         console.log("login error", e);
 
         try {
@@ -241,6 +226,7 @@ const index = () => {
         {FIELDS.map((item) => (
           <InputBox item={item} />
         ))}
+
         <div className="otherAuthLink _center" style={{}}>
           By proceeding, you agree to our{" "}
           <Link href={""}>Terms of Service </Link> and{" "}

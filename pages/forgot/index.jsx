@@ -1,3 +1,4 @@
+import { errorIcon, successIcon } from "@components/svgs/nataguard";
 import { api } from "@config";
 import { AuthLayout, Form, InputBox } from "@layouts/AuthLayout";
 import { ShowErrors } from "@utils/ShowErrors";
@@ -5,12 +6,72 @@ import { ShowSuccess } from "@utils/ShowSuccess";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const ForgotPopup = ({
+  success = false,
+  message,
+  open,
+  setOpen = () => {},
+}) => {
+  const [comp, setComp] = useState(null);
+
+  useEffect(() => {
+    success
+      ? setComp(
+          <>
+            {successIcon}
+
+            <div className="_flex_col_center">
+              <h3>Retrieval Code Sent</h3>
+              <p className="_center">
+                A mail has been sent to the email address you provided
+                containing a retrieval code. Use that code to reset your account
+                password.
+              </p>
+              <button
+                type="button"
+                className="_full_w _p20 _grid_center"
+                style={{ background: "var(--nataBlue)", fontSize: 20 }}
+                onClick={() => router.push(`/forgot/pin/${email}`)}
+              >
+                Continue
+              </button>
+            </div>
+          </>
+        )
+      : setComp(
+          <>
+            {errorIcon}
+
+            <div className="_flex_col_center">
+              <h3>Sign Up Unsuccessful!</h3>
+              <p> {message ?? "An error occured, please try again."} </p>
+            </div>
+
+            <button
+              type="button"
+              className="_full_w _p20 _grid_center"
+              style={{ background: "var(--nataBlue)", fontSize: 20 }}
+              onClick={() => setOpen(false)}
+            >
+              Retry
+            </button>
+          </>
+        );
+  }, [open]);
+
+  return <div className="modalPpup _flex_col_center _p50 _gap40">{comp}</div>;
+};
 
 const index = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const modalState = useState(false);
+  const [open, setOpen] = modalState;
+  const [modalComponent, setModalComponent] = useState(<ForgotPopup />);
 
   const handleChange = (e) => {
     setEmail(e.target.value);
@@ -47,10 +108,28 @@ const index = () => {
     axios(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        ShowSuccess("Retrieval Code Sent");
-        router.push(`/forgot/pin/${email}`);
+        // ShowSuccess("Retrieval Code Sent");
+
+        setOpen(true);
+        setModalComponent(
+          <ForgotPopup success={true} open={open} setOpen={setOpen} />
+        );
+
+        setTimeout(() => {
+          router.push(`/forgot/pin/${email}`);
+        }, 10000);
       })
       .catch((e) => {
+        setOpen(true);
+
+        setModalComponent(
+          <ForgotPopup
+            message={e?.response?.data?.errorMsg ?? undefined}
+            open={open}
+            setOpen={setOpen}
+          />
+        );
+
         console.log("login error", e?.response);
 
         try {
@@ -78,6 +157,8 @@ const index = () => {
       showSocials={false}
       handleSubmit={handleSubmit}
       loading={loading}
+      modalState={modalState}
+      modalComponent={modalComponent}
     >
       <Form>
         <InputBox item={item} />

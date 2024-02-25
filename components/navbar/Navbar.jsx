@@ -21,6 +21,7 @@ import {
 
 const Navbar = ({ isopen, setIsOpen, hamRef }) => {
   const [count, setCount] = useState(15);
+
   const {
     state: { healthInfoSubmitted, user },
     logout,
