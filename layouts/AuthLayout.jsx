@@ -31,6 +31,38 @@ export function AuthLayout({
   btnText = "Login",
   login = true,
   showSocials = false,
+  bottomElements = (
+    <div
+      className="_flex_col_jce _flex1 _full_h"
+      style={{ padding: "20px 0" }}
+    >
+      <p className="_center">
+        Read our{" "}
+        <Link className="goldenLink" href={""}>
+          Terms of Service
+        </Link>
+        and{" "}
+        <Link className="goldenLink" href={""}>
+          Privacy Policy
+        </Link>
+        .{" "}
+      </p>
+    </div>
+  ),
+
+  middleElements = (
+    <div className="_center" style={{ padding: "20px 0" }}>
+      By proceeding, you agree to our{" "}
+      <Link className="goldenLink" href={""}>
+        Terms of Service
+      </Link>{" "}
+      and{" "}
+      <Link className="goldenLink" href={""}>
+        Privacy Policy
+      </Link>
+      .
+    </div>
+  ),
   loading = false,
   showDataCollectionReasonLink = false,
   modalComponent = "",
@@ -70,9 +102,9 @@ export function AuthLayout({
         <HomeNavbar />
         <section
           style={{
-            gap: showDataCollectionReasonLink && "30px",
+            gap: showDataCollectionReasonLink && "40px",
           }}
-          className="content _flex_col _full_w _bg_white"
+          className="content _flex1 _gap70 _flex_col _full_w _bg_white"
         >
           <header className="_flex_jcc _full_w">
             {/* <Link className="link" href={""}>
@@ -130,8 +162,8 @@ export function AuthLayout({
             </Link>
           )}
 
-          <div className="_flex_center">
-            <div className="authContainer">
+          <div className="_flex_col_center _flex1 _gap60">
+            <div className="authContainer _flex_col _gap50">
               {showSocials && (
                 <div className="socialBtns _flex _align_center">
                   {login ? (
@@ -228,6 +260,10 @@ export function AuthLayout({
 
                 {children}
 
+                <div className="middleElements">
+                  {middleElements ? middleElements : ""}
+                </div>
+
                 <AuthButton
                   disabled={loading}
                   style={{
@@ -240,6 +276,10 @@ export function AuthLayout({
                   <PulseLoader loading={loading} size={15} color="#068fe4" />
                 </AuthButton>
               </form>
+            </div>
+
+            <div className="bottomElements _flex1">
+              {bottomElements}
             </div>
           </div>
         </section>
@@ -256,10 +296,21 @@ const Container = styled.header`
       width: 100%;
     }
 
+    .goldenLink {
+      text-align: center;
+      font-family: "Open Sans";
+      font-size: 20px;
+      font-style: normal;
+
+      font-weight: 600;
+      line-height: 150%;
+
+      color: var(--Secondary---700, #f90);
+    }
+
     .content {
       box-shadow: 0 0 1px 0 #00000040;
       padding: 0 6.7% 50px;
-      gap: 60px;
 
       > header {
         h3 {
@@ -396,14 +447,21 @@ const Container = styled.header`
           a,
           p,
           span {
-            color: var(--Secondary---700, #f90);
             font-family: Open Sans;
             font-size: 20px;
             font-style: normal;
             font-weight: 600;
             line-height: 150%;
           }
+
+          .orange {
+            color: var(--Secondary---700, #f90);
+          }
         }
+      }
+
+      .bottomElements {
+        width: min(100%, 700px);
       }
     }
 

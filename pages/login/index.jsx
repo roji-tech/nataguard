@@ -202,6 +202,9 @@ const index = () => {
       loading={loading}
       modalState={modalState}
       modalComponent={modalComponent}
+      // middleElements=""
+      bottomElements={""}
+      showSocials={true}
     >
       <Form>
         {FIELDS.map((item) => (
@@ -209,7 +212,7 @@ const index = () => {
         ))}
 
         <div className="otherAuthLink _flex_jce" style={{ marginTop: "-20px" }}>
-          <Link href={"/forgot"}>Forgot Password</Link>
+          <Link href={"/forgot"} className="goldenLink">Forgot Password</Link>
           {/* <Link href={"/signup"}>Sign Up</Link> */}
         </div>
 

@@ -221,17 +221,19 @@ const index = () => {
       loading={loading}
       modalState={modalState}
       modalComponent={modalComponent}
+      // middleElements=""
+      bottomElements={""}
     >
       <Form>
         {FIELDS.map((item) => (
           <InputBox item={item} />
         ))}
 
-        <div className="otherAuthLink _center" style={{}}>
+        {/* <div className="otherAuthLink _center" style={{}}>
           By proceeding, you agree to our{" "}
           <Link href={""}>Terms of Service </Link> and{" "}
           <Link href={""}> Privacy Policy</Link>.
-        </div>
+        </div> */}
 
         <RadioBox
           item={{

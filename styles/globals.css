@@ -519,6 +519,13 @@ button {
   gap: 10px;
 }
 
+._flex_col_jce {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 ._flex_center_vertical {
   display: flex;
   flex-direction: column;
@@ -668,6 +675,19 @@ button {
 ._gap60 {
   gap: 60px !important;
 }
+
+._gap70 {
+  gap: 70px !important;
+}
+
+._gap80 {
+  gap: 80px !important;
+}
+
+._gap90 {
+  gap: 90px !important;
+}
+
 
 /*  */
 /*  */

@@ -9,10 +9,105 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { CircleLoader } from "react-spinners";
 
+const LoginPopup = ({ success = false, message, open, setOpen = () => {} }) => {
+  const [comp, setComp] = useState(null);
+
+  useEffect(() => {
+    success
+      ? setComp(
+          <>
+            <svg
+              width="120"
+              height="120"
+              viewBox="0 0 120 120"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M60 110C87.5 110 110 87.5 110 60C110 32.5 87.5 10 60 10C32.5 10 10 32.5 10 60C10 87.5 32.5 110 60 110Z"
+                stroke="#FFAD33"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M38.75 60.0001L52.9 74.1501L81.25 45.8501"
+                stroke="#FFAD33"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            <div className="_flex_col_center">
+              <h3>OTP Verification Successful!</h3>
+              <p>You can now login to your account.</p>
+            </div>
+          </>
+        )
+      : setComp(
+          <>
+            <svg
+              width="120"
+              height="120"
+              viewBox="0 0 120 120"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M60 110C87.5 110 110 87.5 110 60C110 32.5 87.5 10 60 10C32.5 10 10 32.5 10 60C10 87.5 32.5 110 60 110Z"
+                stroke="#FF3535"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M45.8501 74.1501L74.1501 45.8501"
+                stroke="#FF3535"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M74.1501 74.1501L45.8501 45.8501"
+                stroke="#FF3535"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            <div className="_flex_col_center">
+              <h3>OTP Verification Failed!</h3>
+              <p>
+                {" "}
+                {message ??
+                  "That must have been an error. Try inputting the correct code."}{" "}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              className="_full_w _p20 _grid_center"
+              style={{ background: "var(--nataBlue)", fontSize: 20 }}
+              onClick={() => setOpen(false)}
+            >
+              Retry
+            </button>
+          </>
+        );
+  }, [open]);
+
+  return <div className="modalPopup _flex_col_center _p50 _gap40">{comp}</div>;
+};
+
 const index = () => {
   const router = useRouter();
 
   const { email: userEmail } = router.query;
+  const [modalComponent, setModalComponent] = useState(<LoginPopup />);
+  const modalState = useState(true);
+  const [open, setOpen] = modalState;
 
   const handleChange = (e) => {
     let value = e.target.value;
@@ -25,18 +120,18 @@ const index = () => {
   });
 
   const FIELDS = [
-    {
-      handleChange,
-      name: "email",
-      label: "Email Address",
-      ph: "johndoe@example.com",
-      type: "email",
-      value: values.email,
-    },
+    // {
+    //   handleChange,
+    //   name: "email",
+    //   label: "Email Address",
+    //   ph: "johndoe@example.com",
+    //   type: "email",
+    //   value: values.email,
+    // },
     {
       handleChange,
       name: "token",
-      label: "Pin",
+      label: <span className="_flex_center _full_w">OTP Code</span>,
       ph: "000000",
     },
   ];
@@ -76,10 +171,28 @@ const index = () => {
         // alert(JSON.stringify(response.data));
         // dispatchFunc(typ.setAll, response.data);
         ShowSuccess("Verification Successful");
-        router.push("/login");
+
+        setOpen(true);
+        setModalComponent(
+          <LoginPopup success={true} open={open} setOpen={setOpen} />
+        );
+
+        setTimeout(() => {
+          router.push("/login");
+        }, 3000);
       })
       .catch((e) => {
         console.log("login error", e);
+
+        setOpen(true);
+
+        setModalComponent(
+          <LoginPopup
+            message={e?.response?.data?.errorMsg ?? undefined}
+            open={open}
+            setOpen={setOpen}
+          />
+        );
 
         try {
           // dispatchFunc(typ.clearAll);
@@ -133,9 +246,7 @@ const index = () => {
           if (e.response?.data?.errors?.length < 15) {
             return ShowErrors([...e?.response?.data?.errorMsg]);
           }
-          return ShowErrors(
-            e?.response?.data?.errorMsg ?? "An Error Occurred"
-          );
+          return ShowErrors(e?.response?.data?.errorMsg ?? "An Error Occurred");
         } catch (error) {
           console.log(error);
           return ShowErrors("An Error Occurred");
@@ -151,13 +262,16 @@ const index = () => {
 
   return (
     <AuthLayout
-      showFormTitle={true}
-      headerText="Verify Email"
-      headerDesc="Verify your email account to continue."
+      showFormTitle={false}
+      headerText="OTP Verification"
+      headerDesc="Follow these steps to activate your account."
       login={false}
       btnText="Verify"
       handleSubmit={handleVerifyEmail}
       loading={loading}
+      middleElements={""}
+      modalState={modalState}
+      modalComponent={modalComponent}
     >
       <Form>
         {FIELDS.map((item) => (
@@ -166,14 +280,16 @@ const index = () => {
 
         <div className="otherAuthLink _flex_jcsb">
           <h4
-            className="_pointer _flex _gap10 _align_center"
+            className="_pointer _flex _gap10 _align_center goldenLink"
             href={"/login"}
             onClick={resendToken}
           >
             Resend Token
             <CircleLoader loading={loading2} size={20} color="#068fe4" />
           </h4>
-          <Link href={"/login"}>Login</Link>
+          <Link className="goldenLink" href={"/login"}>
+            Login
+          </Link>
         </div>
       </Form>
     </AuthLayout>

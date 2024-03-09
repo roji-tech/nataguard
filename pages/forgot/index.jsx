@@ -45,8 +45,8 @@ const ForgotPopup = ({
             {errorIcon}
 
             <div className="_flex_col_center">
-              <h3>Sign Up Unsuccessful!</h3>
-              <p> {message ?? "An error occured, please try again."} </p>
+              <h3>An Error Ocurred!</h3>
+              <p> {message ?? "Please try again."} </p>
             </div>
 
             <button
@@ -78,7 +78,8 @@ const index = () => {
   };
 
   const item = {
-    name: "Email Address",
+    label: "Email Address",
+    name: "email",
     ph: "johndoe@example.com",
     type: "email",
     handleChange,
@@ -132,18 +133,18 @@ const index = () => {
 
         console.log("login error", e?.response);
 
-        try {
-          if (String(e.response.status).startsWith("5")) {
-            return ShowErrors(["Service Temporarily Unavailable"]);
-          }
-          if (e.response?.data?.errors?.length < 15) {
-            return ShowErrors([...e?.response?.data?.errorMsg]);
-          }
-          return ShowErrors(e?.response?.data?.errorMsg ?? "An Error Occurred");
-        } catch (error) {
-          console.log(error);
-          return ShowErrors("An Error Occurred");
-        }
+        // try {
+        //   if (String(e.response.status).startsWith("5")) {
+        //     return ShowErrors(["Service Temporarily Unavailable"]);
+        //   }
+        //   if (e.response?.data?.errors?.length < 15) {
+        //     return ShowErrors([...e?.response?.data?.errorMsg]);
+        //   }
+        //   return ShowErrors(e?.response?.data?.errorMsg ?? "An Error Occurred");
+        // } catch (error) {
+        //   console.log(error);
+        //   return ShowErrors("An Error Occurred");
+        // }
       })
       .finally((error) => setLoading(false));
   };
@@ -159,28 +160,55 @@ const index = () => {
       loading={loading}
       modalState={modalState}
       modalComponent={modalComponent}
+      bottomElements={
+        <>
+          <div className="_full_h _flex_col_jcsb">
+            <Link href={"/login"} className="_flex_center _gap20 _align_center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="29"
+                height="28"
+                viewBox="0 0 29 28"
+                fill="none"
+              >
+                <g clip-path="url(#clip0_2328_12347)">
+                  <path
+                    d="M9.83333 5.8335C9.83333 6.69916 8.97817 7.99183 8.1125 9.07683C6.9995 10.4768 5.6695 11.6983 4.14467 12.6305C3.00133 13.3293 1.61533 14.0002 0.5 14.0002M0.5 14.0002C1.61533 14.0002 3.0025 14.671 4.14467 15.3698C5.6695 16.3032 6.9995 17.5247 8.1125 18.9223C8.97817 20.0085 9.83333 21.3035 9.83333 22.1668M0.5 14.0002L28.5 14.0002"
+                    stroke="#122025"
+                    stroke-width="1.5"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_2328_12347">
+                    <rect
+                      width="28"
+                      height="28"
+                      fill="white"
+                      transform="matrix(0 1 1 0 0.5 0)"
+                    />
+                  </clipPath>
+                </defs>
+              </svg>
+              Return to Login Page
+            </Link>
+
+            <p className="_center">
+              Read our{" "}
+              <Link className="goldenLink" href={""}>
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link className="goldenLink" href={""}>
+                Privacy Policy
+              </Link>
+              .{" "}
+            </p>
+          </div>
+        </>
+      }
     >
       <Form>
         <InputBox item={item} />
-
-        <div className="otherAuthLink _flex_jce" style={{ marginTop: "-20px" }}>
-          <Link href={"/login"} className="_flex_center _gap20 _align_center">
-            <svg
-              width="32"
-              height="19"
-              viewBox="0 0 32 19"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M10.6667 0.166504C10.6667 1.15584 9.68933 2.63317 8.7 3.87317C7.428 5.47317 5.908 6.86917 4.16533 7.9345C2.85867 8.73317 1.27467 9.49984 0 9.49984M0 9.49984C1.27467 9.49984 2.86 10.2665 4.16533 11.0652C5.908 12.1318 7.428 13.5278 8.7 15.1252C9.68933 16.3665 10.6667 17.8465 10.6667 18.8332M0 9.49984L32 9.49984"
-                stroke="#FF9900"
-                strokeWidth="2"
-              />
-            </svg>
-            Return to Login Page
-          </Link>
-        </div>
       </Form>
     </AuthLayout>
   );
