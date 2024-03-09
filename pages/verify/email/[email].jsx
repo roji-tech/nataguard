@@ -106,7 +106,7 @@ const index = () => {
 
   const { email: userEmail } = router.query;
   const [modalComponent, setModalComponent] = useState(<LoginPopup />);
-  const modalState = useState(true);
+  const modalState = useState(false);
   const [open, setOpen] = modalState;
 
   const handleChange = (e) => {
@@ -274,8 +274,8 @@ const index = () => {
       modalComponent={modalComponent}
     >
       <Form>
-        {FIELDS.map((item) => (
-          <InputBox item={item} />
+        {FIELDS.map((item, i) => (
+          <InputBox key={i} item={item} />
         ))}
 
         <div className="otherAuthLink _flex_jcsb">
