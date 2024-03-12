@@ -1,12 +1,13 @@
 import { errorIcon, successIcon } from "@components/svgs/nataguard";
 import { api } from "@config";
 import { AuthLayout, Form, InputBox } from "@layouts/AuthLayout";
+import { OTPInputStyle } from "@pages/verify/email/[email]";
 import { ShowErrors } from "@utils/ShowErrors";
 import { ShowSuccess } from "@utils/ShowSuccess";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const ForgotPopup = ({
   success = false,
@@ -69,21 +70,41 @@ const index = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  // OTP Requirements
+  const [otp, setOtp] = useState(Array(6).fill(""));
+  const inputRef = useRef(Array(6));
+  const handleOTPChange = (event, index) => {
+    const newOtp = [...otp];
+    newOtp[index] = event.target.value;
+    setOtp(newOtp);
+    setEmail(newOtp.join(""));
+
+    // Focus on previous input on backspace with empty value
+    if (
+      (event.key === "Backspace" ||
+        event.nativeEvent.inputType === "deleteContentBackward") &&
+      event.target.value === ""
+    ) {
+      if (index > 0) {
+        inputRef.current[index - 1].focus();
+      }
+    } else if (event.target.value.length === 1 && index < otp.length - 1) {
+      inputRef.current[index + 1].focus();
+    }
+  };
+
+  // Modal Popup Requirements
   const modalState = useState(false);
   const [open, setOpen] = modalState;
   const [modalComponent, setModalComponent] = useState(<ForgotPopup />);
 
-  const handleChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const item = {
-    label: "Email Address",
-    name: "email",
-    ph: "johndoe@example.com",
-    type: "email",
-    handleChange,
-  };
+  // const item = {
+  //   label: "Email Address",
+  //   name: "email",
+  //   ph: "johndoe@example.com",
+  //   type: "email",
+  //   handleChange,
+  // };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -208,7 +229,21 @@ const index = () => {
       }
     >
       <Form>
-        <InputBox item={item} />
+        {/* <InputBox item={item} /> */}
+
+        <OTPInputStyle className="_flex_jcc _gap15">
+          {otp.map((value, index) => (
+            <input
+              key={index}
+              maxLength={1}
+              className="otpInput _grid_center"
+              placeholder="___"
+              value={value}
+              onChange={(e) => handleOTPChange(e, index)}
+              ref={(el) => (inputRef.current[index] = el)}
+            />
+          ))}
+        </OTPInputStyle>
       </Form>
     </AuthLayout>
   );

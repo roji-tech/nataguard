@@ -6,8 +6,9 @@ import { ShowSuccess } from "@utils/ShowSuccess";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CircleLoader } from "react-spinners";
+import styled from "styled-components";
 
 const LoginPopup = ({ success = false, message, open, setOpen = () => {} }) => {
   const [comp, setComp] = useState(null);
@@ -103,16 +104,33 @@ const LoginPopup = ({ success = false, message, open, setOpen = () => {} }) => {
 
 const index = () => {
   const router = useRouter();
+  const [otp, setOtp] = useState(Array(6).fill(""));
+
+  const inputRef = useRef(Array(6));
+  const handleOTPChange = (event, index) => {
+    const newOtp = [...otp];
+    newOtp[index] = event.target.value;
+    setOtp(newOtp);
+    setValues((prev) => ({ ...prev, token: newOtp.join("") }));
+
+    // Focus on previous input on backspace with empty value
+    if (
+      (event.key === "Backspace" ||
+        event.nativeEvent.inputType === "deleteContentBackward") &&
+      event.target.value === ""
+    ) {
+      if (index > 0) {
+        inputRef.current[index - 1].focus();
+      }
+    } else if (event.target.value.length === 1 && index < otp.length - 1) {
+      inputRef.current[index + 1].focus();
+    }
+  };
 
   const { email: userEmail } = router.query;
   const [modalComponent, setModalComponent] = useState(<LoginPopup />);
   const modalState = useState(false);
   const [open, setOpen] = modalState;
-
-  const handleChange = (e) => {
-    let value = e.target.value;
-    setValues((prev) => ({ ...prev, [e.target.name]: value }));
-  };
 
   const [values, setValues] = useState({
     email: "",
@@ -129,7 +147,7 @@ const index = () => {
     //   value: values.email,
     // },
     {
-      handleChange,
+      handleChange: handleOTPChange,
       name: "token",
       label: <span className="_flex_center _full_w">OTP Code</span>,
       ph: "000000",
@@ -141,7 +159,7 @@ const index = () => {
 
   const handleVerifyEmail = async (event) => {
     event.preventDefault();
-    console.log(values);
+    console.log(values, otp.join(""));
 
     if (!values.email) {
       ShowErrors("Please provide an email address");
@@ -165,12 +183,10 @@ const index = () => {
 
     await axios(config)
       .then((response) => {
-        console.log("Email Verify response");
         console.log(JSON.stringify(response.data));
         console.log(JSON.stringify(response));
         // alert(JSON.stringify(response.data));
         // dispatchFunc(typ.setAll, response.data);
-        ShowSuccess("Verification Successful");
 
         setOpen(true);
         setModalComponent(
@@ -274,11 +290,25 @@ const index = () => {
       modalComponent={modalComponent}
     >
       <Form>
-        {FIELDS.map((item, i) => (
+        {/* {FIELDS.map((item, i) => (
           <InputBox key={i} item={item} />
-        ))}
+        ))} */}
 
-        <div className="otherAuthLink _flex_jcsb">
+        <OTPInputStyle className="_flex_jcc _gap15">
+          {otp.map((value, index) => (
+            <input
+              key={index}
+              maxLength={1}
+              className="otpInput _grid_center"
+              placeholder="___"
+              value={value}
+              onChange={(e) => handleOTPChange(e, index)}
+              ref={(el) => (inputRef.current[index] = el)}
+            />
+          ))}
+        </OTPInputStyle>
+
+        {/* <div className="otherAuthLink _flex_jcsb">
           <h4
             className="_pointer _flex _gap10 _align_center goldenLink"
             href={"/login"}
@@ -290,10 +320,38 @@ const index = () => {
           <Link className="goldenLink" href={"/login"}>
             Login
           </Link>
-        </div>
+        </div> */}
       </Form>
     </AuthLayout>
   );
 };
 
 export default index;
+
+export const OTPInputStyle = styled.div`
+  &&& {
+    .otpInput {
+      width: 80px;
+      height: 72px;
+      padding: 16px 20px;
+      border-radius: 8px;
+      background: #f5f5f5;
+      color: #000;
+      font-size: 40px;
+    }
+
+    @media screen and (max-width: 800px) {
+      flex-wrap: wrap;
+
+      .otpInput {
+        width: calc(80px * 0.6);
+        height: calc(72px * 0.6);
+        padding: 10px 12px;
+        border-radius: 8px;
+        background: #f5f5f5;
+        color: #000;
+        font-size: 30px;
+      }
+    }
+  }
+`;

@@ -1101,6 +1101,10 @@ button {
 /*  */
 /*  */
 /*  */
+._p0 {
+  padding: 0 !important;
+}
+
 ._px {
   padding-top: var(--p_vertic);
   padding-bottom: var(--p_vertic);
@@ -1159,6 +1163,10 @@ button {
 
 ._p20 {
   padding: 20px !important;
+}
+
+._p24 {
+  padding: 24px !important;
 }
 
 ._p25 {

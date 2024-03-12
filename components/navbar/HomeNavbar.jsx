@@ -18,58 +18,70 @@ import Stack from "@mui/joy/Stack";
 import ModalClose from "@mui/joy/ModalClose";
 import { useEffect, useState } from "react";
 
-const SmallScreen = ({ modalState, showAuthBtns }) => {
+const SmallScreen = ({ modalState }) => {
   const [open, setOpen] = modalState;
 
   return (
-    <div>
+    <>
       <Modal
         aria-labelledby="Navbar on small screen"
         aria-describedby="Navbar on small screen"
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: 0,
+          // display: "flex",
+          // justifyContent: "flex-end",
+          // alignItems: "center",
+          padding: "90px",
           margin: 0,
-          // background: "green",
+          background: "#ffffff",
+          maxWidth: 500,
+          top: -20,
+          right: -50,
+          border: 0,
         }}
         open={open}
         onClose={() => setOpen(!open)}
       >
-        <ModalDialog
-          className="_auto_scroll_y _bg_red"
-          sx={{ width: "100%", maxWidth: "100%" }}
-        >
-          <ModalClose variant="plain" sx={{ m: 1 }} />
-          <div className="sm_navlinks _flex_center _align_center">
-            <Link href={"/"} className="links">
-              Home
-            </Link>
-            <Link href={"/"} className="links">
-              About Us
-            </Link>
-            <Link href={"/"} className="links">
-              Contact
-            </Link>
-          </div>
-          <div
-            style={{
-              visibility: showAuthBtns ? "visible" : "hidden",
-              maxWidth: showAuthBtns ? "max-content" : "10%",
-            }}
-            className="sm_auth_links _flex _align_center"
+        <SmallScreenStyle>
+          <ModalDialog
+            className="_flex_col _gap50 _p24 _auto_scroll_y _full_wh _bg_red"
+            // sx={{ width: "min(400px, 100%)", maxWidth: "400px" }}
           >
-            <Link href={"/login"} className="links">
-              Login
-            </Link>
-            <Link href={"/signup"} className="links blue _no_wrap">
-              Sign up for FREE
-            </Link>
-          </div>
-        </ModalDialog>
+            <ModalClose size="lg" variant="plain" sx={{ m: 2 }} />
+
+            <div className="_flex_col _gap15">
+              <div className="_flex">{NataGuardLogoSvg}</div>
+              <div className="smlinks _flex_col">
+                <Link href={"/"} className="link">
+                  Home
+                </Link>
+                <Link href={"/"} className="link">
+                  About Us
+                </Link>
+                <Link href={"/"} className="link">
+                  Contact
+                </Link>
+              </div>
+            </div>
+            <div
+              style={{
+                gap: 24,
+                alignItems: "center",
+              }}
+              className="_flex_col_jcc _full_w _flex1 _align_center"
+            >
+              <div className="_flex_col _gap24" style={{ width: "70%" }}>
+                <Link href={"/login"} className="login">
+                  Login
+                </Link>
+                <Link href={"/signup"} className="signup blue _no_wrap">
+                  Sign up for FREE
+                </Link>
+              </div>
+            </div>
+          </ModalDialog>
+        </SmallScreenStyle>
       </Modal>
-    </div>
+    </>
   );
 };
 
@@ -82,7 +94,7 @@ const HomeNavbar = ({ showAuthBtns = true, isopen, setIsOpen, hamRef }) => {
       <div>
         <Link href={"/"}>{NataGuardLogoSvg}</Link>
       </div>
-      <label htmlFor="toggleMenu" onClick={() => setOpen(true)}>
+      <button type="button" onClick={() => setOpen(true)}>
         <svg
           width="50px"
           className="_pointer _p5"
@@ -104,9 +116,8 @@ const HomeNavbar = ({ showAuthBtns = true, isopen, setIsOpen, hamRef }) => {
             fill="#000000"
           />
         </svg>
-      </label>
-      <input id="toggleMenu" type="checkbox" />
-      <SmallScreen modalState={modalState} showAuthBtns={showAuthBtns} />
+      </button>
+      <SmallScreen modalState={modalState} />
       <div className="navlinks _flex_center _align_center">
         <Link href={"/"} className="links">
           Home
@@ -147,6 +158,10 @@ const Container = styled.section`
     padding: var(--container_padding);
     position: relative;
 
+    > button {
+      display: none;
+    }
+
     .navlinks {
       gap: var(--nav_links_gap);
       transition: 0.2s all ease-in-out;
@@ -166,11 +181,6 @@ const Container = styled.section`
           color: var(--Text---Title, #122025);
         }
       }
-    }
-
-    #toggleMenu,
-    label[for="toggleMenu"] {
-      display: none;
     }
 
     .auth_links {
@@ -205,93 +215,75 @@ const Container = styled.section`
       --container_padding: 32px 4%;
       --nav_links_gap: 40px;
       --auth_links_gap: 40px;
+      justify-content: space-between;
 
-      .navlinks {
-        position: absolute;
-        width: 100%;
-        height: fit-content;
+      > button {
         display: flex;
-        justify-content: space-around;
-        height: 50px;
-
-        inset: 0;
-        top: 100%;
-        scale: 0;
-        transform: translate(0, -200px);
-        background: #ffffff !important;
-        box-shadow: 0 0 0 2px #00000010;
-        padding: 10px 0;
+        background: transparent;
       }
 
-      label[for="toggleMenu"] {
-        display: block;
-      }
-
-      #toggleMenu {
-        display: none;
-
-        &:checked ~ .navlinks {
-          scale: 1;
-          transform: translate(0, 0);
-        }
-      }
-    }
-
-    @media screen and (max-width: 900px) {
+      .navlinks,
       .auth_links {
-        padding: 5px 0 10px;
-        box-shadow: 0 0 0 2px #00000010;
-
-        position: absolute;
-        width: 100%;
-        display: flex;
-        justify-content: space-around;
-        transition: 0.3s all ease-in-out;
-
-        inset: 0;
-        top: calc(100% + 50px);
-        height: fit-content;
-        scale: 0;
-        transform: translate(0, -200px);
-        background: #ffffff;
-      }
-
-      #toggleMenu {
-        box-shadow: 0 0 0 2px #00000010;
         display: none;
+      }
+    }
+  }
+`;
 
-        &:checked ~ .navlinks {
-          scale: 1;
-          transform: translate(0, 0);
-        }
+const SmallScreenStyle = styled.div`
+  /* max-width: 300px; */
 
-        &:checked ~ .auth_links {
-          scale: 1;
-          transform: translate(0, 0);
-        }
+  &&& {
+    .smlinks {
+      /* background: yellow; */
+
+      .link {
+        display: flex;
+        width: 100%;
+        padding: 16px 0;
+
+        color: var(--Text---Body, #829095);
+        font-family: "Open Sans";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%; /* 24px */
       }
     }
 
-    @media screen and (max-width: 1000px) {
-      .auth_links,
-      .navlinks {
-        display: none;
-      }
+    .login {
+      display: flex;
+      padding: 12px 32px;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      align-self: stretch;
 
-      #toggleMenu {
-        box-shadow: 0 0 0 2px #00000010;
-        display: none;
+      color: var(--Text---Title, #122025);
+      font-family: "Open Sans";
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 150%; /* 24px */
+    }
 
-        &:checked ~ .navlinks {
-          scale: 1;
-          transform: translate(0, 0);
-        }
+    .signup {
+      display: flex;
+      padding: 12px 32px;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      align-self: stretch;
 
-        &:checked ~ .auth_links {
-          scale: 1;
-          transform: translate(0, 0);
-        }
-      }
+      color: var(--White, #fff);
+      font-family: "Open Sans";
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 150%; /* 24px */
+
+      border-radius: 8px;
+      background: var(--Primary---500, #06aae4);
     }
   }
 `;

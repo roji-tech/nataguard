@@ -567,26 +567,3 @@ const Container = styled.section`
     }
   }
 `;
-
-const HamburgerRef = styled.div`
-  @media screen and (min-width: 900px) {
-    display: none;
-  }
-
-  /* outline: 3px solid red; */
-  background-color: var(--blue_light);
-
-  box-sizing: border-box;
-  display: grid;
-  place-items: center;
-  padding: 2px;
-  height: 35px;
-  width: 35px;
-  aspect-ratio: 1/1;
-  border-radius: 10px;
-  cursor: pointer;
-
-  img {
-    width: auto;
-  }
-`;
