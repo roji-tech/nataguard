@@ -71,13 +71,13 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
       </div>
 
       <img className="search_icon" src="search.svg" alt="" />
-      <div className="_flex searchDiv _flex1">
+      {/* <div className="_flex searchDiv _flex1">
         <div className="_flex search _align_center">
           {SearchIconSvg}
 
           <input type="text" placeholder="Search anything..." name="search" />
         </div>
-      </div>
+      </div> */}
 
       <div className="_flex _gap50 _align_center">
         <div className="_flex _gap30 _align_center">
