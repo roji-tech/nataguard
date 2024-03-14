@@ -1,7 +1,7 @@
 import { AuthLayout, Form, InputBox, RadioBox } from "@layouts/AuthLayout";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DashboardLayout from "@layouts/DashboardLayout";
 import styled from "styled-components";
 
@@ -37,11 +37,22 @@ export const Settings = ({ children, current = "My Profile" }) => {
 };
 
 import React from "react";
+import { useFetchData } from "@hooks/useFetchData";
+import useAuth from "@contexts/AuthContext";
 
 const ProfileSettings = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const formRef = useRef();
+
+  const {
+    state: { healthInfoSubmitted, user },
+    logout,
+  } = useAuth();
+  const [myuser, setMyuser] = useState();
+  useEffect(() => {
+    setMyuser(user);
+  }, [user]);
 
   const [isDisabled, setIsDisabled] = useState(true);
   const [isDisabled2, setIsDisabled2] = useState(true);
@@ -57,6 +68,19 @@ const ProfileSettings = () => {
     residentialAddress: "",
     registeredHospital: "",
   });
+
+  const [data, setData] = useFetchData(
+    {
+      firstName: "Rojitech",
+      lastName: "adio",
+      email: "rojitech2@gmail.com",
+      phoneNumber: null,
+    },
+    "/personal-info",
+    "get",
+    {},
+    ""
+  );
 
   const handleChange = (event) => {
     setValues();
@@ -95,13 +119,13 @@ const ProfileSettings = () => {
         <div className="_flex _flex1 names _gap24 _align_center">
           <input
             disabled={isDisabled}
-            placeholder="aaaaaaaaaaaa"
+            placeholder={data?.firstName}
             className="_flex1"
             type="text"
           />
           <input
             disabled={isDisabled}
-            placeholder="aaaaaaaaaaaa"
+            placeholder={data?.lastName}
             className="_flex1"
             type="text"
           />
@@ -113,7 +137,7 @@ const ProfileSettings = () => {
       ph: (
         <input
           disabled={isDisabled}
-          placeholder="aaaaaaaaaaaa"
+          placeholder={data?.email}
           className="_flex1"
           type="text"
         />
@@ -124,7 +148,7 @@ const ProfileSettings = () => {
       ph: (
         <input
           disabled={isDisabled}
-          placeholder="aaaaaaaaaaaa"
+          placeholder={data?.phoneNumber}
           className="_flex1"
           type="text"
         />
@@ -194,7 +218,11 @@ const ProfileSettings = () => {
           <div className="_flex _gap30">
             <img src="/avatar.png" width={100} height={100} alt="" />
             <div className="_flex_col_jcsb">
-              <h3>Emily Kimberly</h3>
+              <h3>
+                {myuser?.firstName + " " + myuser?.lastName ?? (
+                  <small>NoName</small>
+                )}{" "}
+              </h3>
               <p className="id">SB-ID-0056</p>
               <p>Lagos, Nigeria</p>
             </div>
