@@ -119,13 +119,13 @@ const ProfileSettings = () => {
         <div className="_flex _flex1 names _gap24 _align_center">
           <input
             disabled={isDisabled}
-            placeholder={data?.firstName}
+            placeholder={myuser?.firstName}
             className="_flex1"
             type="text"
           />
           <input
             disabled={isDisabled}
-            placeholder={data?.lastName}
+            placeholder={myuser?.lastName}
             className="_flex1"
             type="text"
           />
