@@ -90,7 +90,7 @@ const HomeNavbar = ({ showAuthBtns = true, isopen, setIsOpen, hamRef }) => {
   const [open, setOpen] = modalState;
 
   return (
-    <Container className="_border _flex_jcsb _gap50 _align_center">
+    <Container className="_flex_jcsb _gap50 _align_center">
       <div>
         <Link href={"/"}>{NataGuardLogoSvg}</Link>
       </div>
