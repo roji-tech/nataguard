@@ -90,7 +90,7 @@ const HomeNavbar = ({ showAuthBtns = true, isopen, setIsOpen, hamRef }) => {
   const [open, setOpen] = modalState;
 
   return (
-    <Container className="_flex_jcsb _gap50 _align_center">
+    <Container className="_border _flex_jcsb _gap50 _align_center">
       <div>
         <Link href={"/"}>{NataGuardLogoSvg}</Link>
       </div>
@@ -126,7 +126,7 @@ const HomeNavbar = ({ showAuthBtns = true, isopen, setIsOpen, hamRef }) => {
           About Us
         </Link>
         <Link href={"/"} className="links">
-          Contact
+          Download App
         </Link>
       </div>
       <div
@@ -136,11 +136,11 @@ const HomeNavbar = ({ showAuthBtns = true, isopen, setIsOpen, hamRef }) => {
         }}
         className="auth_links _flex _align_center"
       >
-        <Link href={"/login"} className="links">
-          Login
+        <Link href={"/signup"} className="links _no_wrap">
+          Sign up
         </Link>
-        <Link href={"/signup"} className="links blue _no_wrap">
-          Sign up for FREE
+        <Link href={"/login"} className="links blue">
+          Login
         </Link>
       </div>
     </Container>
@@ -151,11 +151,11 @@ export default HomeNavbar;
 
 const Container = styled.section`
   --container_padding: 32px 5%;
-  --nav_links_gap: 80px;
-  --auth_links_gap: 80px;
+  --nav_links_gap: 50px;
+  --auth_links_gap: 10px;
 
   &&& {
-    padding: var(--container_padding);
+    padding: var(--container_padding) !important;
     position: relative;
 
     > button {
@@ -188,7 +188,7 @@ const Container = styled.section`
 
       .links {
         cursor: pointer;
-        padding: 10px;
+        padding: 13px 40px;
         border-radius: 10px;
         color: var(--Text---Title, #122025);
         font-family: "Open Sans";
@@ -197,8 +197,11 @@ const Container = styled.section`
         font-weight: 600;
         line-height: 150%;
 
+        &:hover {
+          outline: 1px solid #00000020;
+        }
+
         &.blue {
-          padding: 16px 40px;
           background: var(--Primary---500, #06aae4);
 
           color: var(--White, #fff);
@@ -214,7 +217,6 @@ const Container = styled.section`
     @media screen and (max-width: 1300px) {
       --container_padding: 32px 4%;
       --nav_links_gap: 40px;
-      --auth_links_gap: 40px;
       justify-content: space-between;
 
       > button {

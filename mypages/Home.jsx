@@ -7,7 +7,6 @@ import styled from "styled-components";
 const HomePage = () => {
   return (
     <Wrapper className="_my_auto_scroll_v">
-      {/* <HomeNavbar /> */}
       <Head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,46 +27,10 @@ const HomePage = () => {
         />
       </Head>
 
-      <div className="root">
+      <div className="root _border1">
+        <HomeNavbar />
         <header>
           <div className="container">
-            <div id="nav-bar">
-              <div id="safe-left">
-                <a href="index.html">
-                  <h2>
-                    Nata<span>Guard</span>
-                  </h2>
-                </a>
-              </div>
-
-              <div id="safe-hbc">
-                <ul>
-                  <li>
-                    <a href="" id="Home" onclick="change()">
-                      Home
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#aboutus">About Us</a>
-                  </li>
-                  <li>
-                    <a href="#Contact">Contact</a>
-                  </li>
-                </ul>
-              </div>
-
-              <div id="safe-access">
-                <ul>
-                  <li id="Login">
-                    <a href="/login">Login</a>
-                  </li>
-                  <li id="free-signup">
-                    <a href="/signup">Sign up for FREE</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
             <div id="mheader">
               <div id="text">
                 <h1>
@@ -97,24 +60,25 @@ const HomePage = () => {
                 </div>
               </div>
 
-              <div className="halfcircle"></div>
+              <div className="homeImage1">
+                <img src="/homeImage1.svg" alt="" />
+              </div>
             </div>
           </div>
         </header>
 
-        <section id="sponsors">
-          <img src="media/image 1.png" alt="" />
-          <img src="media/image 2.png" alt="" />
-          <img src="media/image 3n.png" alt="" />
-          <img src="media/image 4.png" alt="" />
-          <img src="media/image 5.png" alt="" />
-          <img src="media/image 6.png" alt="" />
-          <img src="media/image 7.png" alt="" />
+        <section id="sponsors" className="container">
+          <img src="/google.svg" alt="" />
+          <img src="/duolingo.svg" alt="" />
+          <img src="/airtable.svg" alt="" />
+          <img src="/udemy.svg" alt="" />
+          <img src="/microsoft.svg" alt="" />
+          <img src="/google.svg" alt="" />
         </section>
 
-        <section id="content">
-          <div className="container">
-            <div className="first-row" id="aboutus">
+        <section className="container whoWeAre">
+            <div className="image"></div>
+            <div className="_flex_col _gap50 first-row" id="aboutus">
               <h1>Who We Are</h1>
               <p>
                 NataGuard, your personalized pregnancy companion, uses machine
@@ -128,6 +92,10 @@ const HomePage = () => {
                 complications and guide you toward a healthy pregnancy.
               </p>
             </div>
+        </section>
+
+        <section className="container content">
+          <div className="container">
 
             <div className="second-row">
               NataGuard, your personalized pregnancy companion, uses machine
@@ -244,164 +212,173 @@ const Wrapper = styled.div`
       }
 
       .container {
-        width: 80%;
-        margin: auto;
+        padding-right: 5%;
+        padding-left: 5%;
+        width: 100%;
       }
 
       header {
         position: relative;
+
+        #nav-bar {
+          width: 100%;
+          height: 100px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          /* padding: 20px; */
+          box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px,
+            rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+
+          #safe-left {
+            font-size: 1.3rem;
+          }
+
+          #safe-left a {
+            text-decoration: none;
+            color: #000;
+          }
+
+          #safe-left span {
+            color: #06aae4;
+          }
+
+          #safe-hbc ul {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          #safe-hbc ul li {
+            font-size: 1.1rem;
+            /* padding: 0 40px; */
+            font-weight: 400;
+          }
+
+          #safe-hbc ul li a {
+            text-decoration: none;
+            color: #829095;
+          }
+        }
+
+        #safe-access ul {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-weight: 600;
+        }
+
+        #safe-access ul li a {
+          text-decoration: none;
+          color: #122025;
+        }
+
+        #safe-access ul li#Login {
+          color: #122025;
+          padding-right: 30px;
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+
+        #safe-access ul li#free-signup {
+          color: #fff;
+          font-size: 1.1rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          background-color: #06aae4;
+          height: 40px;
+          width: 160px;
+          border-radius: 10px;
+        }
+
+        #safe-access ul li#free-signup a {
+          color: #fff;
+        }
+
+        /* MAIN-HEADER */
+        #mheader {
+          display: flex;
+          justify-content: space-between;
+          padding: 40px 0;
+          margin: auto;
+          background-color: #fff;
+
+          #text {
+            flex-basis: 50%;
+            width: 200px;
+          }
+
+          #text h1 {
+            font-family: "PT Serif Caption", serif;
+            font-size: 2.8rem;
+            font-weight: 400;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            width: 500px;
+          }
+
+          #text h1 span {
+            color: #06aae4;
+            font-family: "PT Serif Caption", serif;
+          }
+
+          #text p {
+            font-size: 1.2rem;
+            color: #829095;
+            line-height: 1.6;
+            margin: 30px 0;
+          }
+
+          #text #googleplay {
+            width: 400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* margin: 40px 0; */
+
+            #comingsoon {
+              color: #ffad33;
+              font-size: 1rem;
+              font-weight: 600;
+            }
+
+            #playstore {
+              width: 200px;
+            }
+          }
+
+          .halfcircle {
+            width: 450px;
+            height: 450px;
+            background-color: #f5f5f5;
+            border-radius: 50%;
+          }
+
+          .homeImage1 {
+            z-index: 0;
+            position: relative;
+
+            &:before {
+              position: absolute;
+              content: "";
+              inset: 0;
+              top: -100px;
+              z-index: -1;
+              width: 750px;
+              height: 750px;
+
+              border-radius: 750px;
+              background: radial-gradient(
+                50.07% 50.07% at 50% 50%,
+                #56cffb 0%,
+                rgba(86, 207, 251, 0) 91%
+              );
+            }
+          }
+        }
       }
-
-      header #nav-bar {
-        width: 100%;
-        height: 100px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-        box-shadow: rgba(27, 31, 35, 0.04) 0px 1px 0px,
-          rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
-      }
-
-      header #nav-bar #safe-left {
-        font-size: 1.3rem;
-      }
-
-      header #nav-bar #safe-left a {
-        text-decoration: none;
-        color: #000;
-      }
-
-      header #nav-bar #safe-left span {
-        color: #06aae4;
-      }
-
-      header #nav-bar #safe-hbc ul {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      header #nav-bar #safe-hbc ul li {
-        font-size: 1.1rem;
-        padding: 0 40px;
-        font-weight: 400;
-      }
-
-      header #nav-bar #safe-hbc ul li a {
-        text-decoration: none;
-        color: #829095;
-      }
-
-      header #safe-access ul {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-weight: 600;
-      }
-
-      header #safe-access ul li a {
-        text-decoration: none;
-        color: #122025;
-      }
-
-      header #safe-access ul li#Login {
-        color: #122025;
-        padding-right: 30px;
-        font-size: 1.1rem;
-        font-weight: 600;
-      }
-
-      header #safe-access ul li#free-signup {
-        color: #fff;
-        font-size: 1.1rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        background-color: #06aae4;
-        height: 40px;
-        width: 160px;
-        border-radius: 10px;
-      }
-
-      header #safe-access ul li#free-signup a {
-        color: #fff;
-      }
-
-      /* MAIN-HEADER */
-      header #mheader {
-        display: flex;
-        justify-content: space-between;
-        /* align-items: center; */
-        padding: 40px 0;
-        width: 90%;
-        margin: auto;
-        background-color: #fff;
-      }
-
-      header #mheader #text {
-        flex-basis: 50%;
-        width: 200px;
-      }
-
-      header #mheader #text h1 {
-        font-family: "PT Serif Caption", serif;
-        font-size: 2.8rem;
-        font-weight: 400;
-        margin-bottom: 30px;
-        line-height: 1.4;
-        width: 500px;
-      }
-
-      header #mheader #text h1 span {
-        color: #06aae4;
-        font-family: "PT Serif Caption", serif;
-      }
-
-      header #mheader #text p {
-        font-size: 1.2rem;
-        color: #829095;
-        line-height: 1.6;
-        margin: 30px 0;
-      }
-
-      header #mheader #text #googleplay {
-        width: 400px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        /* margin: 40px 0; */
-      }
-
-      header #mheader #text #googleplay #comingsoon {
-        color: #ffad33;
-        font-size: 1rem;
-        font-weight: 600;
-      }
-
-      header #mheader #text #googleplay #playstore {
-        width: 200px;
-      }
-
-      header #mheader .halfcircle {
-        width: 450px;
-        height: 450px;
-        background-color: #f5f5f5;
-        border-radius: 50%;
-      }
-
-      /* header #circle {
-    width: 500px;
-    height: 500px;
-    margin-top: -50px;
-    flex-basis: 40%;
-}
-
-header #circle img{
-    width: 100%;
-    height: 100%;
-} */
 
       section#sponsors {
         display: flex;
@@ -412,18 +389,18 @@ header #circle img{
         height: 100px;
         z-index: 1;
         flex-wrap: wrap;
-      }
 
-      section#sponsors img {
-        width: 150px;
-      }
+        /* img {
+          width: 150px;
 
-      section#sponsors img:first-child {
-        width: 80px;
-      }
+          &:first-child {
+            width: 80px;
+          }
 
-      section#sponsors img:last-child {
-        width: 80px;
+          &:last-child {
+            width: 80px;
+          }
+        } */
       }
 
       section#content {
