@@ -20,7 +20,7 @@ const Parameter = () => {
   }, [healthInfoSubmitted]);
 
   const PARAMETERS = {
-    bodyTemperature: {
+    bodytemperature: {
       category: "",
       value: "30",
       label: "Body Temperature",
@@ -40,7 +40,7 @@ const Parameter = () => {
       value: "30",
       label: "Age",
     },
-    heartRate: {
+    heartrate: {
       category: "normal",
       value: "30",
       label: "Heart Rate",
@@ -50,34 +50,103 @@ const Parameter = () => {
       value: "30",
       label: "BMI",
     },
-    bloodGlucoseHbA1c: {
+    bloodglucosehba1c: {
       label: "Blood Glucose (Hb1Ac)",
     },
-    bloodGlucoseFastingHour: {
+    bloodglucosefasting: {
       category: "diabetes",
       value: "30",
       label: "Blood Glucose (fasting)",
     },
     // bloodgroup: {},
-    genotype: {
-      category: "gestational diabetes",
-      value: "30",
-      label: "Genotype",
+    // genotype: {
+    //   category: "gestational diabetes",
+    //   value: "30",
+    //   label: "Genotype",
+    // },
+    // lastMenstrualPeriod: {
+    //   category: "gestational diabetes",
+    //   value: "30",
+    //   label: "Last Mentrual Period",
+    // },
+  };
+
+  const PARAMS = {
+    age: {
+      value: 30,
+      category: "normal",
+      information:
+        "Your Age_Category falls within the range considered optimal for pregnancy with lower risk of complications., You have a favorable biological environment for conception and healthy fetal development.",
     },
-    lastMenstrualPeriod: {
+    bloodglucosefasting: {
+      value: 60,
+      category: "diabetes",
+      information:
+        "Dear user, your blood glucose level is consistently high, indicating diabetes.Seek medical attention and follow recommended treatment plans to manage your diabetes.",
+    },
+    bloodglucosehba1c: {
+      value: 50,
       category: "gestational diabetes",
-      value: "30",
-      label: "Last Mentrual Period",
+      information:
+        "Dear user, you have developed diabetes during pregnancy. This can have health implications for both you and your baby. It's important to work closely with your healthcare team to manage your blood sugar levels and ensure a healthy pregnancy., Work closely with your healthcare team to manage your blood sugar levels and ensure a healthy pregnancy.",
+    },
+    bloodpressure: {
+      systolicValue: 20,
+      diastolicValue: 20,
+      category: "Hypotension",
+      information:
+        "Your blood pressure is lower than the normal range. While low blood pressure doesn't always cause symptoms, it can become dangerous if severe., May cause dizziness, lightheadedness, fainting, or fatigue. Can pose risks during pregnancy or to individuals with underlying health conditions. Consult your doctor to determine the cause and identify appropriate management strategies.Consider increasing fluid intake and salt intake in moderation if advised by your doctor.",
+    },
+    bmi: {
+      value: 0,
+      category: "low",
+      information:
+        "Your BMI is below the normal range, suggesting a lower-than-average body weight for your height. This could be due to factors such as genetics, underlying health conditions, or insufficient nutrition., Being underweight can lead to nutrient deficiencies, weakened immune system, osteoporosis, fatigue, fertility problems, and delayed wound healing.",
+    },
+    bodytemperature: {
+      value: 303,
+      category: "high",
+      information:
+        "high: Your body temperature is above the normal range (greater than 99.5°F). This could indicate fever, heat exhaustion, or heatstroke., Stay cool, drink plenty of fluids, and monitor your temperature. Seek medical attention if fever persists, exceeds 103°F, or you experience severe symptoms.",
+    },
+    heartrate: {
+      value: 0,
+      category: "low",
+      information: null,
     },
   };
 
-  const [data, setData] = useFetchData(
-    PARAMETERS,
+  const [data, setData, _] = useFetchData(
+    PARAMS,
     "/health/analyze-parameters",
     "get",
     {},
     ""
   );
+
+  const getValue = (data, parameter) => {
+    if (parameter === "systolicBloodPressure") {
+      return {
+        category: data?.bloodpressure?.category,
+        value: data?.bloodpressure?.systolicValue,
+        label: PARAMETERS?.[parameter]?.label,
+      };
+    }
+
+    if (parameter === "diastolicBloodPressure") {
+      return {
+        category: data?.bloodpressure?.category,
+        value: data?.bloodpressure?.diastolicValue,
+        label: PARAMETERS?.[parameter]?.label,
+      };
+    }
+
+    return {
+      category: data?.[parameter]?.category,
+      value: data?.[parameter]?.value,
+      label: PARAMETERS?.[parameter]?.label,
+    };
+  };
 
   return (
     <DashboardLayout showAside={false}>
@@ -87,7 +156,9 @@ const Parameter = () => {
             item={{
               title: (
                 <>
-                  <h5 className="title_text">My Parameters</h5>
+                  <h5 className="title_text">
+                    My Parameters {data?.age?.value}{" "}
+                  </h5>
 
                   <div className="_flex _gap10 _align_center">
                     <Link href={"/dashboard/settings"} className="link">
@@ -103,47 +174,45 @@ const Parameter = () => {
                   <div className="parameterWrapper _flex_col _gap16">
                     <header className="">
                       <div className="_grid_center">Parameters</div>
-                      <div className="_grid_center">Standard Values</div>
-                      <div className="_grid_center">Your Values</div>
+                      <div
+                        className="_grid_center"
+                        style={{ background: "#829095", color: "#fff" }}
+                      >
+                        Patient Values
+                      </div>
+                      <div className="_grid_center">Category</div>
                     </header>
 
                     <hr className="firstLine" />
                     <hr className="secondLine" />
 
                     <div className="parameters _full_w _flex_col _gap8">
-                      {/* {PARAMETERS.map((item) => (
-                      <div
-                        key={item?.name}
-                        className="parameter _flex_jcsb _full_w"
-                      >
-                        <div className="box">{item?.name}</div>
-                        <div className="box _grid_center">{item?.value}</div>
-                        <div className="box _grid_center">{item?.category}</div>
-                      </div>
-                    ))} */}
+                      {Object.keys(PARAMETERS).map((parameter) => {
+                        const values = getValue(data, parameter);
 
-                      {Object.keys(PARAMETERS).map((parameter) => (
-                        <div
-                          key={parameter}
-                          className="parameter _flex_jcsb _full_w"
-                        >
-                          <div className="box">
-                            {PARAMETERS[parameter].label}
-                          </div>
+                        return (
                           <div
-                            className="box _grid_center"
-                            style={{
-                              //  background: "#fafafa",
-                              padding: 0,
-                            }}
+                            key={parameter}
+                            className="parameter _flex_jcsb _full_w"
                           >
-                            {PARAMETERS[parameter].value}
+                            <div className="box">
+                              {PARAMETERS[parameter].label}
+                            </div>
+                            <div
+                              className="box _grid_center"
+                              style={{
+                                //  background: "#fafafa",
+                                padding: 0,
+                              }}
+                            >
+                              {values?.value}
+                            </div>
+                            <div className="box _grid_center">
+                              {values?.category}
+                            </div>
                           </div>
-                          <div className="box _grid_center">
-                            {PARAMETERS[parameter].category}
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                   <div className="btns">

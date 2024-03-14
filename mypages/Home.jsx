@@ -27,7 +27,7 @@ const HomePage = () => {
         />
       </Head>
 
-      <div className="root _border1">
+      <div className="root">
         <HomeNavbar />
         <header>
           <div className="container">
