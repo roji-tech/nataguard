@@ -82,6 +82,18 @@ const ProfileSettings = () => {
     ""
   );
 
+  const [data1, setData1] = useFetchData(
+    {
+      patientId: "227b0ca5-1a3c-4204-a923-57d18d21822e",
+      residentialAddress: "",
+      registeredHospital: "",
+    },
+    "/patient-info",
+    "get",
+    {},
+    ""
+  );
+
   const handleChange = (event) => {
     setValues();
   };
@@ -137,7 +149,7 @@ const ProfileSettings = () => {
       ph: (
         <input
           disabled={isDisabled}
-          placeholder={data?.email}
+          placeholder={myuser?.email}
           className="_flex1"
           type="text"
         />
@@ -170,7 +182,7 @@ const ProfileSettings = () => {
       ph: (
         <input
           disabled={isDisabled2}
-          placeholder="SB-ID-00845"
+          placeholder={data1?.patientId}
           className="_flex1"
           type="text"
         />
@@ -187,7 +199,7 @@ const ProfileSettings = () => {
       ph: (
         <input
           disabled={isDisabled2}
-          placeholder="25, Emily Close, Dolphin Estate, Lekki Phase I, Lekki, VI, Lagos, Nigeria."
+          placeholder={data1?.residentialAddress}
           className="_flex1"
           type="text"
         />
@@ -203,13 +215,14 @@ const ProfileSettings = () => {
       ph: (
         <input
           disabled={isDisabled2}
-          placeholder="Lekki Central Hospital, Lekki, VI, Lagos, Nigeria."
+          placeholder={data1?.registeredHospital}
           className="_flex1"
           type="text"
         />
       ),
     },
   ];
+
   return (
     <Settings>
       <div className="_flex_col _gap40 myProfile">
