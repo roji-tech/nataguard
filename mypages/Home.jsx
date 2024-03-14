@@ -76,9 +76,9 @@ const HomePage = () => {
           <img src="/google.svg" alt="" />
         </section>
 
-        <section className="container whoWeAre">
-            <div className="image"></div>
-            <div className="_flex_col _gap50 first-row" id="aboutus">
+        <section id="content">
+          <div className="container">
+            <div className="first-row" id="aboutus">
               <h1>Who We Are</h1>
               <p>
                 NataGuard, your personalized pregnancy companion, uses machine
@@ -92,10 +92,6 @@ const HomePage = () => {
                 complications and guide you toward a healthy pregnancy.
               </p>
             </div>
-        </section>
-
-        <section className="container content">
-          <div className="container">
 
             <div className="second-row">
               NataGuard, your personalized pregnancy companion, uses machine
