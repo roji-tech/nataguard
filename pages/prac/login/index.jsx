@@ -205,7 +205,7 @@ const index = () => {
       modalComponent={modalComponent}
       // middleElements=""
       bottomElements={""}
-      showSocials={true}
+      // showSocials={true}
     >
       <Form>
         {FIELDS.map((item) => (
