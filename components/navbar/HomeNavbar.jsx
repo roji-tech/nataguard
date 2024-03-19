@@ -122,7 +122,7 @@ const HomeNavbar = ({ showAuthBtns = true, isopen, setIsOpen, hamRef }) => {
         <Link href={"/"} className="links">
           Home
         </Link>
-        <Link href={"/"} className="links">
+        <Link href={"#aboutus"} className="links">
           About Us
         </Link>
         <Link href={"/prac/login"} className="_goldenLink links">
