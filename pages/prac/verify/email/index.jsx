@@ -68,7 +68,7 @@ const index = () => {
 
     axios(config)
       .then((response) => {
-        console.log("Practitioner Email Verify response");
+        console.log("Email Verify response");
         console.log(JSON.stringify(response.data));
         console.log(JSON.stringify(response));
         // alert(JSON.stringify(response.data));
@@ -104,7 +104,7 @@ const index = () => {
   return (
     <AuthLayout
       showFormTitle={true}
-      headerText="Verify Email"
+      headerText="Practitioner Verify Email"
       headerDesc="Verify your email account to continue."
       login={false}
       btnText="Verify"

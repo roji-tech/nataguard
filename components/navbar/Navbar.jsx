@@ -61,10 +61,10 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
   return (
     <Container className="_gap40">
       <div className="profile _flex _gap20">
-        <div className="_flex _gap20 _align_center">
+        {/* <div className="_flex _gap20 _align_center">
           {ArrowLeftwardSvg}
           {ArrowRightwardSvg}
-        </div>
+        </div> */}
         <div className="title _flex_col_code">
           <p>{myuser?.full_name ?? <small>Dashboard</small>}</p>
         </div>
@@ -80,20 +80,18 @@ const Navbar = ({ isopen, setIsOpen, hamRef }) => {
       </div> */}
 
       <div className="_flex _gap50 _align_center">
-        <div className="_flex _gap30 _align_center">
+        {/* <div className="_flex _gap30 _align_center">
           {NavbarBellIconSvg}
 
           {NavbarCalendarIconSvg}
 
           {ChatIconSvg}
-        </div>
+        </div> */}
         <div className="_flex _gap20 _align_center profile">
           <div className="avatar_circle"></div>
           <div className="title _flex_col_code">
             <p>
-              {myuser?.firstName + " " + myuser?.lastName ?? (
-                <small>NoName</small>
-              )}
+              {myuser?.firstName || "_"} {myuser?.lastName ?? "_"}
             </p>
             <small className="_capitalize _ellipsis_overflow">
               {myuser?.id?.slice(0, 10) + "..." || "Patient - ID"}

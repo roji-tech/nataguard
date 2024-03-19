@@ -15,6 +15,9 @@ export const emptyState = {
 };
 export const initialState = {
   token: globalThis?.localStorage?.getItem("token") || null,
+  userType: globalThis?.localStorage?.getItem("userType")
+    ? JSON.parse(globalThis?.localStorage?.getItem("userType"))
+    : "patient",
   healthInfoSubmitted: globalThis?.localStorage?.getItem("healthInfoSubmitted")
     ? JSON.parse(globalThis?.localStorage?.getItem("healthInfoSubmitted"))
     : false,

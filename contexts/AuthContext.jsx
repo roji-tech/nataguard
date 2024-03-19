@@ -11,6 +11,9 @@ const AuthContext = createContext({
       ? JSON.parse(globalThis?.localStorage?.getItem("user"))
       : {},
     token: globalThis?.localStorage?.getItem("token") || null,
+    userType: globalThis?.localStorage?.getItem("userType")
+      ? JSON.parse(globalThis?.localStorage?.getItem("userType"))
+      : "patient",
     healthInfoSubmitted: globalThis?.localStorage?.getItem(
       "healthInfoSubmitted"
     )

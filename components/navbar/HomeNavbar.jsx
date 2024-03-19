@@ -125,8 +125,8 @@ const HomeNavbar = ({ showAuthBtns = true, isopen, setIsOpen, hamRef }) => {
         <Link href={"/"} className="links">
           About Us
         </Link>
-        <Link href={"/"} className="links">
-          Download App
+        <Link href={"/prac/login"} className="_goldenLink links">
+          Practioner Login
         </Link>
       </div>
       <div

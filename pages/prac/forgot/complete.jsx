@@ -5,61 +5,74 @@ import { ShowSuccess } from "@utils/ShowSuccess";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const index = () => {
   const router = useRouter();
 
-  const { email: userEmail } = router.query;
-
   const handleChange = (e) => {
     let value = e.target.value;
+
+    if (e.target.name == "subscribedToNewsletter") {
+      value = Boolean(Number(value));
+    }
     setValues((prev) => ({ ...prev, [e.target.name]: value }));
   };
-
-  const [values, setValues] = useState({
-    email: "",
-    token: "",
-  });
 
   const FIELDS = [
     {
       handleChange,
-      name: "email",
-      label: "Email Address",
-      ph: "johndoe@example.com",
-      type: "email",
-      value: values.email,
+      name: "password",
+      label: "Password",
+      ph: "*****************",
+      type: "password",
     },
     {
       handleChange,
-      name: "token",
-      label: "Pin",
-      ph: "00000",
+      name: "password2",
+      label: "Confirm Password",
+      ph: "*****************",
+      type: "password",
     },
   ];
 
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+    password2: "",
+    firstName: "",
+    lastName: "",
+    subscribedToNewsletter: false,
+  });
+
   const [loading, setLoading] = useState(false);
 
-  const handleVerifyEmail = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     console.log(values);
 
     if (!values.email) {
       ShowErrors("Please provide an email address");
       return;
-    } else if (!values.token) {
-      ShowErrors(["Input the pin from your email"]);
+    } else if (!values.firstName | !values.lastName) {
+      ShowErrors("Please fill all fields");
+      return;
+    } else if (!values.password) {
+      ShowErrors("Please provide a password");
+      return;
+    } else if (values.password !== values.password2) {
+      ShowErrors(["Passwords does not match"]);
       return;
     }
 
+    delete values.password2;
     let data = { ...values };
     setLoading(true);
 
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: api.verify_email,
+      url: api.register,
       headers: {
         "Content-Type": "application/json",
       },
@@ -68,13 +81,13 @@ const index = () => {
 
     axios(config)
       .then((response) => {
-        console.log("Practitioner Email Verify response");
+        console.log("register response");
         console.log(JSON.stringify(response.data));
         console.log(JSON.stringify(response));
         // alert(JSON.stringify(response.data));
         // dispatchFunc(typ.setAll, response.data);
         ShowSuccess("Sign Up Successful");
-        router.push("/login");
+        router.push(`/verify/email/${values.email}`);
       })
       .catch((e) => {
         console.log("login error", e);
@@ -87,7 +100,9 @@ const index = () => {
           if (e.response?.data?.errors?.length < 15) {
             return ShowErrors([...e?.response?.data?.errorMsg]);
           }
-          return ShowErrors(e?.response?.data?.errorMsg ?? "An Error Occurred");
+          return ShowErrors(
+            e?.response?.data?.errorMsg ?? "An Error Occurred"
+          );
         } catch (error) {
           console.log(error);
           return ShowErrors("An Error Occurred");
@@ -96,25 +111,32 @@ const index = () => {
       .finally((error) => setLoading(false));
   };
 
-  useEffect(() => {
-    console.log(router.query);
-    setValues((prev) => ({ ...prev, email: userEmail }));
-  }, []);
-
   return (
     <AuthLayout
       showFormTitle={true}
-      headerText="Verify Email"
-      headerDesc="Verify your email account to continue."
+      headerText="Sign Up"
+      headerDesc="Create a FREE account in seconds."
       login={false}
-      btnText="Verify"
-      handleSubmit={handleVerifyEmail}
+      btnText="Sign Up"
+      handleSubmit={handleSubmit}
       loading={loading}
     >
       <Form>
         {FIELDS.map((item) => (
           <InputBox item={item} />
         ))}
+
+        <RadioBox
+          item={{
+            label: "Subscribe to our Newsletter",
+            name: "subscribedToNewsletter",
+            handleChange,
+            options: [
+              { id: 1, ph: "Yes" },
+              { id: 0, ph: "No" },
+            ],
+          }}
+        />
 
         <div className="otherAuthLink _flex_jce">
           <Link href={"/login"}>Login</Link>

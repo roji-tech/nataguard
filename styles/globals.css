@@ -688,6 +688,22 @@ button {
   gap: 90px !important;
 }
 
+/*  */
+/*  */
+/*  */
+/*  */
+
+._goldenLink {
+  text-align: center;
+  font-family: "Open Sans";
+  font-size: 20px;
+  font-style: normal;
+
+  font-weight: 600;
+  line-height: 150%;
+
+  color: var(--Secondary---700, #f90) !important;
+}
 
 /*  */
 /*  */
