@@ -127,10 +127,6 @@ const index = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setOpen(true);
-    setModalComponent(
-      <SignUpPopup success={true} open={open} setOpen={setOpen} />
-    );
 
     console.log(values);
 
