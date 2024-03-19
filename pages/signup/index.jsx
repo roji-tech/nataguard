@@ -181,7 +181,12 @@ const index = () => {
 
         setModalComponent(
           <SignUpPopup
-            message={e?.response?.data?.errorMsg ?? undefined}
+            message={
+              e?.response?.data?.errorMsg ||
+              e?.response?.data?.DuplicateEmail ||
+              e?.response?.data?.PasswordTooShort ||
+              undefined
+            }
             open={open}
             setOpen={setOpen}
           />
