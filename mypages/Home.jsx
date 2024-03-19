@@ -59,12 +59,9 @@ const HomePage = () => {
         </header>
 
         <section id="sponsors" className="container">
-          <img src="/google.svg" alt="" />
-          <img src="/duolingo.svg" alt="" />
-          <img src="/airtable.svg" alt="" />
-          <img src="/udemy.svg" alt="" />
           <img src="/microsoft.svg" alt="" />
-          <img src="/google.svg" alt="" />
+          <img src="/microsoft.svg" alt="" />
+          <img src="/microsoft.svg" alt="" />
         </section>
 
         <section id="content">
