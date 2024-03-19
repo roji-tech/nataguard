@@ -44,18 +44,9 @@ const HomePage = () => {
                   toward a healthy pregnancy.
                 </p>
 
-                <div id="googleplay">
-                  <p id="comingsoon">Coming Soon</p>
-                  <img src="media/guidance_up-arrow.svg" alt="arrow" />
-                  <a
-                    href="https://play.google.com/store/apps?hl=en_US&gl=US&pli=1"
-                    target="_blank"
-                  >
-                    <img
-                      id="playstore"
-                      src="media/image 3.png"
-                      alt="google play"
-                    />
+                <div class="signupfree">
+                  <a href="">
+                    <button>Sign up for FREE</button>
                   </a>
                 </div>
               </div>
@@ -211,6 +202,16 @@ const Wrapper = styled.div`
         padding-right: 5%;
         padding-left: 5%;
         width: 100%;
+      }
+
+      .signupfree a button {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #fff;
+        background-color: #06aae4;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
       }
 
       header {
