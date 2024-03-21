@@ -10,6 +10,15 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import styled from "styled-components";
 
+// import Button from "@mui/joy/Button";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+// import DialogTitle from "@mui/joy/DialogTitle";
+// import DialogContent from "@mui/joy/DialogContent";
+// import Stack from "@mui/joy/Stack";
+import ModalClose from "@mui/joy/ModalClose";
+// import { useEffect, useState } from "react";
+
 export const ArrowLinkElement = ({
   text = "See More",
   link = "#",
@@ -90,7 +99,11 @@ const DashboardLayout = ({
     title: "",
     menuList: DefaultMenuList,
   },
+  modalComponent = "",
+  modalBackdropClickClose = false,
+  modalState = useState(false),
 }) => {
+  const [open, setOpen] = modalState;
   const [isopen, setIsOpen] = useState(false);
 
   const sideBarRef = useRef();
@@ -114,7 +127,31 @@ const DashboardLayout = ({
           <div className="navbar">
             <Navbar isopen={isopen} setIsOpen={setIsOpen} hamRef={hamRef} />
           </div>
-          <div className="main_content">
+          <div className="main_content" style={{position: "relative"}}>
+            <Modal
+              aria-labelledby="modal-title"
+              aria-describedby="modal-desc"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              open={open}
+              onClose={(_event, reason) => {
+                if ((reason == "backdropClick") & !modalBackdropClickClose)
+                  return;
+
+                setOpen(false);
+              }}
+            >
+              <ModalDialog
+                className="_auto_scroll_y _bg_white"
+                sx={{ width: "90%", maxWidth: 800 }}
+              >
+                <ModalClose variant="plain" sx={{ m: 1 }} />
+                {modalComponent}
+              </ModalDialog>
+            </Modal>
             <div
               className="children _bg_white _auto_scroll_y"
               style={{ padding: 24 }}

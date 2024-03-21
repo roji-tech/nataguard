@@ -169,7 +169,7 @@ const index = () => {
 
         setModalComponent(
           <LoginPopup
-            message={e?.response?.data?.errorMsg ?? undefined}
+            message={e?.response?.data?.errorMsg || e?.message || undefined}
             open={open}
             setOpen={setOpen}
           />
@@ -212,7 +212,9 @@ const index = () => {
         ))}
 
         <div className="otherAuthLink _flex_jce" style={{ marginTop: "-20px" }}>
-          <Link href={"/forgot"} className="goldenLink">Forgot Password</Link>
+          <Link href={"/forgot"} className="goldenLink">
+            Forgot Password
+          </Link>
           {/* <Link href={"/signup"}>Sign Up</Link> */}
         </div>
 

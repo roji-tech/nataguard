@@ -15,6 +15,8 @@ const ForgotPopup = ({
   open,
   setOpen = () => {},
 }) => {
+  const router = useRouter();
+
   const [comp, setComp] = useState(null);
 
   useEffect(() => {

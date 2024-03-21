@@ -7,16 +7,121 @@ import { barChartSVG, editIconSvg } from "@components/svgs/nataguard";
 import { useFetchData } from "@hooks/useFetchData";
 import useAuth from "@contexts/AuthContext";
 import { useEffect, useRef, useState } from "react";
+import { api } from "@config";
+import { fetchDataWithUseAxios } from "@utils/fetchDataWithUseAxios";
+import useAxios from "@hooks/useAxios";
+import { ShowErrors } from "@utils/ShowErrors";
+import { useRouter } from "next/router";
+import { ShowSuccess } from "@utils/ShowSuccess";
+
+const LoadingPopup = ({
+  success = false,
+  message,
+  open,
+  setOpen = () => {},
+}) => {
+  const [comp, setComp] = useState(null);
+
+  useEffect(() => {
+    success
+      ? setComp(
+          <>
+            <svg
+              width="120"
+              height="120"
+              viewBox="0 0 120 120"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M60 110C87.5 110 110 87.5 110 60C110 32.5 87.5 10 60 10C32.5 10 10 32.5 10 60C10 87.5 32.5 110 60 110Z"
+                stroke="#FFAD33"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M38.75 60.0001L52.9 74.1501L81.25 45.8501"
+                stroke="#FFAD33"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            <div className="_flex_col_center">
+              <h3>Changes Updated!</h3>
+              <p>You have successfully updated your parameters.</p>
+            </div>
+          </>
+        )
+      : setComp(
+          <>
+            <svg
+              width="120"
+              height="120"
+              viewBox="0 0 120 120"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M60 110C87.5 110 110 87.5 110 60C110 32.5 87.5 10 60 10C32.5 10 10 32.5 10 60C10 87.5 32.5 110 60 110Z"
+                stroke="#FF3535"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M45.8501 74.1501L74.1501 45.8501"
+                stroke="#FF3535"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M74.1501 74.1501L45.8501 45.8501"
+                stroke="#FF3535"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            <div className="_flex_col_center">
+              <h3>Update Error!</h3>
+              <p> {message ?? "An Error Occured."} </p>
+            </div>
+
+            <button
+              type="button"
+              className="_full_w _p20 _grid_center"
+              style={{ background: "var(--nataBlue)", fontSize: 20 }}
+              onClick={() => setOpen(false)}
+            >
+              Retry
+            </button>
+          </>
+        );
+  }, [open]);
+
+  return <div className="modalPpup _flex_col_center _p50 _gap40">{comp}</div>;
+};
 
 const Parameter = () => {
-  const formRef = useRef();
+  const inputRefs = useRef([]);
+  const router = useRouter();
+
+  const [modalComponent, setModalComponent] = useState(<LoadingPopup />);
+  const modalState = useState(false);
+  const [open, setOpen] = modalState;
 
   // const data = useFetchData([], "/health/risklevel", "get", {}, "");
   const [isDisabled, setIsDisabled] = useState(true);
 
   const {
-    state: { healthInfoSubmitted },
+    state: { healthInfoSubmitted, user },
   } = useAuth();
+  const myaxios = useAxios();
 
   const [isHealthInfoSubmitted, setIsHealthInfoSubmitted] = useState(false);
   useEffect(() => {
@@ -128,11 +233,38 @@ const Parameter = () => {
     ""
   );
 
+  const [values, setValues] = useState({
+    age: 0,
+    bodyTemperature: 0,
+    heartRate: 0,
+    systolicBloodPressure: 0,
+    diastolicBloodPressure: 0,
+    bloodGlucoseHbA1c: 0,
+    bloodGlucoseFastingHour: 0,
+    bmi: 0,
+    // dueDate: "2024-03-21T10:15:18.528Z",
+    lastMenstrualPeriod: "2024-03-21T10:15:18.528Z",
+    genotype: "string",
+    bloodgroup: "string",
+  });
+
+  const equiParams = {
+    bodytemperature: "bodyTemperature",
+    heartrate: "heartRate",
+    // systolicBloodPressure,
+    // diastolicBloodPressure,
+    bloodglucosehba1c: "bloodGlucoseHbA1c",
+    bloodglucosefasting: "bloodGlucoseFastingHour",
+    lastmenstrualperiod: "lastMenstrualPeriod",
+  };
+
   const getValue = (data, parameter) => {
     if (parameter === "systolicBloodPressure") {
       return {
         category: data?.bloodpressure?.category,
-        value: data?.bloodpressure?.systolicValue,
+        value:
+          data?.bloodpressure?.systolicValue ||
+          user?.healthInfo?.[equiParams?.[parameter] || parameter],
         label: PARAMETERS?.[parameter]?.label,
       };
     }
@@ -140,20 +272,106 @@ const Parameter = () => {
     if (parameter === "diastolicBloodPressure") {
       return {
         category: data?.bloodpressure?.category,
-        value: data?.bloodpressure?.diastolicValue,
+        value:
+          data?.bloodpressure?.diastolicValue ||
+          user?.healthInfo?.[equiParams?.[parameter] || parameter],
         label: PARAMETERS?.[parameter]?.label,
       };
     }
 
     return {
       category: data?.[parameter]?.category,
-      value: data?.[parameter]?.value,
+      value:
+        data?.[parameter]?.value ||
+        user?.healthInfo?.[equiParams?.[parameter] || parameter],
       label: PARAMETERS?.[parameter]?.label,
     };
   };
 
+  const handleChange = (e) => {
+    let value = e.target.value;
+    let name = e.target.name;
+
+    // if (e.target.name == "subscribedToNewsletter") {
+    //   value = Boolean(Number(value));
+    // }
+    setValues((prev) => ({ ...prev, [name]: value }));
+    console.log(name, value, values);
+  };
+
+  const handleUpdate = (event) => {
+    // event.preventDefault();
+    console.log("values");
+    // setModalComponent(<LoginPopup success={true} />);
+    setOpen(!open);
+    // return;
+    // router.push("/dashboard/complete_profile");
+
+    // for (const key in values) {
+    //   if (values.hasOwnProperty(key)) {
+    //     console.log(`${key}: ${values[key]}`);
+
+    //     if (!values[key]) {
+    //       ShowErrors("Please fill all fields");
+    //       return;
+    //     }
+    //   }
+    // }
+
+    let data = { ...values };
+
+    fetchDataWithUseAxios(myaxios, api.healthInfo, "put", data, "", setOpen)
+      .then((response) => {
+        // dispatchFunc(typ.setHealthInfoSubmitted);
+
+        console.log("complete profile response");
+        console.log(JSON.stringify(response));
+        setOpen(true);
+        setModalComponent(
+          <LoadingPopup success={true} open={open} setOpen={setOpen} />
+        );
+
+        setTimeout(() => {
+          setOpen(false);
+        }, 4000);
+      })
+      .catch((e) => {
+        console.log("login error", e);
+        setOpen(true);
+        setModalComponent(
+          <LoadingPopup
+            setOpen={setOpen}
+            message={e?.response?.data?.errorMsg || null}
+          />
+        );
+
+        try {
+          // dispatchFunc(typ.clearAll);
+          if (String(e?.response?.status).startsWith("5")) {
+            return ShowErrors(["Service Temporarily Unavailable"]);
+          } else if (e.response?.data?.errors?.length < 15) {
+            return ShowErrors([...e?.response?.data?.errorMsg]);
+          }
+          return ShowErrors(e?.response?.data?.errorMsg ?? "An Error Occurred");
+        } catch (error) {
+          console.log(error);
+          return ShowErrors("An Error Occurred");
+        }
+      })
+      .finally((error) => {
+        // setOpen(false);
+        // // setTimeout(() => {
+        // //   router.push(`/dashboard`);
+        // // }, 5000);
+      });
+  };
+
   return (
-    <DashboardLayout showAside={false}>
+    <DashboardLayout
+      showAside={false}
+      modalState={modalState}
+      modalComponent={modalComponent}
+    >
       <Wrapper className="_full_wh _flex_col _flex1">
         <div className="_flex_col _flex1 _full_w" style={{ gap: 90 }}>
           <DashboardBox
@@ -178,7 +396,9 @@ const Parameter = () => {
                   <form
                     onReset={() => {
                       setIsDisabled(true);
-                      formRef.current.clear();
+                      inputRefs.current.forEach((inputRef) => {
+                        inputRef.value = ""; // Clear each input field
+                      });
                     }}
                     className="parameterWrapper _flex_col _gap16"
                   >
@@ -198,7 +418,7 @@ const Parameter = () => {
 
                     <div className="parameters _full_w _flex_col _gap8">
                       {Object.keys(PARAMETERS).map((parameter) => {
-                        const values = getValue(data, parameter);
+                        const myvalues = getValue(data, parameter);
 
                         return (
                           <div
@@ -218,10 +438,12 @@ const Parameter = () => {
                               {/* {values?.value} */}
                               <input
                                 disabled={isDisabled}
-                                placeholder={values?.value}
+                                placeholder={myvalues?.value}
                                 className="_full_wh"
                                 type="text"
-                                ref={formRef}
+                                ref={(el) => inputRefs.current.push(el)}
+                                name={equiParams?.[parameter] || parameter}
+                                onChange={handleChange}
                                 style={{
                                   background: "#fafafa",
                                   color: "#829095",
@@ -230,7 +452,7 @@ const Parameter = () => {
                               />
                             </div>
                             <div className="box _grid_center">
-                              {values?.category}
+                              {myvalues?.category}
                             </div>
                           </div>
                         );
@@ -250,11 +472,22 @@ const Parameter = () => {
                         <button
                           className="updateBtn"
                           type="reset"
-                          onClick={() => setIsDisabled(true)}
+                          onClick={() => {
+                            setIsDisabled(true);
+                            inputRefs?.current?.forEach((inputRef) => {
+                              try {
+                                inputRef.value = ""; // Clear each input field
+                              } catch (error) {}
+                            });
+                          }}
                         >
                           Cancel
                         </button>
-                        <button type="button" className="saveBtn">
+                        <button
+                          type="button"
+                          onClick={() => handleUpdate()}
+                          className="saveBtn"
+                        >
                           Save Changes
                         </button>
                       </>

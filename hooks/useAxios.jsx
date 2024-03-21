@@ -15,7 +15,7 @@ const useAxios = () => {
       Authorization: state?.token ?? local_token,
       "Content-Type": "application/json",
     },
-    timeout: 10000,
+    timeout: 50000,
   });
 
   axiosInstance.interceptors.response.use(

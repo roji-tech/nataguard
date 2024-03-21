@@ -141,10 +141,10 @@ const index = () => {
         );
 
         setTimeout(() => {
-          router.push(`/forgot/pin/${email}`);
+          // router.push(`/forgot/pin/${email}`);
+          router.push(`/forgot/pin/${values?.email}/${values?.token}`);
         }, 10000);
 
-        router.push(`/forgot/pin/${values?.email}/${values?.token}`);
       })
       .catch((e) => {
         console.log("login error", e);
