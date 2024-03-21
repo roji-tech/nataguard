@@ -21,7 +21,7 @@ export const fetchDataWithUseAxios = async (
     console.log(error?.response?.headers);
 
     console.warn("fetchDataWithUseAxios " + url, error?.response);
-    ShowErrors("Unable to fetch " + url + label);
+    // ShowErrors("Unable to fetch " + url + label);
     return Promise.reject(error);
   } finally {
     setLoading(false);
